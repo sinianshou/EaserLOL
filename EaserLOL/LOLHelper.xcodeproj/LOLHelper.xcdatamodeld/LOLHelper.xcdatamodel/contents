@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.26" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="ChineseAuthors" representedClassName="ChineseAuthors" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="img" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ivideo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="usernum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="videonum" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="owns" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChineseNewestVideos" inverseName="author" inverseEntity="ChineseNewestVideos" syncable="YES"/>
+    </entity>
+    <entity name="ChineseNewestVideos" representedClassName="ChineseNewestVideos" syncable="YES">
+        <attribute name="bigimg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="catalog" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="exestatus" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="guid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="headlines" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hero" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="img" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="physicalpath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="play" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="virtualpath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="writefilestatus" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChineseAuthors" inverseName="owns" inverseEntity="ChineseAuthors" syncable="YES"/>
+    </entity>
+    <entity name="Mastery_EN" representedClassName="Mastery_EN" syncable="YES">
+        <attribute name="masteryId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rank" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="masteryToParticipant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Participant_EN" inverseName="participantToMasteries" inverseEntity="Participant_EN" syncable="YES"/>
+    </entity>
+    <entity name="Match_EN" representedClassName="Match_EN" syncable="YES">
+        <attribute name="gameCreation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameDuration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameMode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameVersion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mapId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="platformId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="queueId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="seasonId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="matchToLists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MatchList_EN" inverseName="listToMatch" inverseEntity="MatchList_EN" syncable="YES"/>
+        <relationship name="matchToTeams" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Team_EN" inverseName="teamToMatch" inverseEntity="Team_EN" syncable="YES"/>
+    </entity>
+    <entity name="MatchList_CN" representedClassName="MatchList_CN" syncable="YES">
+        <attribute name="battle_map" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="battle_time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="champion_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="flag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="game_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="game_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="win" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MatchList_EN" representedClassName="MatchList_EN" syncable="YES">
+        <attribute name="accountId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="assistMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="assists" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="champion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="damageMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deaths" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="doubleKill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endIndex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameCreation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameMode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="killMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lane" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="minionMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="moneyMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mvp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pentaKill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="platformId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quadraKill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="queue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="role" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="season" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startIndex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summonerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="takenMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalGames" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tripleKill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="turretMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="win" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="listToMatch" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Match_EN" inverseName="matchToLists" inverseEntity="Match_EN" syncable="YES"/>
+    </entity>
+    <entity name="Participant_EN" representedClassName="Participant_EN" syncable="YES">
+        <attribute name="accountId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="assistMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="assists" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="championId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="champLevel" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="combatPlayerScore" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="damageDealtToObjectives" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="damageDealtToTurrets" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="damageMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="damageSelfMitigated" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deaths" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="doubleKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstBloodAssist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstBloodKill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstInhibitorAssist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstInhibitorKill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstTowerAssist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstTowerKill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="goldEarned" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="goldSpent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="highestAchievedSeasonTier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="inhibitorKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item0" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item3" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item4" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item5" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item6" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="killingSprees" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="killMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="largestCriticalStrike" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="largestKillingSpree" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="largestMultiKill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longestTimeSpentLiving" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="magicalDamageTaken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="magicDamageDealt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="magicDamageDealtToChampions" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="minionMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="moneyMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mvp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="neutralMinionsKilled" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="neutralMinionsKilledEnemyJungle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="neutralMinionsKilledTeamJungle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectivePlayerScore" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="participantId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pentaKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="physicalDamageDealt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="physicalDamageDealtToChampions" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="physicalDamageTaken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quadraKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sightWardsBoughtInGame" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="spell1Id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="spell2Id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summonerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="takenMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="teamId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeCCingOthers" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalDamageDealt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalDamageDealtToChampions" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalDamageTaken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalHeal" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalMinionsKilled" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalPlayerScore" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalScoreRank" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalTimeCrowdControlDealt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalUnitsHealed" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tripleKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trueDamageDealt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trueDamageDealtToChampions" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trueDamageTaken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="turretKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="turretMost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unrealKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="visionScore" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="visionWardsBoughtInGame" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wardsKilled" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wardsPlaced" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="win" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="participantToMasteries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Mastery_EN" inverseName="masteryToParticipant" inverseEntity="Mastery_EN" syncable="YES"/>
+        <relationship name="participantToPlay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Player_EN" inverseName="playToParticipants" inverseEntity="Player_EN" syncable="YES"/>
+        <relationship name="participantToRunes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Rune_EN" inverseName="runeToParticipant" inverseEntity="Rune_EN" syncable="YES"/>
+        <relationship name="participantToTeam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team_EN" inverseName="teamToParticipants" inverseEntity="Team_EN" syncable="YES"/>
+    </entity>
+    <entity name="Player_EN" representedClassName="Player_EN" syncable="YES">
+        <attribute name="accountId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="assistsNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currentAccountId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currentPlatformId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="doubleKNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="killsNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="matchHistoryUri" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mvpNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pentaKNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="platformId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profileIcon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quadraKNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summonerId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summonerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tripleKNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wardsNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="winRate" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="playToParticipants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Participant_EN" inverseName="participantToPlay" inverseEntity="Participant_EN" syncable="YES"/>
+    </entity>
+    <entity name="Rune_EN" representedClassName="Rune_EN" syncable="YES">
+        <attribute name="rank" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="runeId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="runeToParticipant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Participant_EN" inverseName="participantToRunes" inverseEntity="Participant_EN" syncable="YES"/>
+    </entity>
+    <entity name="Team_EN" representedClassName="Team_EN" syncable="YES">
+        <attribute name="ban0" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ban1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ban2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ban3" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ban4" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baronKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dominionVictoryScore" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dragonKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstBaron" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstBlood" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstDragon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstInhibitor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstRiftHerald" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstTower" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="inhibitorKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="riftHeraldKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="teamId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="towerKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vilemawKills" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="win" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="teamToMatch" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Match_EN" inverseName="matchToTeams" inverseEntity="Match_EN" syncable="YES"/>
+        <relationship name="teamToParticipants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Participant_EN" inverseName="participantToTeam" inverseEntity="Participant_EN" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ChineseAuthors" positionX="-18" positionY="27" width="128" height="195"/>
+        <element name="ChineseNewestVideos" positionX="333" positionY="-249" width="128" height="373"/>
+        <element name="Mastery_EN" positionX="261" positionY="198" width="128" height="90"/>
+        <element name="Match_EN" positionX="205" positionY="270" width="128" height="225"/>
+        <element name="MatchList_CN" positionX="162" positionY="-99" width="128" height="150"/>
+        <element name="MatchList_EN" positionX="-18" positionY="264" width="128" height="540"/>
+        <element name="Participant_EN" positionX="234" positionY="153" width="128" height="1320"/>
+        <element name="Player_EN" positionX="243" positionY="180" width="128" height="315"/>
+        <element name="Rune_EN" positionX="252" positionY="189" width="128" height="90"/>
+        <element name="Team_EN" positionX="441" positionY="183" width="128" height="390"/>
+    </elements>
+</model>
