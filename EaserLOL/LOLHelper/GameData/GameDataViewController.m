@@ -17,6 +17,7 @@
 #import "MyTransitionAnimator.h"
 #import "MasteriesVC.h"
 #import "RunesVC.h"
+#import "PersonalTransitionAnimator.h"
 
 @interface GameDataViewController ()
 
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) NSString * cachesDir;
 @property (assign, nonatomic) UIEdgeInsets defaultInset;
 @property (strong, nonatomic) MymagicMove * animator;
+@property (strong, nonatomic) PersonalTransitionAnimator * transition;
 
 @end
 
@@ -334,6 +336,12 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
     flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     ItemsCollectionVC * itemsCollectionVC = [[ItemsCollectionVC alloc] initWithCollectionViewLayout:flowLayout];
     itemsCollectionVC.ItemsArrResouce = [GetData getItem_ENWithId:NULL tag:NULL map:NULL];
+    itemsCollectionVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    
+    [self updatePersonalTransitionAnimator];
+    self.transition.modelVC = itemsCollectionVC;
+    itemsCollectionVC.transitioningDelegate = self.transition;
+    
     [self presentViewController:itemsCollectionVC animated:YES completion:^{
         
         NSLog(@"items count is %d", (int)itemsCollectionVC.ItemsArrResouce.count);
@@ -351,5 +359,10 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
     RunesVC * runesVC = [[RunesVC alloc] init];
     [self presentViewController:runesVC animated:YES completion:nil];
 }
-
+-(void)updatePersonalTransitionAnimator
+{
+    if (self.transition == nil) {
+        self.transition = [[PersonalTransitionAnimator alloc] init];
+    }
+}
 @end

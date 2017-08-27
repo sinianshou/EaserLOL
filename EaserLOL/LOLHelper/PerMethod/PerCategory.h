@@ -13,4 +13,6 @@
 #import "UIImageView+CacheImg.h"
 #import "UIButton+CacheImg.h"
 
+#import "UIView+Explode.h"
+
 #endif /* PerCategory_h */

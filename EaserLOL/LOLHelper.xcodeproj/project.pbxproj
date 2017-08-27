@@ -43,6 +43,8 @@
 		EB3B2C861F1074C000B1B4D0 /* UIButton+CacheImg.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3B2C851F1074C000B1B4D0 /* UIButton+CacheImg.m */; };
 		EB3DE2D31F343F8A0012B1B7 /* BattelDetailContentVCDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3DE2D21F343F8A0012B1B7 /* BattelDetailContentVCDelegate.m */; };
 		EB3E68BE1F43031C00435CD5 /* RuneTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3E68BD1F43031C00435CD5 /* RuneTableCell.m */; };
+		EB45B5651F52856A00EFDB3C /* UIView+Explode.m in Sources */ = {isa = PBXBuildFile; fileRef = EB45B5621F5284C700EFDB3C /* UIView+Explode.m */; };
+		EB45B5661F52857100EFDB3C /* PersonalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = EB45B5631F52850400EFDB3C /* PersonalTransitionAnimator.m */; };
 		EB477B6B1F21FF54006A6E4F /* Player_EN+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = EB477B681F21FF54006A6E4F /* Player_EN+CoreDataClass.m */; };
 		EB477B6C1F21FF54006A6E4F /* Player_EN+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = EB477B6A1F21FF54006A6E4F /* Player_EN+CoreDataProperties.m */; };
 		EB47FB011F32D695001FEBAF /* BattleDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47FB001F32D695001FEBAF /* BattleDetailVC.m */; };
@@ -163,6 +165,10 @@
 		EB3DE2D21F343F8A0012B1B7 /* BattelDetailContentVCDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BattelDetailContentVCDelegate.m; sourceTree = "<group>"; };
 		EB3E68BC1F43031C00435CD5 /* RuneTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RuneTableCell.h; sourceTree = "<group>"; };
 		EB3E68BD1F43031C00435CD5 /* RuneTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RuneTableCell.m; sourceTree = "<group>"; };
+		EB45B5611F5284C700EFDB3C /* UIView+Explode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Explode.h"; sourceTree = "<group>"; };
+		EB45B5621F5284C700EFDB3C /* UIView+Explode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Explode.m"; sourceTree = "<group>"; };
+		EB45B5631F52850400EFDB3C /* PersonalTransitionAnimator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalTransitionAnimator.m; sourceTree = "<group>"; };
+		EB45B5641F52850400EFDB3C /* PersonalTransitionAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalTransitionAnimator.h; sourceTree = "<group>"; };
 		EB477B671F21FF54006A6E4F /* Player_EN+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Player_EN+CoreDataClass.h"; sourceTree = "<group>"; };
 		EB477B681F21FF54006A6E4F /* Player_EN+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Player_EN+CoreDataClass.m"; sourceTree = "<group>"; };
 		EB477B691F21FF54006A6E4F /* Player_EN+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Player_EN+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -310,6 +316,8 @@
 				EB3565A61F01003B003C0DAB /* LayoutWithVFL.m */,
 				EB3565A81F0102F0003C0DAB /* UIViewPer.h */,
 				EB3565A91F0102F0003C0DAB /* UIViewPer.m */,
+				EB45B5611F5284C700EFDB3C /* UIView+Explode.h */,
+				EB45B5621F5284C700EFDB3C /* UIView+Explode.m */,
 				EB3B2C811F10749300B1B4D0 /* UIImageView+CacheImg.h */,
 				EB3B2C821F10749300B1B4D0 /* UIImageView+CacheImg.m */,
 				EB3B2C841F1074C000B1B4D0 /* UIButton+CacheImg.h */,
@@ -464,6 +472,8 @@
 		EBD354C71EE9434E00755B8F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EB45B5641F52850400EFDB3C /* PersonalTransitionAnimator.h */,
+				EB45B5631F52850400EFDB3C /* PersonalTransitionAnimator.m */,
 				EBAFBBE31F2594E3008759C9 /* GameData */,
 				EB7FB7551EF790EC00886763 /* PerInfo */,
 				EB7FB7541EF7909500886763 /* NewInfo */,
@@ -608,6 +618,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB45B5661F52857100EFDB3C /* PersonalTransitionAnimator.m in Sources */,
+				EB45B5651F52856A00EFDB3C /* UIView+Explode.m in Sources */,
 				EB317A4D1F4ED01500E09412 /* GoldEventsModel.m in Sources */,
 				EB5D6A221F30804B00AC60B6 /* SKFlowLayout.m in Sources */,
 				EB0CB4801F1B5F4C00E6D0B9 /* LOLHelper.xcdatamodeld in Sources */,
