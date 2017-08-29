@@ -44,7 +44,6 @@
 		EB3DE2D31F343F8A0012B1B7 /* BattelDetailContentVCDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3DE2D21F343F8A0012B1B7 /* BattelDetailContentVCDelegate.m */; };
 		EB3E68BE1F43031C00435CD5 /* RuneTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3E68BD1F43031C00435CD5 /* RuneTableCell.m */; };
 		EB45B5651F52856A00EFDB3C /* UIView+Explode.m in Sources */ = {isa = PBXBuildFile; fileRef = EB45B5621F5284C700EFDB3C /* UIView+Explode.m */; };
-		EB45B5661F52857100EFDB3C /* PersonalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = EB45B5631F52850400EFDB3C /* PersonalTransitionAnimator.m */; };
 		EB477B6B1F21FF54006A6E4F /* Player_EN+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = EB477B681F21FF54006A6E4F /* Player_EN+CoreDataClass.m */; };
 		EB477B6C1F21FF54006A6E4F /* Player_EN+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = EB477B6A1F21FF54006A6E4F /* Player_EN+CoreDataProperties.m */; };
 		EB47FB011F32D695001FEBAF /* BattleDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47FB001F32D695001FEBAF /* BattleDetailVC.m */; };
@@ -71,6 +70,10 @@
 		EBAFBBE61F25964F008759C9 /* GameDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAFBBE51F25964F008759C9 /* GameDataViewController.m */; };
 		EBAFBBE91F25AB34008759C9 /* ChampionsCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAFBBE81F25AB34008759C9 /* ChampionsCollectionCell.m */; };
 		EBAFBBEC1F25BB48008759C9 /* GetData+GetGameData.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAFBBEB1F25BB48008759C9 /* GetData+GetGameData.m */; };
+		EBB7F7301F553824005D936A /* UIView+Fire.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB7F72B1F553737005D936A /* UIView+Fire.m */; };
+		EBB7F7311F553824005D936A /* PersonalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB7F72E1F553812005D936A /* PersonalTransitionAnimator.m */; };
+		EBB7F7341F553BD8005D936A /* fire002.sks in Resources */ = {isa = PBXBuildFile; fileRef = EBB7F7321F553BC1005D936A /* fire002.sks */; };
+		EBB7F7351F553BD8005D936A /* fireBurn.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB7F7331F553BC1005D936A /* fireBurn.png */; };
 		EBBD8B791F4D35EF003FF47C /* ChampIconButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EBBD8B781F4D35EF003FF47C /* ChampIconButton.m */; };
 		EBCA13A51F4C2A3C00A1490F /* TimeLineHeaderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EBCA13A41F4C2A3C00A1490F /* TimeLineHeaderControl.m */; };
 		EBCB67221EDAA71600C0AA9D /* TableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EBCB67211EDAA71600C0AA9D /* TableViewDataSource.m */; };
@@ -167,8 +170,6 @@
 		EB3E68BD1F43031C00435CD5 /* RuneTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RuneTableCell.m; sourceTree = "<group>"; };
 		EB45B5611F5284C700EFDB3C /* UIView+Explode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Explode.h"; sourceTree = "<group>"; };
 		EB45B5621F5284C700EFDB3C /* UIView+Explode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Explode.m"; sourceTree = "<group>"; };
-		EB45B5631F52850400EFDB3C /* PersonalTransitionAnimator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalTransitionAnimator.m; sourceTree = "<group>"; };
-		EB45B5641F52850400EFDB3C /* PersonalTransitionAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalTransitionAnimator.h; sourceTree = "<group>"; };
 		EB477B671F21FF54006A6E4F /* Player_EN+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Player_EN+CoreDataClass.h"; sourceTree = "<group>"; };
 		EB477B681F21FF54006A6E4F /* Player_EN+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Player_EN+CoreDataClass.m"; sourceTree = "<group>"; };
 		EB477B691F21FF54006A6E4F /* Player_EN+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Player_EN+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -221,6 +222,12 @@
 		EBAFBBE81F25AB34008759C9 /* ChampionsCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChampionsCollectionCell.m; sourceTree = "<group>"; };
 		EBAFBBEA1F25BB48008759C9 /* GetData+GetGameData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GetData+GetGameData.h"; path = "GameData/GetData+GetGameData.h"; sourceTree = "<group>"; };
 		EBAFBBEB1F25BB48008759C9 /* GetData+GetGameData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "GetData+GetGameData.m"; path = "GameData/GetData+GetGameData.m"; sourceTree = "<group>"; };
+		EBB7F72A1F553737005D936A /* UIView+Fire.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Fire.h"; sourceTree = "<group>"; };
+		EBB7F72B1F553737005D936A /* UIView+Fire.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Fire.m"; sourceTree = "<group>"; };
+		EBB7F72E1F553812005D936A /* PersonalTransitionAnimator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalTransitionAnimator.m; sourceTree = "<group>"; };
+		EBB7F72F1F553812005D936A /* PersonalTransitionAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalTransitionAnimator.h; sourceTree = "<group>"; };
+		EBB7F7321F553BC1005D936A /* fire002.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fire002.sks; sourceTree = "<group>"; };
+		EBB7F7331F553BC1005D936A /* fireBurn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fireBurn.png; sourceTree = "<group>"; };
 		EBBD8B771F4D35EF003FF47C /* ChampIconButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ChampIconButton.h; path = EntityClasses/ChampIconButton.h; sourceTree = "<group>"; };
 		EBBD8B781F4D35EF003FF47C /* ChampIconButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ChampIconButton.m; path = EntityClasses/ChampIconButton.m; sourceTree = "<group>"; };
 		EBC8FEDD1EDBE24C005618FF /* OptimizeLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptimizeLog.h; sourceTree = "<group>"; };
@@ -318,6 +325,10 @@
 				EB3565A91F0102F0003C0DAB /* UIViewPer.m */,
 				EB45B5611F5284C700EFDB3C /* UIView+Explode.h */,
 				EB45B5621F5284C700EFDB3C /* UIView+Explode.m */,
+				EBB7F72A1F553737005D936A /* UIView+Fire.h */,
+				EBB7F72B1F553737005D936A /* UIView+Fire.m */,
+				EBB7F7321F553BC1005D936A /* fire002.sks */,
+				EBB7F7331F553BC1005D936A /* fireBurn.png */,
 				EB3B2C811F10749300B1B4D0 /* UIImageView+CacheImg.h */,
 				EB3B2C821F10749300B1B4D0 /* UIImageView+CacheImg.m */,
 				EB3B2C841F1074C000B1B4D0 /* UIButton+CacheImg.h */,
@@ -472,8 +483,8 @@
 		EBD354C71EE9434E00755B8F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EB45B5641F52850400EFDB3C /* PersonalTransitionAnimator.h */,
-				EB45B5631F52850400EFDB3C /* PersonalTransitionAnimator.m */,
+				EBB7F72F1F553812005D936A /* PersonalTransitionAnimator.h */,
+				EBB7F72E1F553812005D936A /* PersonalTransitionAnimator.m */,
 				EBAFBBE31F2594E3008759C9 /* GameData */,
 				EB7FB7551EF790EC00886763 /* PerInfo */,
 				EB7FB7541EF7909500886763 /* NewInfo */,
@@ -604,6 +615,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBB7F7341F553BD8005D936A /* fire002.sks in Resources */,
+				EBB7F7351F553BD8005D936A /* fireBurn.png in Resources */,
 				EBE9F2FE1F0DE529005B4B42 /* Settings.bundle in Resources */,
 				EB6F25DC1ED94759009C5918 /* LaunchScreen.storyboard in Resources */,
 				EB6F25D91ED94759009C5918 /* Assets.xcassets in Resources */,
@@ -618,7 +631,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB45B5661F52857100EFDB3C /* PersonalTransitionAnimator.m in Sources */,
+				EBB7F7301F553824005D936A /* UIView+Fire.m in Sources */,
+				EBB7F7311F553824005D936A /* PersonalTransitionAnimator.m in Sources */,
 				EB45B5651F52856A00EFDB3C /* UIView+Explode.m in Sources */,
 				EB317A4D1F4ED01500E09412 /* GoldEventsModel.m in Sources */,
 				EB5D6A221F30804B00AC60B6 /* SKFlowLayout.m in Sources */,

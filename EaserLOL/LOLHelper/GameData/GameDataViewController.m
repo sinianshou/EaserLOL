@@ -340,6 +340,7 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
     
     [self updatePersonalTransitionAnimator];
     self.transition.modelVC = itemsCollectionVC;
+    self.transition.animatorStyle = TransitionAnimatorStyleBreak;
     itemsCollectionVC.transitioningDelegate = self.transition;
     
     [self presentViewController:itemsCollectionVC animated:YES completion:^{
@@ -352,6 +353,11 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
 -(void)presentMasteriesVC
 {
     MasteriesVC * masteriesVC = [[MasteriesVC alloc] init];
+    
+    [self updatePersonalTransitionAnimator];
+    self.transition.modelVC = masteriesVC;
+    self.transition.animatorStyle = TransitionAnimatorStyleFire;
+    masteriesVC.transitioningDelegate = self.transition;
     [self presentViewController:masteriesVC animated:YES completion:nil];
 }
 -(void)presentRunesVC

@@ -7,7 +7,8 @@
 //
 
 #import "PersonalTransitionAnimator.h"
-#import "PerCategory.h"
+#import "UIView+Explode.h"
+#import "UIView+Fire.h"
 
 @interface PersonalTransitionAnimator ()
 
@@ -36,13 +37,16 @@
     return self;
 }
 
-
 - (void) animateTransition:(nonnull id<UIViewControllerContextTransitioning>)transitionContext {
     [self updateFromVCandToVCInTransition:transitionContext];
     
     switch (self.animatorStyle) {
         case TransitionAnimatorStyleBreak:
             [self breakAnimatorInTransition:transitionContext];
+            break;
+            
+        case TransitionAnimatorStyleFire:
+            [self fireAnimatorInTransition:transitionContext];
             break;
             
         default:
@@ -150,6 +154,21 @@
     snapShotV.hidden = NO;
     [self.toVC.view addSubview:snapShotV];
     [snapShotV lp_explodeDuring:0];
+    [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+}
+-(void)fireAnimatorInTransition:(nonnull id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIGraphicsBeginImageContext([self.fromVC.view.layer frame].size);
+    [self.fromVC.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    UIImageView * snapShotV = [[UIImageView alloc] initWithImage:outputImage];
+    snapShotV.frame = transitionContext.containerView.bounds;
+    self.fromVC.view.hidden = YES;
+    self.toVC.view.hidden = NO;
+    snapShotV.hidden = NO;
+    [self.toVC.view addSubview:snapShotV];
+    [snapShotV fireBurnAtPoint:CGPointMake(snapShotV.bounds.size.width/3, snapShotV.bounds.size.height/3) During:0.8];
     [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
 }
 @end
