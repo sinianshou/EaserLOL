@@ -10,6 +10,6 @@
 
 @interface UIView (Fire)
 
--(void)fireBurnAtPoint:(CGPoint)point During:(NSTimeInterval)time;
+-(void)fireBurnDuring:(NSTimeInterval)time;
 
 @end

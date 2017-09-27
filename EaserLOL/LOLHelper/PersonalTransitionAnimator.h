@@ -15,6 +15,7 @@ typedef NS_OPTIONS(NSInteger, TransitionAnimatorStyle) {
     TransitionAnimatorStyleRandom = 1,
     TransitionAnimatorStyleBreak ,
     TransitionAnimatorStyleFire ,
+    TransitionAnimatorStyle3DTransform ,
 };
 
 @interface PersonalTransitionAnimator : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning,UIViewControllerTransitioningDelegate>

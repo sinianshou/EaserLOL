@@ -443,13 +443,13 @@
         [teamGoldimgV addSubview:goldLa];
         switch (i) {
             case 0:
-                goldLa.text = [NSString stringWithFormat:@"Blue %@", self.winTeamGoldEarned.text];
+                goldLa.text = [NSString stringWithFormat:@"Victory %@", self.winTeamGoldEarned.text];
                 [goldLa sizeToFit];
                 goldLa.center = CGPointMake(CGRectGetMidX(goldLa.bounds) + 10, CGRectGetMidY(teamGoldimgV.bounds));
                 break;
                 
             default:
-                goldLa.text = [NSString stringWithFormat:@"%@ Red",self.failTeamGoldEarned.text];
+                goldLa.text = [NSString stringWithFormat:@"%@ Defeated",self.failTeamGoldEarned.text];
                 [goldLa sizeToFit];
                 goldLa.center = CGPointMake(CGRectGetMaxX(teamGoldimgV.bounds) - (CGRectGetMidX(goldLa.bounds) + 10), CGRectGetMidY(teamGoldimgV.bounds));
                 break;
@@ -474,7 +474,7 @@
             [self.timeLineHeaderControlArr firstObject].iconV.backgroundColor = blueColor;
             [self.timeLineHeaderControlArr firstObject].iconV.layer.borderColor = blueColor.CGColor;
             [self.timeLineHeaderControlArr firstObject].iconV.layer.borderWidth = 3.00;
-            [self.timeLineHeaderControlArr firstObject].nameLa.text = [NSString stringWithFormat:@"Blue"];
+            [self.timeLineHeaderControlArr firstObject].nameLa.text = [NSString stringWithFormat:@"Victory"];
             [self.timeLineHeaderControlArr firstObject].nameLa.textColor = blueColor;
         }else
         {
@@ -483,7 +483,7 @@
             [self.timeLineHeaderControlArr lastObject].iconV.backgroundColor = redColor;
             [self.timeLineHeaderControlArr lastObject].iconV.layer.borderColor = redColor.CGColor;
             [self.timeLineHeaderControlArr lastObject].iconV.layer.borderWidth = 3.00;
-            [self.timeLineHeaderControlArr lastObject].nameLa.text = [NSString stringWithFormat:@"Red"];
+            [self.timeLineHeaderControlArr lastObject].nameLa.text = [NSString stringWithFormat:@"Defeated"];
             [self.timeLineHeaderControlArr lastObject].nameLa.textColor = redColor;
         }
     }];
@@ -520,18 +520,6 @@
     [self.DataV addSubview:self.timeLineImgV];
     self.LastDataV =self.timeLineImgV;
     
-//    UIControl * co02 = [[UIControl alloc] initWithFrame:CGRectMake(10, 1000, 200, 200)];
-//    co02.backgroundColor = [UIColor whiteColor];
-//    [co02 addTarget:self action:@selector(click01) forControlEvents:UIControlEventTouchUpInside];
-//    UIView * v1 =[[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-//    [co02 addSubview:v1];
-//    v1.userInteractionEnabled = NO;
-//    UIButton * v =[[UIButton alloc] initWithFrame:CGRectMake(80, 80, 40, 40)];
-//    v.backgroundColor = [UIColor greenColor];
-//    [v addTarget:self action:@selector(click02) forControlEvents:UIControlEventTouchUpInside];
-//    [co02 addSubview:v];
-//    self.LastDataV =co02;
-//    [self.DataV addSubview:co02];
     
     [self.DataV bringSubviewToFront:self.TimeLineImgVHeader];
 }
@@ -576,12 +564,12 @@
                 UIButton * button = [self.timeLineButtonsArrM lastObject];
                 if ([obj.win isEqualToString:@"Win"]) {
                     [button setBackgroundColor:blueColor];
-                    [button setTitle:@"B" forState:UIControlStateNormal];
+                    [button setTitle:@"V" forState:UIControlStateNormal];
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 }else
                 {
                     [button setBackgroundColor:redColor];
-                    [button setTitle:@"R" forState:UIControlStateNormal];
+                    [button setTitle:@"D" forState:UIControlStateNormal];
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 }
             }
@@ -610,12 +598,12 @@
     }else
     {
         [self.timeLineHeaderControlArr firstObject].iconV.image = NULL;
-        [self.timeLineHeaderControlArr firstObject].nameLa.text = [NSString stringWithFormat:@"Blue"];
+        [self.timeLineHeaderControlArr firstObject].nameLa.text = [NSString stringWithFormat:@"Victory"];
         [self.timeLineHeaderControlArr firstObject].participantId = [NSString stringWithFormat:@"%d", [self.timeLineHeaderControlArr firstObject].teamId.intValue/100+10];
         [[self.timeLineHeaderControlArr firstObject] didNotSelected];
         
         [self.timeLineHeaderControlArr lastObject].iconV.image = NULL;
-        [self.timeLineHeaderControlArr lastObject].nameLa.text = [NSString stringWithFormat:@"Red"];
+        [self.timeLineHeaderControlArr lastObject].nameLa.text = [NSString stringWithFormat:@"Defeated"];
         [self.timeLineHeaderControlArr lastObject].participantId = [NSString stringWithFormat:@"%d", [self.timeLineHeaderControlArr lastObject].teamId.intValue/100+10];
         [[self.timeLineHeaderControlArr lastObject] didNotSelected];
         self.TimeLineImgVHeader.hidden = YES;

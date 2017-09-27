@@ -358,11 +358,17 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
     self.transition.modelVC = masteriesVC;
     self.transition.animatorStyle = TransitionAnimatorStyleFire;
     masteriesVC.transitioningDelegate = self.transition;
+    masteriesVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:masteriesVC animated:YES completion:nil];
 }
 -(void)presentRunesVC
 {
     RunesVC * runesVC = [[RunesVC alloc] init];
+    [self updatePersonalTransitionAnimator];
+    self.transition.modelVC = runesVC;
+    self.transition.animatorStyle = TransitionAnimatorStyle3DTransform;
+    runesVC.transitioningDelegate = self.transition;
+    runesVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:runesVC animated:YES completion:nil];
 }
 -(void)updatePersonalTransitionAnimator

@@ -10,7 +10,7 @@
 
 @implementation UIView (Fire)
 
--(void)fireBurnAtPoint:(CGPoint)point During:(NSTimeInterval)time
+-(void)fireBurnDuring:(NSTimeInterval)time
 {
     CGFloat durTime;
     if (time == 0) {
@@ -19,22 +19,11 @@
     {
         durTime = time;
     }
-    CGFloat imgCount = durTime*30;
-    CGFloat line = CGRectGetMaxY(self.bounds)/imgCount;
-    CGRect rect = CGRectMake(0, 0, CGRectGetMaxX(self.bounds), line+1);
     
-    NSMutableArray * imgArr = [NSMutableArray array];
     UIGraphicsBeginImageContext(self.bounds.size);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     [self.layer renderInContext:ctx];
-    for(int i = 0; i < imgCount; i++)
-    {
-        CGContextClearRect(ctx, rect);
-        UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
-        [imgArr addObject:outputImage];
-        rect = CGRectOffset(rect, 0, line);
-    }
-    UIGraphicsEndImageContext();
+    UIImage * outputImage = UIGraphicsGetImageFromCurrentImageContext();
     
     if ([self isKindOfClass:[UIImageView class]])
     {
@@ -44,33 +33,16 @@
     
     UIImageView * imV = [[UIImageView alloc] initWithFrame:self.bounds];
     imV.backgroundColor = [UIColor clearColor];
-    imV.animationImages = imgArr;
-    // 设置动画的播放次数
-    imV.animationRepeatCount = 1;
-    
-    // 设置播放时长
-    // 1秒30帧, 一张图片的时间 = 1/30 = 0.03333 20 * 0.0333
-    imV.animationDuration = durTime;
-    
     [self addSubview:imV];
-    // 开始动画
-    [imV startAnimating];
-    [self performSelector:@selector(finished) withObject:NULL afterDelay:durTime*1.5];
-    [self fireBurnFromPoint:point startRect:rect farthest:self.bounds.size.height During:durTime];
+    imV.image =  outputImage;
     
-    
-}
--(void)fireBurnFromPoint:(CGPoint)point startRect:( CGRect )rect  farthest:(CGFloat)farthest During:(NSTimeInterval)durTime
-{
     SKView * skv = [[SKView alloc] initWithFrame:self.bounds];
     skv.backgroundColor = [UIColor clearColor];
     [self addSubview:skv];
-    
     SKScene * scene = [[SKScene alloc] initWithSize:skv.bounds.size];
     scene.scaleMode = SKSceneScaleModeResizeFill;
     scene.backgroundColor = [UIColor clearColor];
     [skv presentScene:scene];
-    
     SKEmitterNode * en = [SKEmitterNode nodeWithFileNamed:@"fire002.sks"];
     en.particleSize = CGSizeMake(scene.size.width, scene.size.height);
     en.particleBirthRate = 400;
@@ -78,16 +50,34 @@
     en.particlePositionRange = CGVectorMake(scene.size.width+30, scene.size.width/10+3);
     [scene addChild:en];
     
-    SKAction * move = [SKAction moveTo:CGPointMake(scene.size.width/2, -en.particlePositionRange.dy) duration:durTime];
-    SKAction * scale01 = [SKAction scaleBy:1 duration:durTime*0.3];
-    SKAction * scale02 = [SKAction scaleYTo:0 duration:durTime*0.2];
-    SKAction * sequence = [SKAction sequence:[NSArray arrayWithObjects:move,scale01,scale02, nil]];
-    [en runAction:sequence];
-}
--(void)finished
-{
-    [self removeFromSuperview];
-    NSLog(@"Finished");
+    CGRect __block rect = CGRectMake(0, 0, CGRectGetMaxX(self.bounds), 0);
+    CGFloat __block t1 = durTime;
+    NSTimer * timer =[NSTimer scheduledTimerWithTimeInterval:0.03 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        t1 -= (CGFloat)timer.timeInterval;
+        if (t1 >= 0) {
+            en.position = CGPointMake(en.position.x, self.bounds.size.height*(t1/durTime));
+            
+            rect = CGRectMake(0, 0, rect.size.width, self.bounds.size.height*(1-t1/durTime));
+            CGContextClearRect(ctx, rect);
+            UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+            imV.image = img;
+        }else if(t1 <= -durTime*0.3)
+        {
+            [timer invalidate];
+            SKAction * scale = [SKAction scaleYTo:0 duration:durTime*0.2];
+            [en runAction:scale completion:^{
+                UIGraphicsEndImageContext();
+                [self removeFromSuperview];
+                NSLog(@"Finished");
+            }];
+        }else
+        {
+            imV.hidden = YES;
+            en.position = CGPointMake(en.position.x, self.bounds.size.height*(t1/durTime) < -en.particlePositionRange.dy?-en.particlePositionRange.dy:self.bounds.size.height*(t1/durTime));
+        }
+    }];
+    
 }
 
 @end
+
