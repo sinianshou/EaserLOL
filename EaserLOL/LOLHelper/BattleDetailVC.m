@@ -123,6 +123,7 @@
 
 -(void)configureControls
 {
+    
     [self configureHeaderV];
     [self configureContentV];
     [self configureDetailV];
@@ -506,7 +507,13 @@
     [self.DataV addSubview:self.TimeLineImgVHeader];
     
     self.goldEventsModelDicM = (NSMutableDictionary *)self.MatchResouce.goldEventsDicM;
-    /*
+    NSLog(@"self.goldEventsModelDicM is %@", NSStringFromClass(self.goldEventsModelDicM.class));
+    
+    if (![self.goldEventsModelDicM isKindOfClass:[NSMutableDictionary class]]) {
+        self.goldEventsModelDicM = [GoldEventsModel createModelsDicWithData:self.goldEventsModelDicM];
+    }
+    /* OS_dispatch_data
+     NSMutableDictionary *dicM =[NSKeyedUnarchiver unarchiveObjectWithData:data];
     [self.timeLineHeaderControlArr firstObject].teamId = obj.teamId;
     [self.timeLineHeaderControlArr firstObject].participantId = [NSString stringWithFormat:@"%d", ((NSString *)obj.teamId).intValue/100+10];
     */
@@ -949,6 +956,7 @@
 
 -(void)layoutViews
 {
+    
     [self layoutHeaderV];
     [self layoutContentV];
 }

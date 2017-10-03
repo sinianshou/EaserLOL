@@ -7,7 +7,7 @@
 //
 
 #import "GetData.h"
-
+#import <objc/runtime.h>
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "UIKit/UIKit.h"
@@ -32,7 +32,9 @@
                                                  {
                                                      NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
                                                      [data writeToFile:APIKeysFilePath atomically:YES];
-                                                     NSLog(@"APIKeys.plist updated，path is %@", APIKeysFilePath);
+                                                     NSString * APIKeyspath = [NSString stringWithFormat:@"APIKeys.plist updated，path is %@", APIKeysFilePath];
+                                                     NSLog(@"%@", APIKeyspath);
+                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:APIKeyspath userInfo:NULL];
                                                  }
                                                  
                                                  
@@ -72,12 +74,11 @@
 
 +(void)UpdateChineseAuthors
 {
-//    NSDictionary * easerAPIKey = [NSDictionary dictionaryWithObject:@"1EE5E-16EA8-7271E-5A95E" forKey:@"DAIWAN-API-TOKEN"];
-    
-    
-    NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:@"APIKeys.plist"];
-    NSDictionary * CNAPIKeys = [easerAPIKey objectForKey:@"CNAPIKeys"];
-    NSDictionary * CNVideoAPIKey = [CNAPIKeys objectForKey:@"CNVideoAPIKey"];
+    NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
+    NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:APIKeysFilePath];
+    NSDictionary * APIKeys_CN = [easerAPIKey objectForKey:@"APIKeys_CN"];
+    NSDictionary * CNAPIKeys = [APIKeys_CN objectForKey:@"OpenAPIKey_CN"];
+    NSDictionary * CNVideoAPIKey = [APIKeys_CN objectForKey:@"VideoAPIKey_CN"];
     NSString *stringUrl = [NSString stringWithFormat:@"http://infoapi.games-cube.com/GetAuthors"];
     NSString * strUrl = [stringUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL * url = [NSURL URLWithString:strUrl];
@@ -107,10 +108,11 @@
 
 +(void)UpdateNewestVideosOfChineseLOL
 {
-//    NSDictionary * easerAPIKey = [NSDictionary dictionaryWithObject:@"1EE5E-16EA8-7271E-5A95E" forKey:@"DAIWAN-API-TOKEN"];
-    NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:@"APIKeys.plist"];
-    NSDictionary * CNAPIKeys = [easerAPIKey objectForKey:@"CNAPIKeys"];
-    NSDictionary * CNVideoAPIKey = [CNAPIKeys objectForKey:@"CNVideoAPIKey"];
+    NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
+    NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:APIKeysFilePath];
+    NSDictionary * APIKeys_CN = [easerAPIKey objectForKey:@"APIKeys_CN"];
+    NSDictionary * CNAPIKeys = [APIKeys_CN objectForKey:@"OpenAPIKey_CN"];
+    NSDictionary * CNVideoAPIKey = [APIKeys_CN objectForKey:@"VideoAPIKey_CN"];
     int page = 1;
     NSString *stringUrl = [NSString stringWithFormat:@"http://infoapi.games-cube.com/GetNewstVideos?p={%d}",page];
     NSString * strUrl = [stringUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
@@ -188,87 +190,117 @@
 +(void)insertChineseAuthors:(NSString *) entityName WithDic:(NSDictionary *) author
 {
     NSManagedObjectContext * context = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer.viewContext;
-    ChineseAuthors * authorsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ChineseAuthors" inManagedObjectContext:context];
-    authorsEntity.id = [author valueForKey:@"id"];
-    authorsEntity.name = [author valueForKey:@"name"];
-    NSString * imgStr1 =[author valueForKey:@"img"];
-    NSString * imgStr2 ;
-    if(![imgStr1 containsString:@"http:"] && ![imgStr1 containsString:@"https:"])
-    {
-        imgStr2 = [NSString stringWithFormat:@"http:%@",imgStr1];
-    }else
-    {
-        imgStr2 = imgStr1;
-    }
-    authorsEntity.img = imgStr2;
-    authorsEntity.isex = [author valueForKey:@"isex"];
-    authorsEntity.ivideo = [author valueForKey:@"ivideo"];
-    authorsEntity.desc = [author valueForKey:@"desc"];
-    authorsEntity.usernum = [author valueForKey:@"usernum"];
-    authorsEntity.videonum = [author valueForKey:@"videonum"];
-    //        authorsEntity.count = [author valueForKey:@"count"];
     
-    NSError * err;
-    if ([context save:&err]) {
-        NSLog(@"写入成功：%@", authorsEntity.name);
-        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSLog(@"路径是：%@",docPath);
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", [author valueForKey:@"name"]];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+    if (!(fetchedObjects.count > 0)) {
+        ChineseAuthors * authorsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ChineseAuthors" inManagedObjectContext:context];
+        authorsEntity.id = [author valueForKey:@"id"];
+        authorsEntity.name = [author valueForKey:@"name"];
+        NSString * imgStr1 =[author valueForKey:@"img"];
+        NSString * imgStr2 ;
+        if(![imgStr1 containsString:@"http:"] && ![imgStr1 containsString:@"https:"])
+        {
+            imgStr2 = [NSString stringWithFormat:@"http:%@",imgStr1];
+        }else
+        {
+            imgStr2 = imgStr1;
+        }
+        authorsEntity.img = imgStr2;
+        authorsEntity.isex = [author valueForKey:@"isex"];
+        authorsEntity.ivideo = [author valueForKey:@"ivideo"];
+        authorsEntity.desc = [author valueForKey:@"desc"];
+        authorsEntity.usernum = [author valueForKey:@"usernum"];
+        authorsEntity.videonum = [author valueForKey:@"videonum"];
+        //        authorsEntity.count = [author valueForKey:@"count"];
+        
+        NSError * err;
+        if ([context save:&err]) {
+            NSLog(@"写入成功：%@", authorsEntity.name);
+            NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+            NSLog(@"路径是：%@",docPath);
+        }else
+        {
+            [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
+        }
     }else
     {
-        [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
+        NSLog(@"%@ already exist", [author valueForKey:@"name"]);
     }
+    
+    
 
 }
 
 +(void)insertChineseNewestVideos:(NSString *) entityName WithDic:(NSDictionary *) video
 {
     NSManagedObjectContext * context = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer.viewContext;
-    ChineseNewestVideos * videosEntity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
-    videosEntity.writefilestatus = [video valueForKey:@"writefilestatus"];
-    videosEntity.guid = [video valueForKey:@"guid"];
-    videosEntity.source = [video valueForKey:@"source"];
-    videosEntity.title = [video valueForKey:@"title"];
-    videosEntity.url = [video valueForKey:@"url"];
-    videosEntity.catalog = [video valueForKey:@"catalog"];
-    videosEntity.exestatus = [video valueForKey:@"exestatus"];
-    videosEntity.vid = [video valueForKey:@"vid"];
     
-    NSString * imgStr1 =[video valueForKey:@"img"];
-    NSString * imgStr2 ;
-    if(![imgStr1 containsString:@"http:"] && ![imgStr1 containsString:@"https:"])
-    {
-        imgStr2 = [NSString stringWithFormat:@"http:%@",imgStr1];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title == %@", [video valueForKey:@"title"]];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+    if (!(fetchedObjects.count > 0)) {
+        ChineseNewestVideos * videosEntity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
+        videosEntity.writefilestatus = [video valueForKey:@"writefilestatus"];
+        videosEntity.guid = [video valueForKey:@"guid"];
+        videosEntity.source = [video valueForKey:@"source"];
+        videosEntity.title = [video valueForKey:@"title"];
+        videosEntity.url = [video valueForKey:@"url"];
+        videosEntity.catalog = [video valueForKey:@"catalog"];
+        videosEntity.exestatus = [video valueForKey:@"exestatus"];
+        videosEntity.vid = [video valueForKey:@"vid"];
+        
+        NSString * imgStr1 =[video valueForKey:@"img"];
+        NSString * imgStr2 ;
+        if(![imgStr1 containsString:@"http:"] && ![imgStr1 containsString:@"https:"])
+        {
+            imgStr2 = [NSString stringWithFormat:@"http:%@",imgStr1];
+        }else
+        {
+            imgStr2 = imgStr1;
+        }
+        videosEntity.img = imgStr2;
+        
+        videosEntity.physicalpath  = [video valueForKey:@"physicalpath"];
+        videosEntity.uuid = [video valueForKey:@"uuid"];
+        videosEntity.tag = [video valueForKey:@"tag"];
+        videosEntity.type = [video valueForKey:@"type"];
+        videosEntity.bigimg = [video valueForKey:@"bigimg"];
+        videosEntity.virtualpath = [video valueForKey:@"virtualpath"];
+        videosEntity.play = [video valueForKey:@"play"];
+        videosEntity.comments = [video valueForKey:@"comments"];
+        videosEntity.headlines = [video valueForKey:@"headlines"];
+        videosEntity.createdate = [video valueForKey:@"createdate"];
+        videosEntity.hero = [video valueForKey:@"hero"];
+        videosEntity.content = [video valueForKey:@"content"];
+        
+        NSError * err;
+        if ([context save:&err]) {
+            NSLog(@"写入成功：%@", videosEntity.title);
+            NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+            NSLog(@"路径是：%@",docPath);
+        }else
+        {
+            [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
+        }
     }else
     {
-        imgStr2 = imgStr1;
+        NSLog(@"%@ already exist", [video valueForKey:@"title"]);
     }
-    videosEntity.img = imgStr2;
     
-    videosEntity.physicalpath  = [video valueForKey:@"physicalpath"];
-    videosEntity.uuid = [video valueForKey:@"uuid"];
-    videosEntity.tag = [video valueForKey:@"tag"];
-    videosEntity.type = [video valueForKey:@"type"];
-    videosEntity.bigimg = [video valueForKey:@"bigimg"];
-    videosEntity.virtualpath = [video valueForKey:@"virtualpath"];
-    videosEntity.play = [video valueForKey:@"play"];
-    videosEntity.comments = [video valueForKey:@"comments"];
-    videosEntity.headlines = [video valueForKey:@"headlines"];
-    videosEntity.createdate = [video valueForKey:@"createdate"];
-    videosEntity.hero = [video valueForKey:@"hero"];
-    videosEntity.content = [video valueForKey:@"content"];
-    
-    
-    
-    NSError * err;
-    if ([context save:&err]) {
-        NSLog(@"写入成功：%@", videosEntity.title);
-        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSLog(@"路径是：%@",docPath);
-    }else
-    {
-        [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
-    }
-
 }
 
 +(NSArray *)getResultsInEntity:(NSString*)EntityName
@@ -350,6 +382,61 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
     return currentDateStr;
+}
++(NSArray <NSString*>*)getPropertyArrFrom:(Class)perClass
+{
+    ///存储所有的属性名称
+    NSMutableArray *allNames = [[NSMutableArray alloc] init];
+    ///存储属性的个数
+    unsigned int propertyCount = 0;
+    ///通过运行时获取当前类的属性
+    objc_property_t *propertys = class_copyPropertyList(perClass, &propertyCount);
+    
+    NSLog(@"class is %@", NSStringFromClass(perClass));
+    //把属性放到数组中
+    for (int i = 0; i < propertyCount; i ++) {
+        ///取出第一个属性
+        objc_property_t property = propertys[i];
+        
+        const char * propertyName = property_getName(property);
+        
+        [allNames addObject:[NSString stringWithUTF8String:propertyName]];
+    }
+    NSLog(@"%@ property is %@", NSStringFromClass(perClass), [allNames componentsJoinedByString:@","]);
+    ///释放
+    free(propertys);
+    return [NSArray arrayWithArray:allNames];
+}
+
++(BOOL)saveContext:(NSManagedObjectContext * )subContext withErr:(NSError * _Nullable) err  postNotificationName:(nullable NSString *)name object:(nullable id)object userInfo:(nullable NSDictionary *) userInfo
+{
+    BOOL success = YES;
+    if ([subContext save:&err]) {
+        NSLog(@"%@ subContext写入成功", name);
+    }else
+    {
+        [NSException raise:@"subContext写入错误" format:@"%@ 错误是%@", name,[err localizedDescription]];
+        success = NO;
+    }
+    NSManagedObjectContext * temContext = subContext;
+    
+    while (temContext.parentContext != nil) {
+        if ([temContext.parentContext save:&err]) {
+            NSLog(@"%@ temContext.parentContext写入成功", name);
+        }else
+        {
+            [NSException raise:@"temContext.parentContext写入错误" format:@"%@ 错误是%@", name,[err localizedDescription]];
+            success = NO;
+        }
+        temContext = temContext.parentContext;
+    }
+    if ([name isEqualToString:@"insertItem_ENWithDic"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:@"Update Items Finished" userInfo:NULL];
+    }
+    if (name != nil) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:name object:object userInfo:userInfo];
+    }
+    return success;
 }
 
 @end

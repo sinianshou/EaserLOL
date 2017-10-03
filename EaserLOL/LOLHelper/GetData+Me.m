@@ -82,6 +82,7 @@ NSMutableString * finishNum = @"0";
     NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"MatchList_EN"];
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"accountId == %@", [[self getSummonerInfo_EN] objectForKey:@"accountId"]];
     [fetchRequest setPredicate:predicate];
+    [self updateParentContext];
     NSArray * matchesResults=[parentContext executeFetchRequest:fetchRequest error:&errMatche01];
     NSMutableArray * existMatchsGIDsM = [NSMutableArray array];
     [matchesResults enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -90,7 +91,7 @@ NSMutableString * finishNum = @"0";
     
     NSMutableDictionary * results = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
     NSMutableArray * matchesM = [NSMutableArray arrayWithArray:[results objectForKey:@"matches"]];
-    NSMutableDictionary * matchListM = nil;
+    NSMutableDictionary * __block matchListM = nil;
     NSMutableArray * removeMatchsM = [NSMutableArray array];
     
     [matchesM enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -106,34 +107,14 @@ NSMutableString * finishNum = @"0";
         NSString * __block key = nil;
         NSString * __block value = nil;
         NSMutableArray * objectIDs = [NSMutableArray array];
-        for (matchListM in matchesM) {
-            matchListM = [NSMutableDictionary dictionaryWithDictionary:matchListM];
-            [self updateParentContext];
-            [parentContext performBlockAndWait:^{
+        
+        
+        [self updateParentContext];
+        [parentContext performBlockAndWait:^{
+            for (matchListM in matchesM) {
+                matchListM = [NSMutableDictionary dictionaryWithDictionary:matchListM];
+                
                 MatchList_EN * MatchList_ENEntity = [[MatchList_EN alloc] initWithEntity:[NSEntityDescription entityForName:@"MatchList_EN" inManagedObjectContext:parentContext] insertIntoManagedObjectContext:parentContext];
-                
-                ///存储所有的属性名称
-                NSMutableArray *allNames = [[NSMutableArray alloc] init];
-                ///存储属性的个数
-                unsigned int propertyCount = 0;
-                
-                ///通过运行时获取当前类的属性
-                objc_property_t *propertys = class_copyPropertyList([MatchList_ENEntity class], &propertyCount);
-                
-                NSLog(@"class is %@", NSStringFromClass(MatchList_ENEntity.class));
-                //把属性放到数组中
-                for (int i = 0; i < propertyCount; i ++) {
-                    ///取出第一个属性
-                    objc_property_t property = propertys[i];
-                    
-                    const char * propertyName = property_getName(property);
-                    
-                    [allNames addObject:[NSString stringWithUTF8String:propertyName]];
-                    NSLog(@"propert is %@", [NSString stringWithUTF8String:propertyName]);
-                }
-                
-                ///释放
-                free(propertys);
                 
                 if (matchListM != nil) {
                     [matchListM setValue:[[self getSummonerInfo_EN] objectForKey:@"accountId"] forKey:@"accountId"];
@@ -145,37 +126,24 @@ NSMutableString * finishNum = @"0";
                         }
                         [MatchList_ENEntity setValue:value forKey:key];
                     }
-                    
-                    //                @try
-                    //                {
-                    //
-                    //                }
-                    //                @catch (NSException * e) {
-                    //                    NSLog(@"Exception: %@", e);
-                    //                }
-                    //                [gameIdArr addObject:[matchList objectForKey:@"gameId"]];
+                    NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:MatchList_ENEntity.objectID,@"objectID", [matchListM objectForKey:@"gameId"], @"gameId", nil];
+                    [objectIDs addObject:dic];
                 }
-                
-                NSError * err;
-                if ([parentContext save:&err]) {
-                    NSLog(@"写入成功：MatchList_EN");
-                    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-                    NSLog(@"路径是：%@",docPath);
-                    
-                    if (matchListM != nil) {
-                        NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:MatchList_ENEntity.objectID,@"objectID", [matchListM objectForKey:@"gameId"], @"gameId", nil];
-                        [objectIDs addObject:dic];
-                        //                    [self updateMatchWithListEntity:MatchList_ENEntity gameId:[matchList objectForKey:@"gameId"]];
-                    }
-                }else
-                {
-                    [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
-                }
-            }];
-        }
+            }
+            NSError * err;
+            
+            if ([self saveContext:parentContext withErr:err postNotificationName:@"insertENMatchListWithData" object:NULL userInfo:NULL]) {
+                NSLog(@"写入成功：MatchList_EN");
+                NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+                NSLog(@"路径是：%@",docPath);
+            }else
+            {
+                [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
+            }
+        }];
         
         finishNum = [NSMutableString stringWithFormat:@"%d",(int)objectIDs.count];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMatchFinished:) name:NSManagedObjectContextDidSaveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMatchFinished:) name:@"insertMatch_ENWithData" object:nil];
         for (NSDictionary * dic in objectIDs) {
             [self updateMatchWithListEntity:[parentContext objectWithID:[dic objectForKey:@"objectID"]] gameId:[dic objectForKey:@"gameId"]];
         }
@@ -197,6 +165,8 @@ NSMutableString * finishNum = @"0";
 //        [updateCASThread start];
         
     }
+    NSLog(@"finishNum is %@", finishNum);
+    
     NSSet * set01 = [notification.userInfo objectForKey:@"inserted"];
     NSSet * set02 = [notification.userInfo objectForKey:@"updated"];
     NSSet * set03 = [notification.userInfo objectForKey:@"deleted"];
@@ -221,8 +191,6 @@ NSMutableString * finishNum = @"0";
 }
 +(void)updateCurrentAccountStats
 {
-//    [NSThread sleepForTimeInterval:4];
-    
     //收集当前用户honor信息
     [self updateParentContext];
     Player_EN * currentPlayer_ENEntity = nil;
@@ -242,7 +210,6 @@ NSMutableString * finishNum = @"0";
         NSDictionary * __block currentPlayer_ENkeys = [NSDictionary dictionaryWithObjectsAndKeys:@"assistsNum", @"assists", @"doubleKNum", @"doubleKills", @"killsNum", @"kills", @"deathsNum", @"deaths", @"mvpNum", @"mvp", @"pentaKNum", @"pentaKills", @"quadraKNum", @"quadraKills", @"tripleKNum", @"tripleKills", @"wardsNum", @"wardsPlaced", @"winRate", @"win", @"chaoshenNum",@"chaoshen", @"goldEarnedNum", @"goldEarned", @"totalDamageTakenNum", @"totalDamageTaken", @"physicalDamageDealtToChampionsNum", @"physicalDamageDealtToChampions", @"magicDamageDealtToChampionsNum", @"magicDamageDealtToChampions", nil];
         NSMutableDictionary * __block  herosInfoDic = [NSMutableDictionary dictionary];
         
-        //@"goodHero01ID", @"goodHero02ID", @"goodHero03ID", @"goodHero04ID", @"goodHero05ID", @"goodHero01totalNum", @"goodHero02totalNum", @"goodHero03totalNum", @"goodHero04totalNum", @"goodHero05totalNum", @"goodHero01winRate", @"goodHero02winRate", @"goodHero03winRate", @"goodHero04winRate", @"goodHero05winRate", @"killsNum_ablity", @"deathsNum_ablity", @"assistsNum_ability", @"goldEarnedNum_ability", @"totalDamageTakenNum_ability", @"physicalDamageDealtToChampionsNum_ability", @"magicDamageDealtToChampionsNum_ability",
         [currentPlayer_ENkeys.allValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [currentPlayer_ENEntity setValue:@"0" forKey:obj];
         }];
@@ -328,14 +295,16 @@ NSMutableString * finishNum = @"0";
         
         
         currentPlayer_ENEntity.winRate = [NSString stringWithFormat:@"%d%%", currentPlayer_ENEntity.winRate.intValue*5];
-        [parentContext save:NULL];
+        [self saveContext:parentContext withErr:NULL postNotificationName:@"UserInfoUpdateFinished" object:NULL userInfo:NULL];
         NSLog(@"updateCurrentAccountStats finished");
         
     }else
     {
         NSLog(@"currentPlayer does not exist");
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UserInfoUpdateFinished" object:NULL];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserInfoUpdateFinished" object:NULL];
+    
+    
 }
 
 +(void)insertCNMatchListWithData:(NSData *) data
@@ -435,8 +404,22 @@ NSMutableString * finishNum = @"0";
         {
             NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             NSLog(@"jsonData is %@", jsonString);
-            [self insertMatch_ENWithData:data withListEntity:MatchList_ENEntity gameId:gameId];
+            NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
+            if ([dic.allKeys containsObject:@"status"]) {
+                dic = [dic objectForKey:@"status"];
+                if ([dic.allKeys containsObject:@"message"] && [dic.allKeys containsObject:@"status_code"]) {
+                    NSString * code = [NSString stringWithFormat:@"%@", [dic objectForKey:@"status_code"]];
+                    if (![code isEqualToString:@"200"]) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:[NSString stringWithFormat:@"updateMatchWithListEntity Error is Message:%@ status_code:%@", [dic objectForKey:@"message"], [dic objectForKey:@"status_code"]]];
+                    }
+                }
+            }else
+            {
+                [self insertMatch_ENWithData:data withListEntity:MatchList_ENEntity gameId:gameId];
+            }
         }
+        
+        
     }];
     [dataTask resume];
 }
@@ -455,15 +438,21 @@ NSMutableString * finishNum = @"0";
     [Match_ENResource removeObjectForKey:@"teams"];
     [Match_ENResource removeObjectForKey:@"participants"];
     [Match_ENResource removeObjectForKey:@"participantIdentities"];
-//    NSManagedObjectContext * context = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer.viewContext;
-//    NSManagedObjectContext * contextMatch_EN = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-//    [contextMatch_EN setParentContext:parentContext];
     
+    [self updateParentContext];
     [parentContext performBlock:^{
+        NSArray <NSString *> * matchListPropertyArr = [GetData getPropertyArrFrom:MatchList_EN.class];
+        NSArray <NSString *> * perPropertyArr = [GetData getPropertyArrFrom:Participant_EN.class];
+        NSArray <NSString *> * playerPropertyArr = [GetData getPropertyArrFrom:Player_EN.class];
+        NSArray <NSString *> * matchPropertyArr = [GetData getPropertyArrFrom:Match_EN.class];
+        NSArray <NSString *> * teamPropertyArr = [GetData getPropertyArrFrom:Team_EN.class];
+        NSArray <NSString *> * runePropertyArr = [GetData getPropertyArrFrom:Rune_EN.class];
+        NSArray <NSString *> * masteryPropertyArr = [GetData getPropertyArrFrom:Mastery_EN.class];
+
         NSString * currentAccountID = [NSString stringWithFormat:@"%@", [[GetData getSummonerInfo_EN] objectForKey:@"accountId"]];
         MatchList_EN * list_ENEntity =[parentContext objectWithID:MatchList_ENEntity.objectID];
 //        Player_EN * currentPlayer = nil;
-        
+
         NSError * errMatche01;
         NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Match_EN"];
         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"gameId == %@", list_ENEntity.gameId];
@@ -473,8 +462,12 @@ NSMutableString * finishNum = @"0";
             Match_EN * Match_ENEntity = matchesResults[0];
             for (nomkey in Match_ENResource.allKeys) {
                 nomvalue = [NSString stringWithFormat:@"%@", [Match_ENResource objectForKey:nomkey]];
-                if ([list_ENkeys containsObject:nomkey]) {
+                if ([list_ENkeys containsObject:nomkey]&&[matchListPropertyArr containsObject:nomkey]) {
                     [list_ENEntity setValue:[Match_ENEntity valueForKey:nomkey] forKey:nomkey];
+                    NSLog(@"set list %@ from match", nomkey);
+                }else
+                {
+                    NSLog(@"list not contain %@ from match", nomkey);
                 }
             }
             NSMutableSet * listSetM = nil;
@@ -486,16 +479,16 @@ NSMutableString * finishNum = @"0";
             }
             [listSetM addObject:list_ENEntity];
             Match_ENEntity.matchToLists = [NSSet setWithSet:listSetM];
-            
+
             Participant_EN * __block currentPar = nil;
             [Match_ENEntity.matchToTeams enumerateObjectsUsingBlock:^(Team_EN * _Nonnull obj, BOOL * _Nonnull stop) {
                 [obj.teamToParticipants enumerateObjectsUsingBlock:^(Participant_EN * _Nonnull obj, BOOL * _Nonnull stop) {
                     if ([currentAccountID isEqualToString:obj.accountId]) {
                         currentPar = obj;
                         [list_ENkeys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                            if ([currentPar valueForKey:obj]) {
+                            if ([currentPar valueForKey:obj]&&[matchListPropertyArr containsObject:obj]) {
                                 [list_ENEntity setValue:[currentPar valueForKey:obj] forKey:obj];
-                                
+                                NSLog(@"set list %@ from Participant_EN", obj);
                             }
                         }];
                     }
@@ -512,32 +505,31 @@ NSMutableString * finishNum = @"0";
         {
             Match_EN * Match_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Match_EN" inManagedObjectContext:parentContext];
             for (nomkey in Match_ENResource.allKeys) {
-                nomvalue = [NSString stringWithFormat:@"%@", [Match_ENResource objectForKey:nomkey]];
-                [Match_ENEntity setValue:nomvalue forKey:nomkey];
-                if ([list_ENkeys containsObject:nomkey]) {
+                if ([matchPropertyArr containsObject:nomkey]) {
+                    nomvalue = [NSString stringWithFormat:@"%@", [Match_ENResource objectForKey:nomkey]];
+                    [Match_ENEntity setValue:nomvalue forKey:nomkey];
+                    NSLog(@"set Match_ENEntity %@ from Match_ENResource", nomkey);
+                }
+
+                if ([list_ENkeys containsObject:nomkey]&&[matchListPropertyArr containsObject:nomkey]) {
                     [list_ENEntity setValue:[Match_ENEntity valueForKey:nomkey] forKey:nomkey];
+                    NSLog(@"set list_ENEntity  %@ from Match_ENResource", nomkey);
                 }
             }
             NSData * goldEventsData = [self getMatchTimeLineDataWithGameId:gameId];
             Match_ENEntity.goldEventsDicM = goldEventsData;
-            NSMutableSet * listSetM = nil;
-            if (Match_ENEntity.matchToLists == nil) {
+            
+
+            NSMutableSet * listSetM = [NSMutableSet setWithSet:Match_ENEntity.matchToLists];
+            if (listSetM == nil) {
                 listSetM = [NSMutableSet set];
-            }else
-            {
-                listSetM = [NSMutableSet setWithSet:Match_ENEntity.matchToLists];
             }
-            [listSetM addObject:list_ENEntity];
+            if (list_ENEntity != nil) {
+                [listSetM addObject:list_ENEntity];
+            }
             Match_ENEntity.matchToLists = [NSSet setWithSet:listSetM];
-            //        NSError * err;
-            //        if ( [parentContext save:&err]) {
-            //            NSLog(@"写入成功：Match_EN");
-            //            NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-            //            NSLog(@"路径是：%@",docPath);
-            //            }else
-            //        {
-            //            [NSException raise:@"Match_EN写入错误" format:@"错误是%@",[err localizedDescription]];
-            //        }
+            
+            
             //写入Team_EN实体
             for (NSDictionary * teamD in teamsResource) {
                 NSMutableDictionary * honorShujuM = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"0", @"kda", @"0", @"assists", @"0", @"kills", @"0", @"totalMinionsKilled", @"0", @"goldEarned", @"0", @"totalDamageTaken",  @"0", @"turretKills",@"0", @"totalDamageDealt", nil];
@@ -553,24 +545,15 @@ NSMutableString * finishNum = @"0";
                     [team setObject:[ban objectForKey:@"championId"] forKey:[NSString stringWithFormat:@"ban%d",i]];
                 }
                 [team removeObjectForKey:@"bans"];
-                //            NSManagedObjectContext * context = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer.viewContext;
-                //            NSManagedObjectContext * contextTeam_EN = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+                
                 Team_EN * Team_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Team_EN" inManagedObjectContext:parentContext];
                 for (nomkey in team.allKeys) {
                     nomvalue = [NSString stringWithFormat:@"%@", [team objectForKey:nomkey]];
                     [Team_ENEntity setValue:nomvalue forKey:nomkey];
+                    NSLog(@"set Team_ENEntity %@ from team", nomkey);
                 }
                 Team_ENEntity.teamToMatch = Match_ENEntity;
-                //            NSError * err;
-                //            if ([parentContext save:&err]) {
-                //                NSLog(@"写入成功：Team_EN");
-                //                NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-                //                NSLog(@"路径是：%@",docPath);
-                //            }else
-                //            {
-                //                [NSException raise:@"Team_EN写入错误" format:@"错误是%@",[err localizedDescription]];
-                //            }
-                
+
                 int lim = 0;
                 if ([Team_ENEntity.teamId isEqualToString:@"100"]) {
                     i = 0;
@@ -582,7 +565,7 @@ NSMutableString * finishNum = @"0";
                 }
                 //写入Participant_EN实体
                 for (; i < lim; i++) {
-                    
+
                     //写入Player_EN实体
                     NSDictionary * participantIdentity = participantIdentities[i];
                     NSDictionary * player = [participantIdentity objectForKey:@"player"];
@@ -598,7 +581,7 @@ NSMutableString * finishNum = @"0";
                     if (playersResults.count > 0)
                     {
                         Player_ENEntity = playersResults[0];
-                        
+
                     }else
                     {
                         Player_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Player_EN" inManagedObjectContext:parentContext];
@@ -606,12 +589,10 @@ NSMutableString * finishNum = @"0";
                     for (nomkey in player.allKeys) {
                         nomvalue = [NSString stringWithFormat:@"%@", [player objectForKey:nomkey]];
                         [Player_ENEntity setValue:nomvalue forKey:nomkey];
+
+                        NSLog(@"set Player_ENEntity %@ from player", nomkey);
                     }
-                    
-//                    if ([Player_ENEntity.accountId isEqualToString:currentAccountID] ) {
-//                        currentPlayer = Player_ENEntity;
-//                    }
-                    
+
                     NSMutableDictionary * participant = [NSMutableDictionary dictionaryWithDictionary:participantResource[i]];
                     [participant setObject:gameId forKey:@"gameId"];
                     NSMutableDictionary * stats = [NSMutableDictionary dictionaryWithDictionary:[participant objectForKey:@"stats"]];
@@ -622,12 +603,12 @@ NSMutableString * finishNum = @"0";
                     [participant removeObjectForKey:@"runes"];
                     [participant removeObjectForKey:@"masteries"];
                     [participant removeObjectForKey:@"timeline"];
-                    //                    NSManagedObjectContext * context = ((AppDelegate *)[UIApplication sharedApplication].delegate).persistentContainer.viewContext;
-                    //                    NSManagedObjectContext * contextParticipant_EN = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+                    
                     Participant_EN * Participant_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Participant_EN" inManagedObjectContext:parentContext];
                     for (nomkey in participant.allKeys) {
                         nomvalue = [NSString stringWithFormat:@"%@", [participant objectForKey:nomkey]];
                         [Participant_ENEntity setValue:nomvalue forKey:nomkey];
+                        NSLog(@"set Participant_ENEntity %@ from participant", nomkey);
                     }
                     CGFloat dF = [[stats objectForKey:@"deaths"] floatValue]>0?[[stats objectForKey:@"deaths"] floatValue]:1.0f;
                     CGFloat kdaP = (([[stats objectForKey:@"kills"] floatValue] + [[stats objectForKey:@"assists"] floatValue])/(dF * 3.0f));
@@ -647,35 +628,38 @@ NSMutableString * finishNum = @"0";
                     for (nomkey in stats.allKeys) {
                         nomvalue = [NSString stringWithFormat:@"%@", [stats objectForKey:nomkey]];
                         [Participant_ENEntity setValue:nomvalue forKey:nomkey];
-                        if ([list_ENkeys containsObject:nomkey] && [currentAccountID isEqualToString:Player_ENEntity.accountId]) {
+                        NSLog(@"set Participant_ENEntity %@ from stats", nomkey);
+
+                        if ([list_ENkeys containsObject:nomkey] && [currentAccountID isEqualToString:Player_ENEntity.accountId]&&[matchListPropertyArr containsObject:nomkey]) {
                             NSLog(@"set current account %@ honor01", Player_ENEntity.accountId);
                             [list_ENEntity setValue:nomvalue forKey:nomkey];
+                            NSLog(@"set list_ENEntity %@ from stats", nomkey);
                         }else
                         {
-                            NSLog(@"is not current account honor01");
+                            NSLog(@"%@ is not current account, key is %@", Player_ENEntity.accountId, nomkey);
                         }
                     }
                     [honorShujuM enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
                         CGFloat recV =[((NSString *)obj) floatValue];
                         CGFloat parV =[[Participant_ENEntity valueForKey:key] floatValue];
-                        
+
                         if ([((NSString *)obj) floatValue] < [[Participant_ENEntity valueForKey:key] floatValue]) {
                             [honorObjIdM setObject:Participant_ENEntity.objectID forKey:[honorConectM objectForKey:key]];
                             [honorShujuM setObject:[Participant_ENEntity valueForKey:key] forKey:key];
                         }else
                         {
                             NSLog(@"recV is %f parV is %f key is %@ honor is %@", recV, parV, key, [honorConectM objectForKey:key]);
-                            
+
                             CGFloat recV =[((NSString *)obj) floatValue];
                             CGFloat parV =[[Participant_ENEntity valueForKey:key] floatValue];
-                            
-                            
+
+
                         }
                     }];
                     Participant_ENEntity.participantToTeam = Team_ENEntity;
-                    
-                    
-                    //设置playToParticipants
+
+
+//                    设置playToParticipants
                     if (Player_ENEntity.accountId != nil) {
                         NSMutableSet * set = [NSMutableSet setWithSet:Player_ENEntity.playToParticipants];
                         if (set == nil) {
@@ -690,54 +674,55 @@ NSMutableString * finishNum = @"0";
                     {
                         NSLog(@"Player_ENEntity.accountId is nil, does not set playToParticipants");
                     }
-                    
-                    
-                    
-                    
-                    //写入Rune_EN实体
+
+
+
+
+//                    写入Rune_EN实体
                     for (NSDictionary * run in runes) {
                         Rune_EN * Rune_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Rune_EN" inManagedObjectContext:parentContext];
                         for (nomkey in run.allKeys) {
                             nomvalue = [NSString stringWithFormat:@"%@", [run objectForKey:nomkey]];
                             [Rune_ENEntity setValue:nomvalue forKey:nomkey];
+                            NSLog(@"set Rune_ENEntity %@ from run", nomkey);
                         }
                         Rune_ENEntity.runeToParticipant = Participant_ENEntity;
                     }
-                    
-                    //写入Mastery_EN实体
+
+//                    写入Mastery_EN实体
                     for (NSDictionary * mastery in masteries) {
                         Mastery_EN * Mastery_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Mastery_EN" inManagedObjectContext:parentContext];
                         for (nomkey in mastery.allKeys) {
                             nomvalue = [NSString stringWithFormat:@"%@", [mastery objectForKey:nomkey]];
                             [Mastery_ENEntity setValue:nomvalue forKey:nomkey];
+                            NSLog(@"set Mastery_ENEntity %@ from mastery", nomkey);
                         }
                         Mastery_ENEntity.masteryToParticipant = Participant_ENEntity;
                     }
-                    
+
                 }
-                
-                
-                
+
+
+
                 [honorObjIdM enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-                    
+
                     if ([obj isKindOfClass:[NSManagedObjectID class]]) {
-                        
+
                         Participant_EN * participant_EN = [parentContext objectWithID:(NSManagedObjectID *)obj];
                         [participant_EN setValue:@"1" forKey:key];
                         NSLog(@"set honor participant_EN.accountId is %@", participant_EN.accountId);
-                        if ([participant_EN.accountId isEqualToString:currentAccountID]) {
-                            
+                        if ([participant_EN.accountId isEqualToString:currentAccountID]&&[matchListPropertyArr containsObject:key]) {
                             [list_ENEntity setValue:@"1" forKey:key];
-                            
                         }
-                        
+
                     }
                 }];
             }
             NSLog(@"insert Match_EN With Data finished");
         }
+        
         NSError * err01;
-        if ([parentContext save:&err01]) {
+        if ([self saveContext:parentContext withErr:err01 postNotificationName:@"insertMatch_ENWithData" object:NULL userInfo:NULL]) {
             NSLog(@"写入成功：Match_EN");
             NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
             NSLog(@"路径是：%@",docPath);
@@ -800,6 +785,12 @@ NSMutableString * finishNum = @"0";
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"accountId == %@",accountId];
     NSSortDescriptor * sort = [[NSSortDescriptor alloc] initWithKey:@"gameId" ascending:NO];
     NSArray * matchs = [self fetchEntityNamed:@"MatchList_EN" withPredicate:predicate withSort: sort];
+    return matchs;
+}
++(NSArray *)getMatchsWithGameId_EN:(NSString *) GameId
+{
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"gameId == %@",GameId];
+    NSArray * matchs = [self fetchEntityNamed:@"Match_EN" withPredicate:predicate withSort: NULL];
     return matchs;
 }
 
@@ -872,24 +863,12 @@ NSMutableString * finishNum = @"0";
 
 +(void)updateParentContext
 {
-    if (!parentContext) {
-        NSManagedObjectContext * contextMatchList_EN = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        NSPersistentContainer * psc =[[NSPersistentContainer alloc] initWithName:@"LOLHelper"];
-        [psc loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * storeDescription, NSError * error) {
-            if (error != nil) {
-                NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-                abort();
-            }
-        }];
-        
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"LOLHelper" withExtension:@"momd"];
-        NSLog(@"%@", modelURL);
-        
-        [contextMatchList_EN setPersistentStoreCoordinator:psc.persistentStoreCoordinator];
-        parentContext = contextMatchList_EN;
+    if (parentContext == nil) {
+        AppDelegate * appDe = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        parentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [parentContext setParentContext:appDe.persistentContainer.viewContext];
     }
 }
-
 
 +(void)deleteCoreData
 {
@@ -902,6 +881,7 @@ NSMutableString * finishNum = @"0";
         [fileManager removeItemAtPath:fileStr error:NULL];
         NSLog(@"file path is %@", fileStr);
     }];
-    NSLog(@"delete CoreData Finished");
+    NSLog(@"Delete CoreData Finished");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:@"Delete CoreData Finished" userInfo:NULL];
 }
 @end

@@ -188,7 +188,7 @@
 -(void)setTarBarItem
 {
     UITabBarItem * perNewsTabBarItem = [[UITabBarItem alloc] initWithTitle:@"NewInfo" image:[[UIImage imageNamed:@"tab_icon_news_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] tag:102];
-    perNewsTabBarItem.badgeValue = @"热";
+    perNewsTabBarItem.badgeValue = @"New";
     [perNewsTabBarItem setSelectedImage:[[UIImage imageNamed:@"tab_icon_news_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     self.tabBarItem = perNewsTabBarItem;
     

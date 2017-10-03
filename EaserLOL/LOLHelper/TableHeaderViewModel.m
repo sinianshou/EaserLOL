@@ -34,7 +34,7 @@
     self  = [super  init];
     self.userInteractionEnabled = YES;
     
-    NSArray * buttonstitle = [[NSArray alloc] initWithObjects:@"最新视频",@"解说者",@"阅订号",@"菜单4",@"菜单5",@"菜单6", nil];
+    NSArray * buttonstitle = [[NSArray alloc] initWithObjects:@"Video",@"Author",@"Chanel",@"Menu4",@"Menu5",@"Menu6", nil];
     self.MenuControlHView = [MenuControlH menuControlHWithNormalTitles:buttonstitle SelectedTitles:nil Images:nil];
     self.MenuControlHView.bounds = CGRectMake(0, 0, screenSize.width*1.5, 23);
     self.MenuControlHView.frame = CGRectMake(0, screenSize.width*9/16, screenSize.width*1.5, 20);

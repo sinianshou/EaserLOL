@@ -31,16 +31,35 @@ static NSManagedObjectContext * mainParentContext;
             NSLog(@"jsonData is %@", jsonString);
             NSDictionary * dic = nil;
             
-            if (data == nil) {
+            if (data != nil) {
+                dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
+                if ([dic.allKeys containsObject:@"status"]) {
+                    dic = [dic objectForKey:@"status"];
+                    if ([dic.allKeys containsObject:@"message"] && [dic.allKeys containsObject:@"status_code"]) {
+                        NSString * code = [NSString stringWithFormat:@"%@", [dic objectForKey:@"status_code"]];
+                        if (![code isEqualToString:@"200"]) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:[NSString stringWithFormat:@"Gain Champ Brife Error is Message:%@ status_code:%@", [dic objectForKey:@"message"], [dic objectForKey:@"status_code"]]];
+                            data = [self getChampionsFromURL];
+                            dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
+                            dic = [self checkKeyAndIdInDic:dic];
+                        }
+                    }
+                }
+            }else
+            {
                 data = [self getChampionsFromURL];
                 dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
                 dic = [self checkKeyAndIdInDic:dic];
-                
-            }else
-            {
-                dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
-                
             }
+            
+//            if (data == nil) {
+//                data = [self getChampionsFromURL];
+//                dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
+//                dic = [self checkKeyAndIdInDic:dic];
+//            }else
+//            {
+//                dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
+//            }
             [self insertChampionsBrife_ENWithData:data];
         }
     }];
@@ -118,8 +137,10 @@ static NSManagedObjectContext * mainParentContext;
     NSArray <ChampionsBrief_EN *>* matchesResults=[self getChampionsBrife_ENWithTag:NULL];
     NSMutableDictionary * results = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
     NSMutableDictionary * ChampionsBrifesM = [NSMutableDictionary dictionaryWithDictionary:[results objectForKey:@"data"]];
+    ChampionsBrifesM = [NSMutableDictionary dictionaryWithDictionary:[self checkKeyAndIdInDic:[NSDictionary dictionaryWithDictionary:ChampionsBrifesM]]];
     NSManagedObjectContext * subContext = [self createSubContext];
     [subContext performBlock:^{
+        NSArray * propertyList = [GetData getPropertyArrFrom:ChampionsBrief_EN.class];
         [ChampionsBrifesM enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             ChampionsBrief_EN * __block championBrief = nil;
             NSString * championId =key;
@@ -130,9 +151,6 @@ static NSManagedObjectContext * mainParentContext;
                     *stop = YES;
                 }
             }];
-            
-            
-            
             
             if (championBrief == nil) {
                 championBrief = [[ChampionsBrief_EN alloc] initWithEntity:[NSEntityDescription entityForName:@"ChampionsBrief_EN" inManagedObjectContext:subContext] insertIntoManagedObjectContext:subContext];
@@ -161,15 +179,18 @@ static NSManagedObjectContext * mainParentContext;
                 {
                     NSDictionary * dic = obj;
                     championBrief.square = [dic objectForKey:@"full"];
-                }else
+                }else if([propertyList containsObject:key])
                 {
                     [championBrief setValue:[NSString stringWithFormat:@"%@", obj] forKey:key];
-                    
+                    NSLog(@"ChampionBriefKeys contain %@", key);
+                }else
+                {
+                    NSLog(@"ChampionBriefKeys does not contain %@", key);
                 }
             }];
         }];
         NSError * err;
-        [self saveContext:subContext withErr:err postnotificationName:@"UpdateChampionsBrief_ENFinished"];
+        [self saveContext:subContext withErr:err postNotificationName:@"UpdateChampionsBrief_ENFinished" object:NULL userInfo:NULL];
         if (err) {
             [NSException raise:@"insertChampionsBrife_ENWithData 错误" format:@"错误是%@",[err localizedDescription]];
         }
@@ -219,52 +240,45 @@ static NSManagedObjectContext * mainParentContext;
 
 +(NSManagedObjectContext * )createSubContext
 {
-//    NSManagedObjectContext * subContext = [((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer newBackgroundContext];
-    NSManagedObjectContext * subContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [self updateGGDParentContext];
-    [subContext setParentContext:mainParentContext];
-    return subContext;
-}
-
-+(void)saveContext:(NSManagedObjectContext * )subContext withErr:(NSError * _Nullable) err  postnotificationName:(NSString *)name
-{
-    if ([subContext save:&err]) {
-        NSLog(@"%@ 写入成功", name);
-    }else
-    {
-        [NSException raise:@"写入错误" format:@"%@ 错误是%@", name,[err localizedDescription]];
+    if (mainParentContext == nil) {
+        AppDelegate * appDe = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext * subContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [subContext setParentContext:appDe.persistentContainer.viewContext];
+        mainParentContext = subContext;
     }
-    if(subContext.parentContext)
-    {
-        if ([subContext.parentContext save:&err]) {
-            NSLog(@"%@ 写入成功", name);
-        }else
-        {
-            [NSException raise:@"写入错误" format:@"%@ 错误是%@", name,[err localizedDescription]];
-        }
-    }
+    return mainParentContext;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:name object:NULL];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateChampionsBrief_ENFinished" object:NULL];
+    //    NSManagedObjectContext * subContext = [((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer newBackgroundContext];
+    //    NSManagedObjectContext * subContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    //    [self updateGGDParentContext];
+    //    [subContext setParentContext:mainParentContext];
+    //    return subContext;
 }
 +(void)updateGGDParentContext
 {
     if (mainParentContext == nil) {
-        NSManagedObjectContext * contextMatchList_EN = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        NSPersistentContainer * psc =[[NSPersistentContainer alloc] initWithName:@"LOLHelper"];
-        [psc loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * storeDescription, NSError * error) {
-            if (error != nil) {
-                NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-                abort();
-            }
-        }];
-        
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"LOLHelper" withExtension:@"momd"];
-        NSLog(@"%@", modelURL);
-        
-        [contextMatchList_EN setPersistentStoreCoordinator:psc.persistentStoreCoordinator];
-        mainParentContext = contextMatchList_EN;
+        AppDelegate * appDe = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext * subContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [subContext setParentContext:appDe.persistentContainer.viewContext];
+        mainParentContext = subContext;
     }
+    
+//    if (mainParentContext == nil) {
+//        NSManagedObjectContext * contextMatchList_EN = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+//        NSPersistentContainer * psc =[[NSPersistentContainer alloc] initWithName:@"LOLHelper"];
+//        [psc loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * storeDescription, NSError * error) {
+//            if (error != nil) {
+//                NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+//                abort();
+//            }
+//        }];
+//        
+//        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"LOLHelper" withExtension:@"momd"];
+//        NSLog(@"%@", modelURL);
+//        
+//        [contextMatchList_EN setPersistentStoreCoordinator:psc.persistentStoreCoordinator];
+//        mainParentContext = contextMatchList_EN;
+//    }
 }
 
 
@@ -308,13 +322,13 @@ static NSManagedObjectContext * mainParentContext;
     NSURLSession * session = [NSURLSession sharedSession];
     NSURLSessionDataTask * dataTask = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            [NSException raise:@"uploadChampionsBrife_EN 网络通信错误" format:@"错误是%@",[error localizedDescription]];
+            [NSException raise:@"updateItem_EN 网络通信错误" format:@"错误是%@",[error localizedDescription]];
         }else
         {
             NSError * err;
             NSDictionary*dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&err];
             if (err) {
-                [NSException raise:@"uploadChampionsBrife_EN 网络通信错误" format:@"错误是%@",[err localizedDescription]];
+                [NSException raise:@"updateItem_EN 网络通信错误" format:@"错误是%@",[err localizedDescription]];
                 dic = [self getItemsJOSN_EN];
                 
             }else if ([dic objectForKey:@"status"])
@@ -447,7 +461,7 @@ static NSManagedObjectContext * mainParentContext;
             }];
         }];
         NSError * itemErr;
-        [self saveContext:subContect withErr:itemErr postnotificationName:@"UpdateItem_ENFinished"];
+        [self saveContext:subContect withErr:itemErr postNotificationName:@"insertItem_ENWithDic" object:NULL userInfo:NULL];
     }];
 }
 
@@ -616,7 +630,7 @@ static NSManagedObjectContext * mainParentContext;
         }];
         
         NSError * err;
-        [self saveContext:subContext withErr:err postnotificationName:@"insertMasteryData_ENWithDicFinished"];
+        [self saveContext:subContext withErr:err postNotificationName:@"insertMasteryData_ENWithDicFinished" object:NULL userInfo:NULL];
     }];
 }
 +(NSArray*)getMasteryData_ENWithId:(nullable NSString *)identifyty masteryTree:(nullable NSString *)tree
@@ -812,7 +826,7 @@ static NSManagedObjectContext * mainParentContext;
         }];
         
         NSError * err;
-        [self saveContext:subContext withErr:err postnotificationName:@"insertRuneData_ENWithDicFinished"];
+        [self saveContext:subContext withErr:err postNotificationName:@"insertRuneData_ENWithDicFinished" object:NULL userInfo:NULL];
     }];
 }
 +(NSArray*)getRuneData_ENWithId:(nullable NSString *)identifyty tags:(nullable NSString *)tag tier:(nullable NSString *)tier type:(nullable NSString *)type
@@ -876,4 +890,5 @@ static NSManagedObjectContext * mainParentContext;
     NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:iconNameKey, @"NameKey", iconPath, @"Path", url, @"URL", nil];
     return dic;
 }
+
 @end

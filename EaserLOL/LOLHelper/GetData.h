@@ -22,6 +22,9 @@
 +(NSDictionary *)getVideoAPIKey_CN;
 +(NSArray *)getResultsInEntity:(NSString*)EntityName;
 +(NSString *) convertTimeIntervalStrToString:(NSString *)TimeIntervalStr;
++(NSArray <NSString*>*)getPropertyArrFrom:(Class)perClass;
+
++(BOOL)saveContext:(NSManagedObjectContext * )subContext withErr:(NSError * _Nullable) err  postNotificationName:(nullable NSString *)name object:(nullable id)object userInfo:(nullable NSDictionary *) userInfo;
 
 @end
 

@@ -62,6 +62,12 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
 //    flowLayout.sectionInset = UIEdgeInsetsMake(0, 2, 0, 0);
     self.collectionView.collectionViewLayout = flowLayout;
     [self loadChampionsBriefDataFinishedWithTag:NULL];
+    
+//    [self performSelectorOnMainThread:@selector(loadChampionsBriefDataFinishedWithTag:) withObject:NULL waitUntilDone:YES];
+    if (!(self.dataSourceArr.count > 0)) {
+        [self loadChampionsBriefData];
+    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadChampionsBriefDataFinishedNotification:) name:@"UpdateChampionsBrief_ENFinished" object:NULL];
     UIButton * bu = [[UIButton alloc] initWithFrame:CGRectMake(60, 60, 40, 40)];
     [bu.titleLabel setFont:[UIFont systemFontOfSize:10]];
@@ -71,10 +77,12 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
     [self.view addSubview:bu];
     [self setHeaderView];
     
+    NSLog(@"item img bound is %@ %@ %@ ",NSStringFromCGRect(self.items.frame),NSStringFromCGRect(self.items.imageView.frame), NSStringFromCGRect(self.items.titleLabel.frame));
     AppDelegate * app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.defaultInset = UIEdgeInsetsMake(self.headerView.bounds.size.height, 0, app.rootTabBarController.tabBar.bounds.size.height, 0);
     self.collectionView.contentInset = self.defaultInset;
     [self resetAnimator];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -82,23 +90,27 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
 {
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 60)];
-    self.headerView.backgroundColor = [UIColor brownColor];
+    self.headerView.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.headerView];
     self.items = [[UIButton alloc] initWithName:@"items"];
+    [self.items setImage:[UIImage imageNamed:@"gamedataHeaderIcon"] forState:UIControlStateNormal];
     [self.items setTitle:@"Items" forState:UIControlStateNormal];
-    self.items.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.items.titleLabel.font = [UIFont systemFontOfSize:13];
     [self.items addTarget:self action:@selector(presentItemVC) forControlEvents:UIControlEventTouchUpInside];
     self.masteries = [[UIButton alloc] initWithName:@"masteries"];
+    [self.masteries setImage:[UIImage imageNamed:@"gamedataHeaderIcon"] forState:UIControlStateNormal];
     [self.masteries setTitle:@"Masteries" forState:UIControlStateNormal];
-    self.masteries.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.masteries.titleLabel.font = self.items.titleLabel.font;
     [self.masteries addTarget:self action:@selector(presentMasteriesVC) forControlEvents:UIControlEventTouchUpInside];
     self.runes = [[UIButton alloc] initWithName:@"runes"];
+    [self.runes setImage:[UIImage imageNamed:@"gamedataHeaderIcon"] forState:UIControlStateNormal];
     [self.runes setTitle:@"Runes" forState:UIControlStateNormal];
-    self.runes.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.runes.titleLabel.font = self.items.titleLabel.font;
     [self.runes addTarget:self action:@selector(presentRunesVC) forControlEvents:UIControlEventTouchUpInside];
     self.champFilter = [[UIButton alloc] initWithName:@"champFilter"];
+    [self.champFilter setImage:[UIImage imageNamed:@"gamedataHeaderIcon"] forState:UIControlStateNormal];
     [self.champFilter setTitle:@"AllChamps" forState:UIControlStateNormal];
-    self.champFilter.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.champFilter.titleLabel.font = self.items.titleLabel.font;
     [self.champFilter addTarget:self action:@selector(filterChampions:) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView perAddSubviews:self.items, self.masteries, self.runes, self.champFilter, nil];
     NSString * vflV01 = [NSString stringWithFormat:@"V:|-5-[%@]-5-|", self.items.perViewName];
@@ -107,6 +119,22 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
     NSString * vflV04 = [NSString stringWithFormat:@"V:|-5-[%@]-5-|", self.champFilter.perViewName];
     NSString * vflH01 = [NSString stringWithFormat:@"H:|-5-[%@]-5-[%@(==%@)]-5-[%@(==%@)]-5-[%@(==%@)]-5-|", self.items.perViewName, self.masteries.perViewName, self.items.perViewName, self.runes.perViewName, self.items.perViewName, self.champFilter.perViewName, self.items.perViewName];
     [self.headerView perAddConstraints:vflV01, vflV02, vflV03, vflV04, vflH01, nil];
+    
+    
+    self.champFilter.imageEdgeInsets = UIEdgeInsetsMake(                                                  CGRectGetMinY(self.champFilter.bounds)-CGRectGetMinY(self.champFilter.imageView.frame)+5,                                                  CGRectGetMidX(self.champFilter.bounds)-CGRectGetMidX(self.champFilter.imageView.frame),                                                  CGRectGetMinY(self.champFilter.imageView.frame)-CGRectGetMinY(self.champFilter.bounds)-5,                                                  CGRectGetMidX(self.champFilter.imageView.frame)-CGRectGetMidX(self.champFilter.bounds));
+    self.items.imageEdgeInsets = UIEdgeInsetsMake(                                                  CGRectGetMinY(self.items.bounds)-CGRectGetMinY(self.items.imageView.frame)+5,                                                  CGRectGetMidX(self.items.bounds)-CGRectGetMidX(self.items.imageView.frame),                                                  CGRectGetMinY(self.items.imageView.frame)-CGRectGetMinY(self.items.bounds)-5,                                                  CGRectGetMidX(self.items.imageView.frame)-CGRectGetMidX(self.items.bounds));
+    self.masteries.imageEdgeInsets = UIEdgeInsetsMake(                                                  CGRectGetMinY(self.masteries.bounds)-CGRectGetMinY(self.masteries.imageView.frame)+5,                                                  CGRectGetMidX(self.masteries.bounds)-CGRectGetMidX(self.masteries.imageView.frame),                                                  CGRectGetMinY(self.masteries.imageView.frame)-CGRectGetMinY(self.masteries.bounds)-5,                                                  CGRectGetMidX(self.masteries.imageView.frame)-CGRectGetMidX(self.masteries.bounds));
+    self.runes.imageEdgeInsets = UIEdgeInsetsMake(                                                  CGRectGetMinY(self.runes.bounds)-CGRectGetMinY(self.runes.imageView.frame)+5,                                                  CGRectGetMidX(self.runes.bounds)-CGRectGetMidX(self.runes.imageView.frame),                                                  CGRectGetMinY(self.runes.imageView.frame)-CGRectGetMinY(self.runes.bounds)-5,                                                  CGRectGetMidX(self.runes.imageView.frame)-CGRectGetMidX(self.runes.bounds));
+    
+    self.champFilter.titleEdgeInsets = UIEdgeInsetsMake(                                                  CGRectGetMaxY(self.champFilter.bounds)-CGRectGetMaxY(self.champFilter.titleLabel.frame),                                                  CGRectGetMinX(self.champFilter.bounds)-CGRectGetMinX(self.champFilter.titleLabel.frame),                                                  CGRectGetMaxY(self.champFilter.titleLabel.frame)-CGRectGetMaxY(self.champFilter.bounds),                                                  CGRectGetMaxX(self.champFilter.titleLabel.frame)-CGRectGetMaxX(self.champFilter.bounds));
+    self.items.titleEdgeInsets = self.champFilter.titleEdgeInsets;
+    self.masteries.titleEdgeInsets = self.champFilter.titleEdgeInsets;
+    self.runes.titleEdgeInsets = self.champFilter.titleEdgeInsets;
+    
+    
+    NSLog(@"item img bound is %@ %@ %@", NSStringFromCGRect(self.items.frame),NSStringFromCGRect(self.items.imageView.frame), NSStringFromCGRect(self.items.titleLabel.frame));
+    
+    NSLog(@"self.champFilter bounds is %@ %@ %@", NSStringFromCGRect(self.champFilter.frame), NSStringFromCGRect(self.champFilter.imageView.frame), NSStringFromCGRect(self.champFilter.titleLabel.frame));
 }
 
 -(void)filterChampions:(UIButton *) button
@@ -126,31 +154,31 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
 {
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     CGFloat length = (screenSize.width - 25)/4;
-    self.filterView = [[UIView alloc] initWithFrame:CGRectMake(0, self.headerView.bounds.size.height, screenSize.width, 35)];
+    self.filterView = [[UIView alloc] initWithFrame:CGRectMake(0, self.headerView.bounds.size.height, screenSize.width, 70)];
     NSArray * tags = [NSArray arrayWithObjects:@"AllChamps", @"Fighter", @"Assassin", @"Tank", @"Mage", @"Support", @"Marksman", nil];
     [tags enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIButton * button = [[UIButton alloc] init];
-        button.layer.cornerRadius = 5;
+        button.layer.cornerRadius = 10;
         button.clipsToBounds = YES;
         [button setTitle:obj forState:UIControlStateNormal];
         [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [button setBackgroundColor:[UIColor whiteColor]];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         button.titleLabel.adjustsFontSizeToFitWidth = YES;
-        button.titleLabel.font = [UIFont systemFontOfSize:8];
+        button.titleLabel.font = [UIFont systemFontOfSize:13];
         [button addTarget:self action:@selector(clickFilterButton:) forControlEvents:UIControlEventTouchUpInside];
         if (idx == 0) {
             [self performSelector:@selector(clickFilterButton:) withObject:button];
         }
         if (idx < 4) {
-            button.frame = CGRectMake(5+(length+5)*idx, 5, length, 10);
+            button.frame = CGRectMake(5+(length+5)*idx, 10, length, 20);
         }else
         {
-            button.frame = CGRectMake(5+(length+5)*(idx-4), 20, length, 10);
+            button.frame = CGRectMake(5+(length+5)*(idx-4), 40, length, 20);
         }
         [self.filterView addSubview:button];
     }];
-    self.filterView.backgroundColor = [UIColor greenColor];
+    self.filterView.backgroundColor = [UIColor colorWithRed:0/255.00 green:0/255.00 blue:0/255.00 alpha:0.5];
     self.filterView.hidden = YES;
     [self.view addSubview:self.filterView];
 }
@@ -165,8 +193,12 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
     }];
     self.filterView.hidden = YES;
     [self.champFilter setTitle:button.currentTitle forState:UIControlStateNormal];
+    
+    self.champFilter.imageEdgeInsets = UIEdgeInsetsZero;
+    self.champFilter.imageEdgeInsets = UIEdgeInsetsMake(                                                  CGRectGetMinY(self.champFilter.bounds)-CGRectGetMinY(self.champFilter.imageView.frame)+5,                                                  CGRectGetMidX(self.champFilter.bounds)-CGRectGetMidX(self.champFilter.imageView.frame),                                                  CGRectGetMinY(self.champFilter.imageView.frame)-CGRectGetMinY(self.champFilter.bounds)-5,                                                  CGRectGetMidX(self.champFilter.imageView.frame)-CGRectGetMidX(self.champFilter.bounds));
+    
     button.selected = YES;
-    button.backgroundColor = [UIColor brownColor];
+    button.backgroundColor = [UIColor colorWithRed:205/255.00 green:185/255.00 blue:130/255.00 alpha:1];
     if ([button.currentTitle isEqualToString:@"AllChamps"]) {
         [self loadChampionsBriefDataFinishedWithTag:NULL];
     }else
@@ -232,7 +264,7 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
         return self.dataSourceArr.count;
     }else
     {
-        return 10;
+        return 0;
     }
 }
 
@@ -252,11 +284,6 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
         cell.championId = championsBrief_EN.id;
         cell.championName = championsBrief_EN.name;
         cell.championKey = championsBrief_EN.key;
-//        NSMutableAttributedString * prefileAttStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ \n%@", championsBrief_EN.name, championsBrief_EN.tags]];
-//        [prefileAttStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0,championsBrief_EN.name.length)];
-//        [prefileAttStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(championsBrief_EN.name.length + 2,championsBrief_EN.tags.length)];
-//        cell.briefLa.attributedText = prefileAttStr;
-//        [cell.backgroundView addSubview:[UIImage imageNamed:nameKey]];
     }else
     {
         UIImage * championIcon = [UIImage imageNamed:@"default_head"];
@@ -293,6 +320,7 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
         }];
     }
     NSLog(@"刷新完了");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:@"loadChampionsBriefDataFinished" userInfo:NULL];
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -375,6 +403,25 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
 {
     if (self.transition == nil) {
         self.transition = [[PersonalTransitionAnimator alloc] init];
+    }
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.x > -80) {
+        NSLog(@"drop to refresh");
+    }else if (scrollView.contentOffset.x <= -80)
+    {
+        NSLog(@"release to refresh");
+    }
+    
+}
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.x <= -80)
+    {
+        NSLog(@"release to refresh");
+        scrollView.contentInset = UIEdgeInsetsMake(0, 50, 0, 0);
+        [self performSelector:@selector(loadChampionsBriefData) withObject:NULL afterDelay:3];
     }
 }
 @end

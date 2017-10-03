@@ -130,9 +130,10 @@
     
     ablilityPicV.image = im;
     
-    NSMutableAttributedString * goodRoleTitle = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"擅长位置：%@",[dic objectForKey:@"goodRole"]]];
-    [goodRoleTitle addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor] range:NSMakeRange(5, goodRoleTitle.length-5)];
-    [goodRoleTitle addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0,goodRoleTitle.length)];
+    NSString * goodAtRole = [NSString stringWithFormat:@"Adept："];
+    NSMutableAttributedString * goodRoleTitle = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", goodAtRole, [dic objectForKey:@"goodRole"]]];
+    [goodRoleTitle addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor] range:NSMakeRange(goodAtRole.length, goodRoleTitle.length-goodAtRole.length)];
+    [goodRoleTitle addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, goodRoleTitle.length)];
     [goodRole setAttributedTitle:goodRoleTitle forState:UIControlStateNormal];
     
     [ablilityPicDes setImage:[UIImage imageNamed:@"btn_description_normal"] forState:UIControlStateNormal];
@@ -144,7 +145,7 @@
     self.celltype = AbilityCellRow1Type;
     UILabel * goodHeroHeader = [[UILabel alloc] initWithName:@"goodHeroHeader"];
     goodHeroHeader.font = [UIFont systemFontOfSize:13];
-    goodHeroHeader.text = [NSString stringWithFormat:@"最近常用英雄："];
+    goodHeroHeader.text = [NSString stringWithFormat:@"Champs Recently："];
     GoodHero * goodHero01 = [[GoodHero alloc] initWithName:@"goodHero01"];
     GoodHero * goodHero02 = [[GoodHero alloc] initWithName:@"goodHero02"];
     GoodHero * goodHero03 = [[GoodHero alloc] initWithName:@"goodHero03"];
@@ -192,7 +193,7 @@
     //高15
     UILabel * gameAlbumHeader = [[UILabel alloc] initWithName:@"gameAlbumHeader"];
     gameAlbumHeader.font = [UIFont systemFontOfSize:13];
-    gameAlbumHeader.text = [NSString stringWithFormat:@"游戏相册："];
+    gameAlbumHeader.text = [NSString stringWithFormat:@"GameAlbums："];
     UILabel * gameAlbumDes = [[UILabel alloc] initWithName:@"gameAlbumDes"];
     gameAlbumDes.font = [UIFont systemFontOfSize:8];
     gameAlbumDes.layer.contents = [UIImage imageNamed:@"personal_honor_event_desc_bg_view"];
@@ -219,7 +220,7 @@
     
     UILabel * all = [[UILabel alloc] initWithName:@"all"];
     all.font = [UIFont systemFontOfSize:8];
-    all.text = [NSString stringWithFormat:@"全部"];
+    all.text = [NSString stringWithFormat:@"All"];
     all.textColor = [UIColor grayColor];
     all.textAlignment = NSTextAlignmentRight;
     //5x8
@@ -266,25 +267,29 @@
     gameAlbumDes.text = [dic objectForKey:@"gameAlbumDes"];
     NSString * str = nil;
     if ([dic objectForKey:@"gameAlbumButton01"]) {
-        str = [NSString stringWithFormat:@"%@ \n 五杀",[dic objectForKey:@"gameAlbumButton01"]];
+        str = [NSString stringWithFormat:@"%@\nPentaKill",[dic objectForKey:@"gameAlbumButton01"]];
         [gameAlbumButton01 setTitle:str forState:UIControlStateNormal];
         [gameAlbumButton01 setBackgroundImage:[UIImage imageNamed:@"personal_ability_honor_1"] forState:UIControlStateNormal];
+        gameAlbumButton01.titleLabel.font = [UIFont systemFontOfSize:10];
 //        [gameAlbumButton01 setImage:[UIImage imageNamed:@"personal_ability_honor_1"] forState:UIControlStateNormal];
     }
     if ([dic objectForKey:@"gameAlbumButton02"]) {
-        str = [NSString stringWithFormat:@"%@ \n 四杀",[dic objectForKey:@"gameAlbumButton02"]];
+        str = [NSString stringWithFormat:@"%@\nQuadraKill",[dic objectForKey:@"gameAlbumButton02"]];
         [gameAlbumButton02 setTitle:str forState:UIControlStateNormal];
         [gameAlbumButton02 setBackgroundImage:[UIImage imageNamed:@"personal_ability_honor_2"] forState:UIControlStateNormal];
+        gameAlbumButton02.titleLabel.font = [UIFont systemFontOfSize:10];
     }
     if ([dic objectForKey:@"gameAlbumButton03"]) {
-        str = [NSString stringWithFormat:@"%@ \n 三杀",[dic objectForKey:@"gameAlbumButton03"]];
+        str = [NSString stringWithFormat:@"%@\nTrilpeKill",[dic objectForKey:@"gameAlbumButton03"]];
         [gameAlbumButton03 setTitle:str forState:UIControlStateNormal];
         [gameAlbumButton03 setBackgroundImage:[UIImage imageNamed:@"personal_ability_honor_3"] forState:UIControlStateNormal];
+        gameAlbumButton03.titleLabel.font = [UIFont systemFontOfSize:10];
     }
     if ([dic objectForKey:@"gameAlbumButton04"]) {
-        str = [NSString stringWithFormat:@"%@ \n 双杀",[dic objectForKey:@"gameAlbumButton04"]];
+        str = [NSString stringWithFormat:@"%@\nDoubleKill",[dic objectForKey:@"gameAlbumButton04"]];
         [gameAlbumButton04 setTitle:str forState:UIControlStateNormal];
         [gameAlbumButton04 setBackgroundImage:[UIImage imageNamed:@"personal_ability_honor_4"] forState:UIControlStateNormal];
+        gameAlbumButton04.titleLabel.font = [UIFont systemFontOfSize:10];
     }
 }
 -(void)createAbilityTypeCellIndexPathRow3
@@ -296,10 +301,10 @@
     heroTimeIconV.layer.cornerRadius = 14.5;
     heroTimeIconV.clipsToBounds = YES;
     UILabel * myHeroTimeLa = [[UILabel alloc] initWithName:@"myHeroTimeLa"];
-    myHeroTimeLa.text = [NSString stringWithFormat:@"我的英雄时刻(视频)"];
+    myHeroTimeLa.text = [NSString stringWithFormat:@"My Moment(Video)"];
     myHeroTimeLa.font = [UIFont systemFontOfSize:13];
     UILabel * all = [[UILabel alloc] initWithName:@"all"];
-    all.text = [NSString stringWithFormat:@"暂无(查看教程)"];
+    all.text = [NSString stringWithFormat:@"None(Guide)"];
     all.font = [UIFont systemFontOfSize:10];
     all.textColor = [UIColor grayColor];
     UIImageView * myHeroTimeArrow = [[UIImageView alloc] initWithName:@"myHeroTimeArrow"];
@@ -364,7 +369,7 @@
     UILabel * winRateRank = [self.perSubviews objectForKey:@"winRateRank"];
     
     preHeroV.image = [UIImage imageNamed:@"default_head"];
-    winRateRank.text = [NSString stringWithFormat:@"我的胜率排名：无"];
+    winRateRank.text = [NSString stringWithFormat:@"My Winning Rate Rank：None"];
 }
 -(void)configueAbilityTypeCellWithDic:(NSDictionary *)dic atIndexPath:(NSIndexPath *)indexPath
 {
@@ -474,6 +479,6 @@
     des.numberOfLines = 2;
     des.textAlignment = NSTextAlignmentCenter;
     des.font = [UIFont systemFontOfSize:8];
-    des.text = [NSString stringWithFormat:@"%@场 \n %@胜", totalNum, winRate];
+    des.text = [NSString stringWithFormat:@"%@ Matches \n %@ Wins", totalNum, winRate];
 }
 @end

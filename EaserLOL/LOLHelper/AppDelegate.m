@@ -12,6 +12,9 @@
 
 @interface AppDelegate ()
 
+@property (strong, nonatomic) UIWindow * notificationWin;
+@property (strong, nonatomic) NSMutableArray <NSNumber *>* notificationPositionArr;
+
 @end
 
 @implementation AppDelegate
@@ -36,12 +39,16 @@
     [self.circleMenu.circleButtons[0] addTarget:self action:@selector(loginUsername) forControlEvents:UIControlEventTouchUpInside];
     [self.circleMenu.circleButtons[1] addTarget:self action:@selector(updateAccessKeys) forControlEvents:UIControlEventTouchUpInside];
     [self.circleMenu.circleButtons[2] addTarget:self action:@selector(cleanCoreData) forControlEvents:UIControlEventTouchUpInside];
+    [self.circleMenu.circleButtons[3] addTarget:self action:@selector(sendNotification) forControlEvents:UIControlEventTouchUpInside];
     
     
     self.OverallControlls = [[OverallControlls alloc] init];
     self.logInViewExpend = 0;
 }
-
+-(void)sendNotification
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:@"Test Send Notification" userInfo:NULL];
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
@@ -83,6 +90,8 @@
     [self.window makeKeyAndVisible];
     
     [self registerDefaultsSettingBundle];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkThreadThenDisplayNotification:) name:@"DisplayNotification" object:nil];
     
     return YES;
 }
@@ -263,4 +272,70 @@
     [defaults synchronize];
 }
 
+- (void)checkThreadThenDisplayNotification:(NSNotification *)notification
+{
+    if ([[NSThread currentThread] isMainThread]) {
+        [self displayNotification:notification];
+    }else
+    {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self displayNotification:notification];
+        }];
+    }
+}
+-(void)displayNotification:(NSNotification *)notification
+{
+    if (self.notificationWin == nil) {
+        NSLog(@"self.notificationWin == nil and init");
+        self.notificationWin = [[UIWindow alloc] initWithFrame:CGRectMake(5, 10, [UIScreen mainScreen].bounds.size.width - 10, 0)];
+        self.notificationWin.backgroundColor = [UIColor blackColor];
+        self.notificationWin.alpha = 0.5;
+        self.notificationWin.hidden = NO;
+        self.notificationWin.layer.cornerRadius = 10;
+        self.notificationWin.clipsToBounds = YES;
+        self.notificationWin.userInteractionEnabled = NO;
+        self.notificationPositionArr = [NSMutableArray  array];
+    }
+    
+    NSLog(@"recieveNotification");
+    UILabel * la = [[UILabel alloc] initWithFrame:self.notificationWin.bounds];
+    la.text = [NSString stringWithFormat:@"%@", notification.object];
+    NSLog(@"text is %@", la.text);
+    la.textColor = [UIColor whiteColor];
+    [la sizeToFit];
+    if (self.notificationPositionArr.count > 0) {
+        la.center = CGPointMake(CGRectGetMaxX(self.notificationWin.bounds)+CGRectGetMidX(la.bounds)+5, self.notificationPositionArr.firstObject.floatValue);
+        [self.notificationPositionArr removeObject:self.notificationPositionArr.firstObject];
+    }else
+    {
+        la.center = CGPointMake(CGRectGetMaxX(self.notificationWin.bounds)+CGRectGetMidX(la.bounds)+5, CGRectGetMaxY(self.notificationWin.bounds)+CGRectGetMidY(la.bounds));
+        self.notificationWin.frame = CGRectMake(self.notificationWin.frame.origin.x, self.notificationWin.frame.origin.y, self.notificationWin.bounds.size.width, CGRectGetMaxY(la.frame));
+    }
+    [self.notificationWin addSubview:la];
+    
+    CGFloat speed = CGRectGetMaxX(self.notificationWin.bounds)/3;
+    CGFloat time = (CGRectGetMaxX(self.notificationWin.bounds)+CGRectGetMaxX(la.bounds)+10)/speed;
+    NSLog(@"time is %f", time);
+    [UIView animateWithDuration:time animations:^{
+        la.center = CGPointMake(-CGRectGetMidX(la.bounds)-5, la.center.y);
+    } completion:^(BOOL finished) {
+        [self.notificationPositionArr addObject:[NSNumber numberWithFloat:la.center.y]];
+        [la removeFromSuperview];
+        BOOL clear = YES;
+        for (id subViews in self.notificationWin.subviews) {
+            if ([subViews isKindOfClass:[UILabel class]]) {
+                clear = NO;
+                break;
+            }
+        }
+        if (clear)
+        {
+            self.notificationWin.hidden = YES;
+            self.notificationWin = nil;
+            [self.notificationPositionArr removeAllObjects];
+            self.notificationPositionArr = nil;
+        }
+        NSLog(@"animate finished");
+    }];
+}
 @end

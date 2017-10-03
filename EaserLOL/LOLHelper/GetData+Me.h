@@ -26,6 +26,7 @@
 +(void)updateMatchListWithAccountId_EN:(NSString *) accountId;
 
 +(NSArray *)getMatchListWithAccountId_EN:(NSString *) accountId;
++(NSArray *)getMatchsWithGameId_EN:(NSString *) GameId;
 +(NSURL *)getProfileIconURL_EN;
 +(NSURL *)getChampionIconURLWithName_EN:(NSString *)squareFullName;
 +(NSURL *)getChampionURLWithID_EN:(NSString *)ChampionID;

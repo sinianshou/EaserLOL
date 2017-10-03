@@ -111,7 +111,7 @@
     HonorView * honorV03 = [rightV.perSubviews objectForKey:@"honorV03"];
     
     NSArray * leagueVDic = [dic objectForKey:@"leagueV"];
-    NSArray * rateLaDic = [dic objectForKey:@"rateLa"];
+    NSArray <NSString *>* rateLaDic = [dic objectForKey:@"rateLa"];
     NSArray * honorV01Dic = [dic objectForKey:@"honorV01"];
     NSArray * honorV02Dic = [dic objectForKey:@"honorV02"];
     NSArray * honorV03Dic = [dic objectForKey:@"honorV03"];
@@ -122,7 +122,22 @@
 //    [leagueV setLeagueViewWithType:type0.intValue duanwei:leagueVDic[1]];
     [leagueV setLeagueStr:leagueVDic[0] duanwei:leagueVDic[1]];
     
-    NSMutableAttributedString * att = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"胜率：%@ 近期局数：%@", rateLaDic[0], rateLaDic[1]]];
+    NSString * ra = [NSString stringWithFormat:@"Rate："];
+    NSString * re = [NSString stringWithFormat:@"Recent："];
+    NSString * ma = [NSString stringWithFormat:@"matches"];
+    NSMutableAttributedString * att = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@   %@%@ %@", ra, rateLaDic[0], re, rateLaDic[1], ma]];
+    [att addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,ra.length)];
+    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0,ra.length)];
+    [att addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(ra.length,rateLaDic[0].length+3)];
+    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(ra.length,rateLaDic[0].length+3)];
+    [att addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(ra.length+rateLaDic[0].length+3,re.length)];
+    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(ra.length+rateLaDic[0].length+3,re.length)];
+    [att addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(ra.length+rateLaDic[0].length+3+re.length,rateLaDic[1].length+1)];
+    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(ra.length+rateLaDic[0].length+3+re.length,rateLaDic[1].length+1)];
+    [att addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(ra.length+rateLaDic[0].length+3+re.length+rateLaDic[1].length+1, ma.length)];
+    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(ra.length+rateLaDic[0].length+3+re.length+rateLaDic[1].length+1, ma.length)];
+    /*
+    NSMutableAttributedString * att = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Rate：%@ Recent：%@ matches", rateLaDic[0], rateLaDic[1]]];
     NSInteger firstLocal = 4+((NSString *)rateLaDic[0]).length;
     NSInteger secondLocal = firstLocal + 5;
     [att addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,3)];
@@ -133,6 +148,7 @@
     [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(firstLocal,5)];
     [att addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(secondLocal,((NSString *)rateLaDic[1]).length)];
     [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(secondLocal,((NSString *)rateLaDic[1]).length)];
+     */
     rateLa.attributedText = att;
     
 //    rateLa.text = [NSString stringWithFormat:@"胜率：%@ 总局数：%@", rateLaDic[0], rateLaDic[1]];
@@ -185,7 +201,7 @@
     UIImageView * lostOrWinImgV = [[UIImageView alloc] initWithName:@"lostOrWinImgV"];
     
     UILabel * myMatchListLa = [[UILabel alloc] initWithName:@"myMatchListLa"];
-    myMatchListLa.text = [NSString stringWithFormat:@"我的战绩"];
+    myMatchListLa.text = [NSString stringWithFormat:@"My Matches"];
     myMatchListLa.font = [UIFont systemFontOfSize:14];
     UIImageView * myMatchListImgV = [[UIImageView alloc] initWithName:@"myMatchListImgV"];
     //逻辑大小为15x15

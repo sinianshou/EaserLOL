@@ -48,7 +48,11 @@
             if (indexPath.row > 1) {
                 matchListResult = [self.fetchResults objectAtIndex:indexPath.row - 2];
                 battleDetailVC = [[BattleDetailVC alloc] init];
-                battleDetailVC.MatchResouce = matchListResult.listToMatch;
+                NSArray * gameArr = [GetData getMatchsWithGameId_EN:matchListResult.gameId];
+                battleDetailVC.MatchResouce = gameArr.firstObject;
+                NSMutableDictionary * isa = battleDetailVC.MatchResouce.goldEventsDicM;
+                NSMutableDictionary *  isb = ((Match_EN *)gameArr.firstObject).goldEventsDicM;
+                NSLog(@"a is %@, b is %@", NSStringFromClass(isa.class), NSStringFromClass(isb.class));
                 [self presentViewController:battleDetailVC animated:YES completion:nil];
             }
             break;
@@ -141,7 +145,7 @@
     Participant_EN * participantResult = nil;
     NSMutableDictionary * resultDic = nil;
     NSMutableDictionary * dic = nil;
-    NSArray * arr04 = [NSArray arrayWithObjects:@"0",@"暂无匹配", nil];
+    NSArray * arr04 = [NSArray arrayWithObjects:@"0",@"None", nil];
     NSArray * arr05 = [NSArray arrayWithObjects:@"50%",@"500", nil];
     NSArray * __block arr01 = [NSArray arrayWithObjects:@"0",@"100", nil];
     NSArray * __block arr02 = [NSArray arrayWithObjects:@"1",@"100", nil];
@@ -411,7 +415,7 @@
             NSLog(@"刷新PerInfoTable界面");
         }];
     }
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:@"updateUserInfoFinished" userInfo:NULL];
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
@@ -434,7 +438,7 @@
     perInfoHeaderImgV.perViewName = @"perInfoHeaderImgV";
     perInfoHeaderImgV.translatesAutoresizingMaskIntoConstraints =NO;
     
-    NSArray * arr = [NSArray arrayWithObjects:@"战绩", @"能力", @"资产", nil];
+    NSArray * arr = [NSArray arrayWithObjects:@"Match", @"Ability", nil];
     MenuControlH * perInfoMenuControl = [MenuControlH menuControlHWithNormalTitles:arr SelectedTitles:nil Images:nil];
     perInfoMenuControl.perViewName = @"perInfoMenuControl";
     perInfoMenuControl.translatesAutoresizingMaskIntoConstraints =NO;
@@ -541,12 +545,6 @@
             [self.tableView reloadData];
             break;
             
-        case 2:
-//            self.tableType = AssetType;
-//            [self.tableView reloadData];
-            [self refreshTableData];
-            break;
-            
         default:
             break;
             
@@ -571,7 +569,7 @@
     prefile.textAlignment = NSTextAlignmentCenter;
     prefile.lineBreakMode = NSLineBreakByWordWrapping;
     prefile.numberOfLines = 2;
-    NSString * prefileStr = [NSString stringWithFormat:@"%@ \n Lv%@ | 扭曲森林", summonerName, summonerLevel];
+    NSString * prefileStr = [NSString stringWithFormat:@"%@ \n Lv%@ | TwistyForest", summonerName, summonerLevel];
     NSMutableAttributedString * prefileAttStr = [[NSMutableAttributedString alloc] initWithString:prefileStr];
     [prefileAttStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0,summonerName.length + 3)];
     [prefileAttStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(summonerName.length + 3,prefileAttStr.length-summonerName.length - 3)];
@@ -582,7 +580,7 @@
     prefile.hidden = YES;
     
     UIButton * areaBut = [[UIButton alloc] initWithName:@"areaBut"];
-    [areaBut setTitle:@"扭曲森林" forState:UIControlStateNormal];
+    [areaBut setTitle:@"TwistyForest" forState:UIControlStateNormal];
     [areaBut setTitleColor:perColor forState:UIControlStateNormal];
     areaBut.titleLabel.textAlignment = NSTextAlignmentCenter;
     areaBut.translatesAutoresizingMaskIntoConstraints = YES;
