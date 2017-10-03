@@ -257,6 +257,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
 }
 -(void)cancelInteractiveTransition
 {
+    [super cancelInteractiveTransition];
     if (self.transitionContext == nil) {
         NSLog(@"cancel里为空");
     }else
@@ -268,7 +269,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
         NSLog(@"cancel里fromVC为空");
     }else
     {
-        NSLog(@"update里fromVC不为空");
+        NSLog(@"cancel里fromVC不为空");
     }
     UIViewController * toVC = [self.transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     if (toVC == nil) {
@@ -277,26 +278,25 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
     {
         NSLog(@"cancel里toVC不为空");
     }
-    
+
     [UIView animateWithDuration:0.3
                           delay:0
          usingSpringWithDamping:5
           initialSpringVelocity:5
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         [self doScaleVC:fromVC WithA:self.behindViewScale D:self.behindViewScale alpha:self.behindViewAlpha moveVC:toVC toFrame:CGRectMake(0,0,
-                                                                                                                                                                                    CGRectGetWidth(toVC.view.frame),
-                                                                                                                                                                                    CGRectGetHeight(toVC.view.frame))];
-                         
+                         [self doScaleVC:toVC WithA:self.behindViewScale D:self.behindViewScale alpha:self.behindViewAlpha moveVC:fromVC toFrame:CGRectMake(0,0,CGRectGetWidth(fromVC.view.frame),CGRectGetHeight(fromVC.view.frame))];
+
                      } completion:^(BOOL finished) {
                          [self.transitionContext completeTransition:![self.transitionContext transitionWasCancelled]];
-                         
+
                      }];
 
-    
+
 }
 -(void)finishInteractiveTransition
 {
+    [super finishInteractiveTransition];
     if (self.transitionContext == nil) {
         
         NSLog(@"finish里为空");
@@ -355,8 +355,6 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
           initialSpringVelocity:5
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         //                             CGFloat scaleBack = (1 / self.behindViewScale);
-                         //                             toViewController.view.layer.transform = CATransform3DScale(toViewController.view.layer.transform, scaleBack, scaleBack, 1);
                          [self doScaleVC:toVC WithA:1 D:1 alpha:1 moveVC:fromVC toFrame:endRect];
                      } completion:^(BOOL finished) {
                          [self.transitionContext completeTransition:![self.transitionContext transitionWasCancelled]];
