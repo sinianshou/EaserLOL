@@ -37,6 +37,7 @@
 		EB3565AA1F01032B003C0DAB /* UIViewPer.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3565A91F0102F0003C0DAB /* UIViewPer.m */; };
 		EB3565AB1F010331003C0DAB /* LayoutWithVFL.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3565A61F01003B003C0DAB /* LayoutWithVFL.m */; };
 		EB36B6B91F2C56880033D876 /* ChampDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EB36B6B81F2C56880033D876 /* ChampDetailModel.m */; };
+		EB38E4911F8389DB00F650D3 /* PageView.html in Resources */ = {isa = PBXBuildFile; fileRef = EB38E4901F8389C200F650D3 /* PageView.html */; };
 		EB3A75921F35844000EC54B8 /* ParticipantDetailV.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3A75911F35844000EC54B8 /* ParticipantDetailV.m */; };
 		EB3A75951F35D18100EC54B8 /* PerScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3A75941F35D18100EC54B8 /* PerScrollView.m */; };
 		EB3B2C831F10749300B1B4D0 /* UIImageView+CacheImg.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3B2C821F10749300B1B4D0 /* UIImageView+CacheImg.m */; };
@@ -155,6 +156,7 @@
 		EB3565A91F0102F0003C0DAB /* UIViewPer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIViewPer.m; sourceTree = "<group>"; };
 		EB36B6B71F2C56880033D876 /* ChampDetailModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChampDetailModel.h; sourceTree = "<group>"; };
 		EB36B6B81F2C56880033D876 /* ChampDetailModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChampDetailModel.m; sourceTree = "<group>"; };
+		EB38E4901F8389C200F650D3 /* PageView.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = PageView.html; sourceTree = "<group>"; };
 		EB3A75901F35844000EC54B8 /* ParticipantDetailV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticipantDetailV.h; sourceTree = "<group>"; };
 		EB3A75911F35844000EC54B8 /* ParticipantDetailV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticipantDetailV.m; sourceTree = "<group>"; };
 		EB3A75931F35D18100EC54B8 /* PerScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerScrollView.h; sourceTree = "<group>"; };
@@ -183,7 +185,6 @@
 		EB50B36B1F1493D400FC3FC3 /* MatchListEntites_ENHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatchListEntites_ENHeader.h; sourceTree = "<group>"; };
 		EB5D6A201F307F1300AC60B6 /* SKFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKFlowLayout.h; sourceTree = "<group>"; };
 		EB5D6A211F307F1300AC60B6 /* SKFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKFlowLayout.m; sourceTree = "<group>"; };
-		EB68E4E41F04CC1900490CC7 /* APIKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 		EB6B290A1F397FD3004E7B47 /* Participant_EN+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Participant_EN+CoreDataClass.h"; sourceTree = "<group>"; };
 		EB6B290B1F397FD3004E7B47 /* Participant_EN+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Participant_EN+CoreDataClass.m"; sourceTree = "<group>"; };
 		EB6B290C1F397FD3004E7B47 /* Participant_EN+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Participant_EN+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -383,8 +384,8 @@
 		EB6F25C91ED94759009C5918 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EB38E4901F8389C200F650D3 /* PageView.html */,
 				EB0CB47E1F1B5F2300E6D0B9 /* LOLHelper.xcdatamodeld */,
-				EB68E4E41F04CC1900490CC7 /* APIKeys.plist */,
 				EB6F25CA1ED94759009C5918 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -615,6 +616,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB38E4911F8389DB00F650D3 /* PageView.html in Resources */,
 				EBB7F7341F553BD8005D936A /* fire002.sks in Resources */,
 				EBB7F7351F553BD8005D936A /* fireBurn.png in Resources */,
 				EBE9F2FE1F0DE529005B4B42 /* Settings.bundle in Resources */,

@@ -176,6 +176,7 @@
     PageViewController * pageController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
     pageController.modalPresentationStyle = UIModalPresentationCustom;
     pageController.content = [NSMutableString stringWithFormat:@"%@",str];
+    NSLog(@"page content is %@", str);
     
     self.animator = [[MyTransitionAnimator alloc] initWithModalViewController:pageController];
     self.animator.behindViewAlpha = 0.5f;

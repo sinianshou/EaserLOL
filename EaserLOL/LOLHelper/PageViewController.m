@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.PageView loadHTMLString:self.content baseURL:[NSURL URLWithString:@"baidu"]];
 //    self.navigationController.navigationBar.barTintColor = [UIColor blueColor];
 //    self.navigationController.title = @"1qaz2wsxE";

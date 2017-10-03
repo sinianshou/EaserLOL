@@ -171,11 +171,17 @@
     ChineseNewestVideos * Video;
     ChineseAuthors * author;
     NSMutableString * content = [[NSMutableString alloc] init];
+    
+    NSMutableString * pageContentStr = [NSMutableString stringWithContentsOfFile:[NSString stringWithFormat:@"%@%@",[[NSBundle mainBundle]resourcePath],@"/PageView.html"] encoding:NSUTF8StringEncoding error:NULL];
     switch (self.type) {
         case ChineseNewestVideosList:
             Video = [self.LHfetchedResultsController objectAtIndexPath:indexPath];
             content = [NSMutableString stringWithFormat:@"%@",Video.content];
             [content stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+            pageContentStr = [pageContentStr stringByReplacingOccurrencesOfString:@"WaitingReplaceTitle" withString:Video.title];
+            pageContentStr = [pageContentStr stringByReplacingOccurrencesOfString:@"WaitingReplaceTime" withString:Video.createdate];
+            pageContentStr = [pageContentStr stringByReplacingOccurrencesOfString:@"WaitingReplaceVideo" withString:content];
+            content = pageContentStr;
             break;
         case ChineseAuthorsList: case ChineseChannelList:
             author = [self.LHfetchedResultsController objectAtIndexPath:indexPath];
