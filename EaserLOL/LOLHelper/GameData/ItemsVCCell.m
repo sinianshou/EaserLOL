@@ -36,12 +36,10 @@
     self.icon  = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     [self addSubview:self.icon];
     self.la = [[UILabel alloc] init];
-    //    la.backgroundColor = [UIColor yellowColor];
     self.la.textColor = [UIColor blackColor];
     self.la.frame =CGRectMake(0, self.icon.frame.origin.y + self.icon.frame.size.height, self.icon.frame.size.width, 16);
     self.la.numberOfLines = 2;
     self.la.lineBreakMode = NSLineBreakByTruncatingTail;
-    //    la.adjustsFontSizeToFitWidth = YES;
     self.la.font = [UIFont systemFontOfSize:self.la.bounds.size.height/2-2];
     [self addSubview:self.la];
 }

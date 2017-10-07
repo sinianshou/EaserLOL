@@ -39,8 +39,6 @@ static NSString * const reuseIdentifier = @"ItemsVCCell";
     self.perColor = [UIColor colorWithRed:205/255.00 green:185/255.00 blue:130/255.00 alpha:1];
     self.perGrayColor = [UIColor colorWithRed:230/255.00 green:230/255.00 blue:230/255.00 alpha:1];
     self.screenSize = [UIScreen mainScreen].bounds.size;
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
     [self.collectionView registerClass:[ItemsVCCell class] forCellWithReuseIdentifier:reuseIdentifier];
@@ -51,11 +49,6 @@ static NSString * const reuseIdentifier = @"ItemsVCCell";
     
     
     self.collectionView.backgroundColor = [UIColor whiteColor];
-//    UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
-//    flowLayout.itemSize = CGSizeMake(70, 70);
-//    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-//    //    flowLayout.sectionInset = UIEdgeInsetsMake(0, 2, 0, 0);
-//    self.collectionView.collectionViewLayout = flowLayout;
     
     [self setHeader];
 }
@@ -280,7 +273,7 @@ static NSString * const reuseIdentifier = @"ItemsVCCell";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
+
     if (self.ItemsArrResouce.count > 0) {
         return self.ItemsArrResouce.count;
     }else

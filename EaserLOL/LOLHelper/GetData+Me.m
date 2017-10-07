@@ -14,7 +14,7 @@
 
 static NSManagedObjectContext * parentContext;
 
-NSMutableString * finishNum = @"0";
+NSString * finishNum = @"0";
 
 @implementation GetData (Me)
 
@@ -142,7 +142,7 @@ NSMutableString * finishNum = @"0";
             }
         }];
         
-        finishNum = [NSMutableString stringWithFormat:@"%d",(int)objectIDs.count];
+        finishNum = [NSString stringWithFormat:@"%d",(int)objectIDs.count];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMatchFinished:) name:@"insertMatch_ENWithData" object:nil];
         for (NSDictionary * dic in objectIDs) {
             [self updateMatchWithListEntity:[parentContext objectWithID:[dic objectForKey:@"objectID"]] gameId:[dic objectForKey:@"gameId"]];
@@ -158,7 +158,7 @@ NSMutableString * finishNum = @"0";
 
 +(void)updateMatchFinished:(NSNotification *)notification
 {
-    finishNum = [NSMutableString stringWithFormat:@"%d", finishNum.intValue - 1];
+    finishNum = [NSString stringWithFormat:@"%d", finishNum.intValue - 1];
     if (finishNum.intValue == 0) {
         [self updateCurrentAccountStats];
 //        NSThread * updateCASThread = [[NSThread alloc] initWithTarget:self selector:@selector(updateCurrentAccountStats) object:NULL];
@@ -442,12 +442,12 @@ NSMutableString * finishNum = @"0";
     [self updateParentContext];
     [parentContext performBlock:^{
         NSArray <NSString *> * matchListPropertyArr = [GetData getPropertyArrFrom:MatchList_EN.class];
-        NSArray <NSString *> * perPropertyArr = [GetData getPropertyArrFrom:Participant_EN.class];
-        NSArray <NSString *> * playerPropertyArr = [GetData getPropertyArrFrom:Player_EN.class];
+//        NSArray <NSString *> * perPropertyArr = [GetData getPropertyArrFrom:Participant_EN.class];
+//        NSArray <NSString *> * playerPropertyArr = [GetData getPropertyArrFrom:Player_EN.class];
         NSArray <NSString *> * matchPropertyArr = [GetData getPropertyArrFrom:Match_EN.class];
-        NSArray <NSString *> * teamPropertyArr = [GetData getPropertyArrFrom:Team_EN.class];
-        NSArray <NSString *> * runePropertyArr = [GetData getPropertyArrFrom:Rune_EN.class];
-        NSArray <NSString *> * masteryPropertyArr = [GetData getPropertyArrFrom:Mastery_EN.class];
+//        NSArray <NSString *> * teamPropertyArr = [GetData getPropertyArrFrom:Team_EN.class];
+//        NSArray <NSString *> * runePropertyArr = [GetData getPropertyArrFrom:Rune_EN.class];
+//        NSArray <NSString *> * masteryPropertyArr = [GetData getPropertyArrFrom:Mastery_EN.class];
 
         NSString * currentAccountID = [NSString stringWithFormat:@"%@", [[GetData getSummonerInfo_EN] objectForKey:@"accountId"]];
         MatchList_EN * list_ENEntity =[parentContext objectWithID:MatchList_ENEntity.objectID];
@@ -598,7 +598,7 @@ NSMutableString * finishNum = @"0";
                     NSMutableDictionary * stats = [NSMutableDictionary dictionaryWithDictionary:[participant objectForKey:@"stats"]];
                     NSMutableArray * runes = [participant objectForKey:@"runes"];
                     NSMutableArray * masteries = [participant objectForKey:@"masteries"];
-                    NSMutableDictionary * timeline = [participant objectForKey:@"timeline"];
+//                    NSMutableDictionary * timeline = [participant objectForKey:@"timeline"];
                     [participant removeObjectForKey:@"stats"];
                     [participant removeObjectForKey:@"runes"];
                     [participant removeObjectForKey:@"masteries"];
@@ -650,8 +650,8 @@ NSMutableString * finishNum = @"0";
                         {
                             NSLog(@"recV is %f parV is %f key is %@ honor is %@", recV, parV, key, [honorConectM objectForKey:key]);
 
-                            CGFloat recV =[((NSString *)obj) floatValue];
-                            CGFloat parV =[[Participant_ENEntity valueForKey:key] floatValue];
+//                            CGFloat recV =[((NSString *)obj) floatValue];
+//                            CGFloat parV =[[Participant_ENEntity valueForKey:key] floatValue];
 
 
                         }

@@ -11,27 +11,27 @@
 @interface GetData (GetGameData)
 
 +(void)updateChampionsBrife_EN;
-+(NSArray *)getChampionsBrife_ENWithTag:(nullable NSString * )tagStr;
-+(NSArray *)getChampionsBrife_ENWithId:(nonnull NSString * )Id;
-+(NSDictionary *)getChampionDetailWithId:(NSString * )ChampionId  andName:(NSString * )ChampionKey;
++(NSArray *_Nullable)getChampionsBrife_ENWithTag:(nullable NSString * )tagStr;
++(NSArray *_Nullable)getChampionsBrife_ENWithId:(nonnull NSString * )Id;
++(NSDictionary *_Nullable)getChampionDetailWithId:(NSString * _Nullable )ChampionId  andName:(NSString * _Nullable )ChampionKey;
 +(nonnull NSDictionary *)getChampPicDicImageName_EN:(nonnull NSString *)imageName;
 
-+(NSURL *)getChampionSkinURLWithName_EN:(NSString *)ChampionKey Num:(NSString *)num;
-+(NSURL *)getChampionLoadingArtURLWithName_EN:(NSString *)ChampionKey Num:(NSString *)num;
-+(NSURL *)getChampionPassiveSkillURLWithSkillName_EN:(NSString *)SkillName;
-+(NSURL *)getChampionActiveSkillURLWithSkillName_EN:(NSString *)SkillName;
++(NSURL * _Nullable)getChampionSkinURLWithName_EN:(NSString * _Nullable)ChampionKey Num:(NSString * _Nullable)num;
++(NSURL * _Nullable)getChampionLoadingArtURLWithName_EN:(NSString * _Nullable)ChampionKey Num:(NSString * _Nullable)num;
++(NSURL * _Nullable)getChampionPassiveSkillURLWithSkillName_EN:(NSString * _Nullable)SkillName;
++(NSURL * _Nullable)getChampionActiveSkillURLWithSkillName_EN:(NSString * _Nullable)SkillName;
 
 
 
 +(void)updateItem_EN;
-+(NSArray *)getItem_ENWithId:(nullable NSString *)identifyty tag:(nullable NSString *) tag map:(nullable NSString *)map;
-+(NSURL *)getItemSquareWithImageName_EN:(NSString *)imageName;
++(NSArray * _Nullable)getItem_ENWithId:(nullable NSString *)identifyty tag:(nullable NSString *) tag map:(nullable NSString *)map;
++(NSURL * _Nullable)getItemSquareWithImageName_EN:(NSString * _Nullable)imageName;
 +(nonnull NSDictionary *)getItemPicDicImageName_EN:(nonnull NSString *)imageName;
 
 +(void)updateMasteryData_EN;
 +(nonnull NSDictionary *)getMasteryDataPicDicImageName_EN:(nonnull NSString *)imageName;
-+(NSArray*)getMasteryData_ENWithId:(nullable NSString *)identifyty masteryTree:(nullable NSString *)tree;
++(NSArray* _Nullable)getMasteryData_ENWithId:(nullable NSString *)identifyty masteryTree:(nullable NSString *)tree;
 +(void)updateRuneData_EN;
 +(nonnull NSDictionary *)getRuneDataPicDicImageName_EN:(nonnull NSString *)imageName;
-+(NSArray*)getRuneData_ENWithId:(nullable NSString *)identifyty tags:(nullable NSString *)tag tier:(nullable NSString *)tier type:(nullable NSString *)type;
++(NSArray* _Nullable)getRuneData_ENWithId:(nullable NSString *)identifyty tags:(nullable NSString *)tag tier:(nullable NSString *)tier type:(nullable NSString *)type;
 @end

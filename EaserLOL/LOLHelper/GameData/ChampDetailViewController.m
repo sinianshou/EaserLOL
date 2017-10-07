@@ -138,7 +138,6 @@
         [self.SkinsView reloadData];
         
         
-//        [self.loreWebView loadHTMLString:self.champDetailModel.lore baseURL:[NSURL URLWithString:@"baidu"]];
         ///////////////////////////////设置内容，这里包装一层div，用来获取内容实际高度（像素），htmlcontent是html格式的字符串//////////////
         NSString * allytipscontent = [NSString stringWithFormat:@"<div id=\"webview_content_wrapper\">%@</div>", self.champDetailModel.allytips];
         [self.allytipsWebView loadHTMLString:allytipscontent baseURL:nil];
@@ -166,7 +165,6 @@
     CGRect contentRect = [self.titleName.attributedText boundingRectWithSize:titleNameFrame.size options:NSStringDrawingUsesLineFragmentOrigin context:nil];
     titleNameFrame = CGRectMake(titleNameFrame.origin.x, titleNameFrame.origin.y, titleNameFrame.size.width, contentRect.size.height);
     self.titleName.frame = titleNameFrame;
-//    self.titleName.frame = CGRectMake(self.championIcon.frame.origin.x + self.championIcon.frame.size.width + 10, self.BGP.frame.size.height, screenSize.width-(self.championIcon.frame.origin.x + self.championIcon.frame.size.width + 10), 45);
     
     self.statsView.frame = CGRectMake(0, self.titleName.frame.origin.y + self.titleName.frame.size.height, screenSize.width, screenSize.width/2);
     
@@ -183,7 +181,6 @@
     [self layoutInfoView];
     [self layoutStatsView];
     [self layoutSkillsView];
-//    CGFloat hei = self.SkinsView.frame.origin.y + self.SkinsView.frame.size.height +10>screenSize.height?self.SkinsView.frame.origin.y + self.SkinsView.frame.size.height +10:screenSize.height;
     CGFloat hei = self.loreWebView.frame.origin.y + self.loreWebView.frame.size.height +10>screenSize.height?self.loreWebView.frame.origin.y + self.loreWebView.frame.size.height +10:screenSize.height;
     
     
@@ -305,21 +302,11 @@
  #pragma mark - WebView
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-//    //获取页面高度（像素）
-//    NSString * clientheight_str = [webView stringByEvaluatingJavaScriptFromString: @"document.body.offsetHeight"];
-//    float clientheight = [clientheight_str floatValue];
-//    //设置到WebView上
-//    webView.bounds = CGRectMake(0, 0, self.view.frame.size.width, clientheight);
-//    //获取WebView最佳尺寸（点）
-//    CGSize frame = [webView sizeThatFits:webView.frame.size];
     
     //获取内容实际高度（像素）
     NSString * height_str= [webView stringByEvaluatingJavaScriptFromString: @"document.getElementById('webview_content_wrapper').offsetHeight + parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin-top'))  + parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin-bottom'))"];
     float height = [height_str floatValue];
     
-    
-    //内容实际高度（像素）* 点和像素的比
-//    height = height * frame.height / clientheight;
     //再次设置WebView高度（点）
     webView.bounds = CGRectMake(0, 0, self.view.frame.size.width, height);
     

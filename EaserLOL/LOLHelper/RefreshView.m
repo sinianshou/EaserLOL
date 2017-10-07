@@ -19,6 +19,8 @@
 {
     self = [super init];
     
+   
+    
     UIImageView * imageV = [[UIImageView alloc] init];
     imageV.bounds = CGRectMake(0, 0, 27, 31);
     imageV.image = [UIImage imageNamed:@"personal_refresh_loading21"];

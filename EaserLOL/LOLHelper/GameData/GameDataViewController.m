@@ -47,8 +47,6 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
     [self.collectionView registerClass:[ChampionsCollectionCell class] forCellWithReuseIdentifier:reuseIdentifier];
@@ -59,11 +57,9 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
     UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.itemSize = CGSizeMake(70, 70);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-//    flowLayout.sectionInset = UIEdgeInsetsMake(0, 2, 0, 0);
     self.collectionView.collectionViewLayout = flowLayout;
     [self loadChampionsBriefDataFinishedWithTag:NULL];
     
-//    [self performSelectorOnMainThread:@selector(loadChampionsBriefDataFinishedWithTag:) withObject:NULL waitUntilDone:YES];
     if (!(self.dataSourceArr.count > 0)) {
         [self loadChampionsBriefData];
     }
@@ -228,7 +224,6 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
         // 创建newInfoViewController对象
         ChampDetailViewController * ChampDetailController = [sb instantiateViewControllerWithIdentifier:@"ChampDetailViewController"];
         ChampDetailController.modalPresentationStyle = UIModalPresentationCustom;
-//        [ChampDetailController layoutPersubviews];
         
         self.animator = [[MymagicMove alloc] initWithModalViewController:ChampDetailController];
         
@@ -259,7 +254,6 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
     if (self.dataSourceArr.count > 0) {
         return self.dataSourceArr.count;
     }else
@@ -284,14 +278,6 @@ static NSString * const reuseIdentifier = @"ChampionsCollectionCell";
         cell.championId = championsBrief_EN.id;
         cell.championName = championsBrief_EN.name;
         cell.championKey = championsBrief_EN.key;
-    }else
-    {
-        UIImage * championIcon = [UIImage imageNamed:@"default_head"];
-        
-        [cell.championIcon setImage:championIcon NameKey:NULL inCache:NULL named:NULL WithContentsOfFile:NULL cacheFromURL:NULL];
-        cell.briefLa.text = @"1234";
-        cell.championId = [NSString stringWithFormat:@"62"];
-        cell.championName = @"Wukong";
     }
     
     return cell;

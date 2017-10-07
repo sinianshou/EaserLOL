@@ -17,7 +17,6 @@
 
 @property (strong, nonatomic) NSString * cachesDir;
 @property (assign, nonatomic) NSString * availablePoint;
-//@property (assign, nonatomic) CGFloat contentHeight;
 @property (assign, nonatomic) CGSize screenSize;
 @property (strong, nonatomic) UIImageView * nav_bg;
 @property (strong, nonatomic) UIView * headerButtonsV;
@@ -95,8 +94,6 @@
 
 -(void)checkAvailablePoint
 {
-//    int p = self.availablePoint.intValue;
-//    p -= (self.page01.totalPoint.intValue + self.page02.totalPoint.intValue + self.page03.totalPoint.intValue);
     self.availablePoint = [NSString stringWithFormat:@"%d",30- (self.page01.totalPoint.intValue + self.page02.totalPoint.intValue + self.page03.totalPoint.intValue)];
     NSLog(@" availablePoint is %@ page01.totalPoint is %@ page02.totalPoint is %@ page03.totalPoint is %@", self.availablePoint, self.page01.totalPoint, self.page02.totalPoint, self.page03.totalPoint);
     [self.page01 updateAvailablePoint:self.availablePoint];
@@ -196,7 +193,6 @@
 
 -(void)scrollIntoMasterPage:(UIButton *)button
 {
-//     NSArray <NSString *>* titlesArr = [NSArray arrayWithObjects:@"Ferocity:0", @"Cunning:0", @"Resolve:0", @"Points:30", nil];
     [self.headerButtonsV.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[UIButton class]] && ((UIButton *)obj).selected) {
             ((UIButton *)obj).selected = NO;

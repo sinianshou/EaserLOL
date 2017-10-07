@@ -74,7 +74,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
     self.totalPoint = [NSString stringWithFormat:@"0"];
     self.availablePoint = [NSString stringWithFormat:@"30"];
     self.buttonIndexDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects:@"0", @"1", nil], @"600", [NSArray arrayWithObjects:@"2", @"3", @"4", nil], @"705", [NSArray arrayWithObjects:@"5", @"6", nil], @"1206", [NSArray arrayWithObjects:@"7", @"8", @"9", nil], @"1311", [NSArray arrayWithObjects:@"10", @"11", nil], @"1812", [NSArray arrayWithObjects:@"12", @"13", @"14", nil], @"1917", nil];
-//    [NSArray arrayWithObjects:[NSArray arrayWithObjects:@"0", @"1", nil], [NSArray arrayWithObjects:@"2", @"3", @"4", nil], [NSArray arrayWithObjects:@"5", @"6", nil], [NSArray arrayWithObjects:@"7", @"8", @"9", nil], [NSArray arrayWithObjects:@"10", @"11", nil], [NSArray arrayWithObjects:@"12", @"13", @"14", nil], nil];
     
     NSArray <MasteryData_EN *>* masteriesResultArr = [masteriesArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         NSNumber * i1 = [NSNumber numberWithInt:((MasteryData_EN *)obj1).id.intValue];
@@ -85,7 +84,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
         
     }];
     
-//    MasteryButton __block * lastButton = nil;
     self.buttonsArrM = [NSMutableArray array];
     [masteriesResultArr enumerateObjectsUsingBlock:^(MasteryData_EN * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         MasteryButton * button = [[MasteryButton alloc] initWithMasteryData_EN:obj];
@@ -113,7 +111,7 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
             button.center = CGPointMake(restX + button.bounds.size.width/2, restY + button.bounds.size.height/2);
         }
         [button addTarget:self action:@selector(showButtonDetail:) forControlEvents:UIControlEventTouchUpInside];
-//        lastButton =button;
+
         [self.buttonsArrM addObject:button];
         button.buttonIndex = [NSString stringWithFormat:@"%d", (int)[self.buttonsArrM indexOfObject:button]];
         [self addSubview:button];
@@ -129,11 +127,7 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
     }
     self.lockColor = [UIColor colorWithRed:205/255.00 green:185/255.00 blue:130/255.00 alpha:1];
     [self updateMasteriesButtonsStates];
-//    [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if ([obj isKindOfClass:[MasteryButton class]]) {
-//            [((MasteryButton *) obj) didSelectedWithColor:self.perColor];
-//        }
-//    }];
+
     [self updateButtonDetailV];
     [self addTarget:self action:@selector(dispearButtonDetail) forControlEvents:UIControlEventTouchUpInside];
     return self;
@@ -169,7 +163,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
 -(void)updateButtonDetailButtonsStates
 {
     MasteryButton * masteryButton = [self.buttonsArrM objectAtIndex:self.buttonDetailV.buttonIndex.integerValue];
-//    self.buttonDetailV.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
     if (CGColorEqualToColor(masteryButton.layer.borderColor, self.perColor.CGColor)) {
         if (self.availablePoint.intValue <= 0 || [masteryButton.currentLe isEqualToString:masteryButton.masteryData.ranks]) {
             self.buttonDetailV.addButton.enabled = NO;
@@ -228,12 +221,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
 -(void)dispearButtonDetail
 {
     if (!self.buttonDetailV.hidden) {
-//        [UIView animateWithDuration:0.5 animations:^{
-//            self.buttonDetailV.alpha = 0;
-//            self.buttonDetailV.transform = CGAffineTransformMakeScale(0.5, 0.5);
-//        } completion:^(BOOL finished) {
-//            self.buttonDetailV.hidden = YES;
-//        }];
         
         [UIView animateWithDuration:0.5
                               delay:0
@@ -300,7 +287,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
         totalP += button.currentLe.intValue;
         self.totalPoint = [NSString stringWithFormat:@"%d", totalP];
         [self.buttonDetailV resetButtonDetailVWithMasteryButton:button];
-//        [self updateMasteriesButtonsStates];
     }
     
     
@@ -314,8 +300,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
     totalP += button.currentLe.intValue;
     self.totalPoint = [NSString stringWithFormat:@"%d", totalP];
     [self.buttonDetailV resetButtonDetailVWithMasteryButton:button];
-//    [self updateButtonDetailButtonsStates];
-//    [self updateMasteriesButtonsStates];
 }
 -(void)MasteryButtonLevelToMax
 {
@@ -363,8 +347,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
     totalP += button.currentLe.intValue;
     self.totalPoint = [NSString stringWithFormat:@"%d", totalP];
     [self.buttonDetailV resetButtonDetailVWithMasteryButton:button];
-    //    [self updateButtonDetailButtonsStates];
-//    [self updateMasteriesButtonsStates];
     
 }
 -(void)MasteryButtonLevelToMin
@@ -376,8 +358,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
     totalP += button.currentLe.intValue;
     self.totalPoint = [NSString stringWithFormat:@"%d", totalP];
     [self.buttonDetailV resetButtonDetailVWithMasteryButton:button];
-    //    [self updateButtonDetailButtonsStates];
-//    [self updateMasteriesButtonsStates];
 }
 
 
@@ -387,8 +367,6 @@ typedef NS_ENUM(NSUInteger, MasteryButtonStates) {
         [obj levelToMin];
     }];
     self.totalPoint = [NSString stringWithFormat:@"0"];
-//    self.availablePoint = [NSString stringWithFormat:@"30"];
-//    [self updateMasteriesButtonsStates];
 }
 
 -(void)layoutSubviews

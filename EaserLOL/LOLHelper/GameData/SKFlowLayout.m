@@ -51,17 +51,6 @@
 			// 用可视区域的中心减去当前单元控件的中心，得到该单元格与中心的距离
 			CGFloat distance = CGRectGetMidX(visibleRect)
 				- attributes.center.x;
-//            // 如果该单元格与中心小于指定值，就对该控件进行放大
-//            if (ABS(distance) < ACTIVE_DISTANCE)
-//            {
-//                // 计算放大比例：该单元格与中心的距离越大，放大比例越小
-//                CGFloat zoom = 1 + ZOOM_FACTOR *
-//                    (1 - ABS(distance / ACTIVE_DISTANCE));
-//                // 设置对单元格在X方向、Y方向上进行放大zoom倍
-//                attributes.transform3D = CATransform3DMakeScale(
-//                    zoom, zoom, 1.0);
-//                attributes.zIndex = 1;
-//            }
             
             // 如果该单元格与中心小于指定值，就对该控件进行放大
             CGFloat zoom =(1-ABS(ZOOM_FACTOR*distance/ACTIVE_DISTANCE)) < ZOOM_FACTOR?ZOOM_FACTOR:(1-ABS(ZOOM_FACTOR*distance/ACTIVE_DISTANCE));

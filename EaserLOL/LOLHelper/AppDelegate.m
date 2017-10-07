@@ -175,6 +175,11 @@
 #pragma mark - cycleButtonMethods
 -(void)loginUsername
 {
+    NSString * str = [NSString stringWithFormat:@"username %@", self.OverallControlls.logInput.text];
+    
+    if (str == [NSString stringWithFormat:@"username "] || self.OverallControlls.logInput.text == NULL) {
+        [self.OverallControlls.logInput setText:@"Cotosaurio"];
+    }
     NSLog(@"username is %@", self.OverallControlls.logInput.text);
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     [self.OverallControlls changeIntoLoginputMode];
@@ -230,8 +235,9 @@
 -(void)setCircleMenuCenterImg
 {
     NSString * cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    NSString * __block profileIconPath = nil;
-    UIImage * __block profileIcon = nil;
+    NSString * profileIconNameKey = nil;
+    NSString * profileIconPath = nil;
+    UIImage * profileIcon = nil;
     NSURL * profileIconURL = nil;
     NSLog(@"Origin is %ld",[[NSUserDefaults standardUserDefaults] stringForKey:@"origin_preference"].integerValue);
     switch ([[NSUserDefaults standardUserDefaults] stringForKey:@"origin_preference"].integerValue) {
@@ -240,7 +246,8 @@
             break;
             
         case 20:
-            profileIconPath = [cachesDir stringByAppendingPathComponent:[NSString stringWithFormat:@"profileIcon_EN_%@.png", [[GetData getSummonerInfo_EN] objectForKey:@"profileIconId"]]];
+            profileIconNameKey = [NSString stringWithFormat:@"profileIcon_EN_%@.png", [[GetData getSummonerInfo_EN] objectForKey:@"profileIconId"]];
+            profileIconPath = [cachesDir stringByAppendingPathComponent:profileIconNameKey];
             profileIcon = [UIImage imageWithContentsOfFile:profileIconPath];
             profileIconURL = [GetData getProfileIconURL_EN];
             break;
@@ -250,7 +257,8 @@
     }
     
     NSLog(@"profileIconPath is %@", profileIconPath);
-    [self.circleMenu.centerButton setImageWithContentsOfFile:profileIconPath cacheFromURL:profileIconURL forState:UIControlStateNormal];
+//    [self.circleMenu.centerButton setImageWithContentsOfFile:profileIconPath cacheFromURL:profileIconURL forState:UIControlStateNormal];
+    [self.circleMenu.centerButton setImage:NULL NameKey:profileIconNameKey inCache:NULL named:NULL WithContentsOfFile:profileIconPath cacheFromURL:profileIconURL forState:UIControlStateNormal];
 }
 
 -(void)registerDefaultsSettingBundle

@@ -32,18 +32,23 @@
                                                  {
                                                      NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
                                                      [data writeToFile:APIKeysFilePath atomically:YES];
+                                                     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                                      NSString * APIKeyspath = [NSString stringWithFormat:@"APIKeys.plist updated，path is %@", APIKeysFilePath];
-                                                     NSLog(@"%@", APIKeyspath);
+                                                     NSLog(@"APIKeys Data is %@,path is %@", jsonString, APIKeyspath);
                                                      [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:APIKeyspath userInfo:NULL];
                                                  }
-                                                 
-                                                 
-                                                 //                                                 [self performSelectorOnMainThread:@selector(showWeatherOfLocation) withObject:NULL waitUntilDone:YES];
-                                                 
                                              }];
     [dataTask resume];
+    
+//    NSData * blundData = [NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@%@",[[NSBundle mainBundle]resourcePath],@"/APIKeys.plist"]];
+//    NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
+//    [blundData writeToFile:APIKeysFilePath atomically:YES];
+//    NSString *jsonString = [[NSString alloc] initWithData:blundData encoding:NSUTF8StringEncoding];
+//    NSString * APIKeyspath = [NSString stringWithFormat:@"APIKeys.plist updated，path is %@", APIKeysFilePath];
+//    NSLog(@"APIKeys Data is %@,path is %@", jsonString, APIKeyspath);
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:APIKeyspath userInfo:NULL];
 }
-+(id)getDataWithTag:(NSInteger)tag
++(nullable id)getDataWithTag:(NSInteger)tag
 {
     NSMutableArray * datas;
     switch (tag) {
@@ -77,7 +82,7 @@
     NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
     NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:APIKeysFilePath];
     NSDictionary * APIKeys_CN = [easerAPIKey objectForKey:@"APIKeys_CN"];
-    NSDictionary * CNAPIKeys = [APIKeys_CN objectForKey:@"OpenAPIKey_CN"];
+//    NSDictionary * CNAPIKeys = [APIKeys_CN objectForKey:@"OpenAPIKey_CN"];
     NSDictionary * CNVideoAPIKey = [APIKeys_CN objectForKey:@"VideoAPIKey_CN"];
     NSString *stringUrl = [NSString stringWithFormat:@"http://infoapi.games-cube.com/GetAuthors"];
     NSString * strUrl = [stringUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
@@ -111,7 +116,7 @@
     NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
     NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:APIKeysFilePath];
     NSDictionary * APIKeys_CN = [easerAPIKey objectForKey:@"APIKeys_CN"];
-    NSDictionary * CNAPIKeys = [APIKeys_CN objectForKey:@"OpenAPIKey_CN"];
+//    NSDictionary * CNAPIKeys = [APIKeys_CN objectForKey:@"OpenAPIKey_CN"];
     NSDictionary * CNVideoAPIKey = [APIKeys_CN objectForKey:@"VideoAPIKey_CN"];
     int page = 1;
     NSString *stringUrl = [NSString stringWithFormat:@"http://infoapi.games-cube.com/GetNewstVideos?p={%d}",page];
@@ -147,7 +152,7 @@
 {
     NSMutableDictionary * results = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
     NSArray * subResults = [results valueForKey:@"data"];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:[NSString stringWithFormat:@"Wait a second, start to load %@", entityName] userInfo:NULL];
     for (NSDictionary * subResult in subResults) {
         if ([entityName  isEqual: @"ChineseNewestVideos"]) {
             [self insertChineseNewestVideos:entityName WithDic:subResult];
@@ -156,36 +161,39 @@
             [self insertChineseAuthors:entityName WithDic:subResult];
         }
     }
-    
-    
-    NSLog(@"数据更新完了");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:[NSString stringWithFormat:@"Finish uploading %@", entityName] userInfo:NULL];
 
 }
 
-+(void)insertEntity:(NSString *) entityName withDic:(NSDictionary *) dic
-{
-    NSManagedObjectContext * context = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer.viewContext;
-    
-    //设置各value
-    NSString * fullSelectorString = [NSString stringWithFormat:@"insert%@WithDic:",entityName];
-    SEL priSelector = NSSelectorFromString(fullSelectorString);
-    if ([self respondsToSelector:priSelector]) {
-        [self performSelector:priSelector withObject:dic];
-    }else
-    {
-        NSLog(@"method %@ does not exist",fullSelectorString);
-    }
-    
-    NSError * err;
-    if ([context save:&err]) {
-        NSLog(@"写入成功：%@", entityName);
-        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSLog(@"路径是：%@",docPath);
-    }else
-    {
-        [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
-    }
-}
+//+(void)insertEntity:(NSString *) entityName withDic:(NSDictionary *) dic
+//{
+//    NSManagedObjectContext * context = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer.viewContext;
+//
+//    //设置各value
+//    NSString * fullSelectorString = [NSString stringWithFormat:@"insert%@WithDic:",entityName];
+//    SEL priSelector = NSSelectorFromString(fullSelectorString);
+//    if ([self respondsToSelector:priSelector]) {
+//        [self performSelector:priSelector withObject:dic];
+//
+////        IMP imp = [self methodForSelector:priSelector];
+////        void (* func)(id, SEL, NSDictionary *) = (void *) imp;
+////        func(self, priSelector, dic);
+//
+//    }else
+//    {
+//        NSLog(@"method %@ does not exist",fullSelectorString);
+//    }
+//
+//    NSError * err;
+//    if ([context save:&err]) {
+//        NSLog(@"写入成功：%@", entityName);
+//        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//        NSLog(@"路径是：%@",docPath);
+//    }else
+//    {
+//        [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
+//    }
+//}
 
 +(void)insertChineseAuthors:(NSString *) entityName WithDic:(NSDictionary *) author
 {

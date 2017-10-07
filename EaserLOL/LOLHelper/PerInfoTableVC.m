@@ -50,9 +50,6 @@
                 battleDetailVC = [[BattleDetailVC alloc] init];
                 NSArray * gameArr = [GetData getMatchsWithGameId_EN:matchListResult.gameId];
                 battleDetailVC.MatchResouce = gameArr.firstObject;
-                NSMutableDictionary * isa = battleDetailVC.MatchResouce.goldEventsDicM;
-                NSMutableDictionary *  isb = ((Match_EN *)gameArr.firstObject).goldEventsDicM;
-                NSLog(@"a is %@, b is %@", NSStringFromClass(isa.class), NSStringFromClass(isb.class));
                 [self presentViewController:battleDetailVC animated:YES completion:nil];
             }
             break;
@@ -142,8 +139,8 @@
 -(PerInfoCell *)configueStatsTypeCell:(PerInfoCell *)cell atIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView
 {
     MatchList_EN * matchListResult = nil;
-    Participant_EN * participantResult = nil;
-    NSMutableDictionary * resultDic = nil;
+//    Participant_EN * participantResult = nil;
+//    NSMutableDictionary * resultDic = nil;
     NSMutableDictionary * dic = nil;
     NSArray * arr04 = [NSArray arrayWithObjects:@"0",@"None", nil];
     NSArray * arr05 = [NSArray arrayWithObjects:@"50%",@"500", nil];
@@ -262,7 +259,7 @@
     if (cell.celltype == MatchListCellType) {
         self.cellIdentifier = cell.reuseIdentifier;
     }
-    NSString * s = cell.reuseIdentifier;
+//    NSString * s = cell.reuseIdentifier;
     [cell configueStatsCellWithDic:dic atIndexPath:indexPath];
     
     self.tableView.estimatedRowHeight = cell.lastHeight;
@@ -439,7 +436,7 @@
     perInfoHeaderImgV.translatesAutoresizingMaskIntoConstraints =NO;
     
     NSArray * arr = [NSArray arrayWithObjects:@"Match", @"Ability", nil];
-    MenuControlH * perInfoMenuControl = [MenuControlH menuControlHWithNormalTitles:arr SelectedTitles:nil Images:nil];
+    MenuControlH * perInfoMenuControl = (MenuControlH *) [MenuControlH menuControlHWithNormalTitles:arr SelectedTitles:nil Images:nil];
     perInfoMenuControl.perViewName = @"perInfoMenuControl";
     perInfoMenuControl.translatesAutoresizingMaskIntoConstraints =NO;
     perInfoMenuControl.backgroundColor = [UIColor whiteColor];

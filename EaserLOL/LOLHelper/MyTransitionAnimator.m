@@ -61,7 +61,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
     
     if (!fromViewController.isBeingDismissed) {
         
-        CGRect startRect;
+        CGRect startRect = CGRectZero;
 
         [[transitionContext containerView] addSubview:toViewController.view];
 
@@ -77,7 +77,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
                                    0,
                                    CGRectGetWidth(toViewController.view.bounds),
                                    CGRectGetHeight(toViewController.view.bounds));
-        } else if (self.direction == ZFModalTransitonDirectionRight) {
+        }else if (self.direction == ZFModalTransitonDirectionRight) {
             startRect = CGRectMake(CGRectGetWidth(toViewController.view.frame),
                                    0,
                                    CGRectGetWidth(toViewController.view.bounds),
@@ -104,13 +104,9 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
         
         [[transitionContext containerView] bringSubviewToFront:fromViewController.view];
         
-//        if (![self isIOS8]) {
-//            toViewController.view.layer.transform = CATransform3DScale(toViewController.view.layer.transform, self.behindViewScale, self.behindViewScale, 1);
-//        }
-        
         toViewController.view.alpha = self.behindViewAlpha;
         
-        CGRect endRect;
+        CGRect endRect = CGRectZero;
         
         if (self.direction == ZFModalTransitonDirectionBottom) {
             endRect = CGRectMake(0,
@@ -128,9 +124,6 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
                                  CGRectGetWidth(fromViewController.view.frame),
                                  CGRectGetHeight(fromViewController.view.frame));
         }
-        
-//        CGPoint transformedPoint = CGPointApplyAffineTransform(endRect.origin, fromViewController.view.transform);
-//        endRect = CGRectMake(transformedPoint.x, transformedPoint.y, endRect.size.width, endRect.size.height);
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                               delay:0
@@ -327,7 +320,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
     
     toVC.view.alpha = self.behindViewAlpha;
     
-    CGRect endRect;
+    CGRect endRect = CGRectZero;
     
     if (self.direction == ZFModalTransitonDirectionBottom) {
         endRect = CGRectMake(0,

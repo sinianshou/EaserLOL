@@ -71,6 +71,7 @@
 		EBAFBBE61F25964F008759C9 /* GameDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAFBBE51F25964F008759C9 /* GameDataViewController.m */; };
 		EBAFBBE91F25AB34008759C9 /* ChampionsCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAFBBE81F25AB34008759C9 /* ChampionsCollectionCell.m */; };
 		EBAFBBEC1F25BB48008759C9 /* GetData+GetGameData.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAFBBEB1F25BB48008759C9 /* GetData+GetGameData.m */; };
+		EBB236A11F8517CA00A325BE /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBB236A01F8517B300A325BE /* APIKeys.plist */; };
 		EBB7F7301F553824005D936A /* UIView+Fire.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB7F72B1F553737005D936A /* UIView+Fire.m */; };
 		EBB7F7311F553824005D936A /* PersonalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB7F72E1F553812005D936A /* PersonalTransitionAnimator.m */; };
 		EBB7F7341F553BD8005D936A /* fire002.sks in Resources */ = {isa = PBXBuildFile; fileRef = EBB7F7321F553BC1005D936A /* fire002.sks */; };
@@ -223,6 +224,7 @@
 		EBAFBBE81F25AB34008759C9 /* ChampionsCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChampionsCollectionCell.m; sourceTree = "<group>"; };
 		EBAFBBEA1F25BB48008759C9 /* GetData+GetGameData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GetData+GetGameData.h"; path = "GameData/GetData+GetGameData.h"; sourceTree = "<group>"; };
 		EBAFBBEB1F25BB48008759C9 /* GetData+GetGameData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "GetData+GetGameData.m"; path = "GameData/GetData+GetGameData.m"; sourceTree = "<group>"; };
+		EBB236A01F8517B300A325BE /* APIKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 		EBB7F72A1F553737005D936A /* UIView+Fire.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Fire.h"; sourceTree = "<group>"; };
 		EBB7F72B1F553737005D936A /* UIView+Fire.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Fire.m"; sourceTree = "<group>"; };
 		EBB7F72E1F553812005D936A /* PersonalTransitionAnimator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalTransitionAnimator.m; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 		EB6F25C91ED94759009C5918 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EBB236A01F8517B300A325BE /* APIKeys.plist */,
 				EB38E4901F8389C200F650D3 /* PageView.html */,
 				EB0CB47E1F1B5F2300E6D0B9 /* LOLHelper.xcdatamodeld */,
 				EB6F25CA1ED94759009C5918 /* main.m */,
@@ -616,6 +619,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBB236A11F8517CA00A325BE /* APIKeys.plist in Resources */,
 				EB38E4911F8389DB00F650D3 /* PageView.html in Resources */,
 				EBB7F7341F553BD8005D936A /* fire002.sks in Resources */,
 				EBB7F7351F553BD8005D936A /* fireBurn.png in Resources */,
@@ -847,7 +851,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2QG6YWQHVH;
@@ -856,6 +859,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Easer.LOLHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 			};
 			name = Debug;
 		};
@@ -863,7 +867,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2QG6YWQHVH;
@@ -872,6 +875,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Easer.LOLHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 			};
 			name = Release;
 		};

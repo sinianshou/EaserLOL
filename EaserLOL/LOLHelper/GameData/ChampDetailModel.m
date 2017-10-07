@@ -112,14 +112,5 @@
     self.allytips = [NSString stringWithFormat:@"Allytips:<br>%@", enemytipsM];
 }
 
-//-(void)configueENSkillnameKey:(NSString **)SkillnameKey Skillpath:(NSString **)Skillpath PSkillURL:(NSURL **)PSkillURL PSkilltext:(NSString **)PSkilltext fromDic:(NSDictionary *) dic
-//{
-//    NSString * PSkillFullName = [(NSDictionary *)[dic  objectForKey:@"image"] objectForKey:@"full"];
-//    NSString * STR =[NSString stringWithFormat:@"EN_%@", PSkillFullName];
-//    *SkillnameKey = STR;
-//    *Skillpath = [self.cachesDir stringByAppendingPathComponent:self.PSkillnameKey];;
-//    *PSkillURL = [GetData getChampionPassiveSkillURLWithSkillName_EN:PSkillFullName];
-//    *PSkilltext = [dic objectForKey:@"description"];
-//}
 
 @end

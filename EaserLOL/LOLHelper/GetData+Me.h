@@ -11,13 +11,13 @@
 @interface GetData (Me)
 
 
-@property (readonly ,strong, nonatomic) NSManagedObjectContext *bgObjectContext;
+//@property (readonly ,strong, nonatomic) NSManagedObjectContext *bgObjectContext;
 //+(id)getCNMatchList;
 
 +(void)updateUserName_CN:(NSString *)userName;
 +(void)updateUserName_EN:(NSString *)userName;
 
-+(NSDictionary *)getSummonerInfo_CN;
+//+(NSDictionary *)getSummonerInfo_CN;
 +(NSDictionary *)getSummonerInfo_EN;
 +(NSDictionary *)getSummonerPicDic_EN;
 +(NSArray *)getSummonerEntityArr_EN;

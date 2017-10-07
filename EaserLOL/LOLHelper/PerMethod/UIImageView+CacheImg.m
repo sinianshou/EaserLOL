@@ -56,7 +56,6 @@
                                     if (image != nil && cacheDic != nil && [cacheDic objectForKey:key] != nil) {
                                         [cacheDic setObject:image forKey:key];
                                         NSLog(@" cacheDic count is %d", (int)cacheDic.count);
-                                        //        [self addImage:image NameKey:key toCacheDIc:cacheDic];
                                     }
                                 }else
                                 {
@@ -76,68 +75,6 @@
     if (image != nil && cacheDic != nil && [cacheDic objectForKey:key] == nil) {
         [cacheDic setObject:image forKey:key];
         NSLog(@" cacheDic count is %d", (int)cacheDic.count);
-//        [self addImage:image NameKey:key toCacheDIc:cacheDic];
-    }
-}
--(void)addImage:(nullable UIImage *)image NameKey:(nullable NSString *)key toCacheDIc:(nullable NSMutableDictionary *)cacheDic
-{
-    if (image && cacheDic && key) {
-        [cacheDic setObject:image forKey:key];
-    }
-}
--(void)setImage:(nullable UIImage *) img WithContentsOfFile:(nullable NSString *)imgPath cacheFromURL:(nullable NSURL *)url
-{
-    UIImage * image = img;
-    if (image != nil) {
-        [self setImage:image];
-    }else
-    {image = [UIImage imageWithContentsOfFile:imgPath];}
-    if (image != nil) {
-        [self setImage:image];
-    }else if(url != nil)
-    {
-        NSURLSession * session = [NSURLSession sharedSession];
-        NSURLSessionDataTask * dataTask = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if (error) {
-                [NSException raise:[NSString stringWithFormat:@"%@网络通信错误",imgPath] format:@"错误是%@",[error localizedDescription]];
-            }else
-            {
-                [data writeToFile:imgPath atomically:YES];
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    UIImage * img = [UIImage imageWithContentsOfFile:imgPath];
-                    if (img != nil) {
-                        [self setImage:img];
-                    }
-                }];
-            }
-        }];
-        [dataTask resume];
-    }
-}
-
--(void)setImageWithContentsOfFile:(nullable NSString *)imgPath cacheFromURL:(nullable NSURL *)url
-{
-    UIImage * image = [UIImage imageWithContentsOfFile:imgPath];
-    if (image != nil) {
-        [self setImage:image];
-    }else if(url != nil)
-    {
-        NSURLSession * session = [NSURLSession sharedSession];
-        NSURLSessionDataTask * dataTask = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if (error) {
-                [NSException raise:[NSString stringWithFormat:@"%@网络通信错误",imgPath] format:@"错误是%@",[error localizedDescription]];
-            }else
-            {
-                [data writeToFile:imgPath atomically:YES];
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    UIImage * img = [UIImage imageWithContentsOfFile:imgPath];
-                    if (img != nil) {
-                        [self setImage:img];
-                    }
-                }];
-            }
-        }];
-        [dataTask resume];
     }
 }
 

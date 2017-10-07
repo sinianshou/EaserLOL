@@ -53,10 +53,57 @@
         case MatchListCellType:
             [self layoutMatchListCell];
             break;
+            
+        case AbilityCellRow0Type:
+            [self layoutAbilityTypeCellIndexPathRow0];
+            break;
+            
+        case AbilityCellRow1Type:
+            [self layoutAbilityTypeCellIndexPathRow1];
+            break;
+            
+        case AbilityCellRow2Type:
+            [self layoutAbilityTypeCellIndexPathRow2];
+            break;
+            
+        case AbilityCellRow3Type:
+            [self layoutAbilityTypeCellIndexPathRow3];
+            break;
+            
+        case AbilityCellRow4Type:
+            [self layoutAbilityTypeCellIndexPathRow4];
+            break;
 
         default:
             break;
     }
+    
+//    switch (self.celltype) {
+//            
+//        case AbilityCellRow0Type:
+//            [self layoutAbilityTypeCellIndexPathRow0];
+//            break;
+//            
+//        case AbilityCellRow1Type:
+//            [self layoutAbilityTypeCellIndexPathRow1];
+//            break;
+//            
+//        case AbilityCellRow2Type:
+//            [self layoutAbilityTypeCellIndexPathRow2];
+//            break;
+//            
+//        case AbilityCellRow3Type:
+//            [self layoutAbilityTypeCellIndexPathRow3];
+//            break;
+//            
+//        case AbilityCellRow4Type:
+//            [self layoutAbilityTypeCellIndexPathRow4];
+//            break;
+//            
+//        default:
+//            break;
+//    }
+    
 }
 
 -(void)configueStatsCellWithDic:(NSDictionary *)dic atIndexPath:(NSIndexPath *)indexPath
@@ -312,11 +359,13 @@
     
     if ([[dic objectForKey:@"heroImgV"] isKindOfClass:[UIImage class]]) {
         heroImgV.image = [dic objectForKey:@"heroImgV"];
-    }else if ([[dic objectForKey:@"heroImgV"] isKindOfClass:[NSDictionary class]])
-    {
-        heroImgV.image = [UIImage imageNamed:@"default_head"];
-        [heroImgV setImageWithContentsOfFile:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconPath"] cacheFromURL:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconURL"]];
     }
+//    else if ([[dic objectForKey:@"heroImgV"] isKindOfClass:[NSDictionary class]])
+//    {
+//        heroImgV.image = [UIImage imageNamed:@"default_head"];
+////        [heroImgV setImageWithContentsOfFile:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconPath"] cacheFromURL:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconURL"]];
+//        [heroImgV setImage:NULL NameKey:@"heroImgV" inCache:NULL named:NULL WithContentsOfFile:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconPath"] cacheFromURL:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconURL"]];
+//    }
     
     resultLa.text = [dic objectForKey:@"resultLa"];
     resultLa.textColor = [UIColor redColor];

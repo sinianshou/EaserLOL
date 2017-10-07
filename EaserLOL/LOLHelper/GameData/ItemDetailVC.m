@@ -130,9 +130,7 @@
 
 -(void)resetControls
 {
-    //malloc_history 2019 0x7fc1a3ed8f20 |grep 0x7fc1a3ed8f20
     NSString * iconNameKey = [NSString stringWithFormat:@"item_EN_%@.png", self.itemResouse.id];
-//    self.cachesDir =[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
     NSString * iconPath = [self.cachesDir stringByAppendingPathComponent:iconNameKey];
     NSURL * iconURL = [GetData getItemSquareWithImageName_EN:self.itemResouse.square];
     [self.icon setImage:NULL NameKey:iconNameKey inCache:NULL named:iconNameKey WithContentsOfFile:iconPath cacheFromURL:iconURL];
@@ -258,10 +256,6 @@
     }];
 }
 
-//- (void)didReceiveMemoryWarning {
-//    [super didReceiveMemoryWarning];
-//    // Dispose of any resources that can be recreated.
-//}
 
 /*
 #pragma mark - Navigation

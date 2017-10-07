@@ -31,7 +31,11 @@
     SEL methodSEL = NSSelectorFromString(abilityTypeCellSelecter);
     if ([self respondsToSelector:methodSEL]) {
         
-        [self performSelector:methodSEL];
+//        [self performSelector:methodSEL];
+        
+        IMP imp = [self methodForSelector:methodSEL];
+        void (* func)(id, SEL) = (void *)imp;
+        func(self, methodSEL);
         
     }
     [self setNeedsDisplay];
@@ -329,10 +333,10 @@
 }
 -(void)configueAbilityTypeCellIndexPathRow3WithDic:(NSDictionary *) dic
 {
-    UIImageView * heroTimeIconV = [self.perSubviews objectForKey:@"heroTimeIconV"];
-    UILabel * myHeroTimeLa = [self.perSubviews objectForKey:@"myHeroTimeLa"];
-    UILabel * all = [self.perSubviews objectForKey:@"all"];
-    UIImageView * myHeroTimeArrow = [self.perSubviews objectForKey:@"myHeroTimeArrow"];
+//    UIImageView * heroTimeIconV = [self.perSubviews objectForKey:@"heroTimeIconV"];
+//    UILabel * myHeroTimeLa = [self.perSubviews objectForKey:@"myHeroTimeLa"];
+//    UILabel * all = [self.perSubviews objectForKey:@"all"];
+//    UIImageView * myHeroTimeArrow = [self.perSubviews objectForKey:@"myHeroTimeArrow"];
 }
 -(void)createAbilityTypeCellIndexPathRow4
 {
@@ -375,38 +379,41 @@
 {
     NSString * configueMethodStr = [NSString stringWithFormat:@"configueAbilityTypeCellIndexPathRow%dWithDic:",(int)indexPath.row];
     SEL sec = NSSelectorFromString(configueMethodStr);
-    [self performSelector:sec withObject:dic];
+//    [self performSelector:sec withObject:dic];
+    IMP imp = [self methodForSelector:sec];
+    void (* func)(id, SEL, NSDictionary *) = (void *)imp;
+    func(self, sec, dic);
 }
 
--(void)layoutSubviews
-{
-    [super layoutSubviews];
-    switch (self.celltype) {
-            
-        case AbilityCellRow0Type:
-            [self layoutAbilityTypeCellIndexPathRow0];
-            break;
-            
-        case AbilityCellRow1Type:
-            [self layoutAbilityTypeCellIndexPathRow1];
-            break;
-            
-        case AbilityCellRow2Type:
-            [self layoutAbilityTypeCellIndexPathRow2];
-            break;
-            
-        case AbilityCellRow3Type:
-            [self layoutAbilityTypeCellIndexPathRow3];
-            break;
-            
-        case AbilityCellRow4Type:
-            [self layoutAbilityTypeCellIndexPathRow4];
-            break;
-            
-        default:
-            break;
-    }
-}
+//-(void)layoutSubviews
+//{
+//    [super layoutSubviews];
+//    switch (self.celltype) {
+//            
+//        case AbilityCellRow0Type:
+//            [self layoutAbilityTypeCellIndexPathRow0];
+//            break;
+//            
+//        case AbilityCellRow1Type:
+//            [self layoutAbilityTypeCellIndexPathRow1];
+//            break;
+//            
+//        case AbilityCellRow2Type:
+//            [self layoutAbilityTypeCellIndexPathRow2];
+//            break;
+//            
+//        case AbilityCellRow3Type:
+//            [self layoutAbilityTypeCellIndexPathRow3];
+//            break;
+//            
+//        case AbilityCellRow4Type:
+//            [self layoutAbilityTypeCellIndexPathRow4];
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//}
 
 @end
 

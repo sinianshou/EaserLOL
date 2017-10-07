@@ -16,15 +16,15 @@
 @interface GetData : NSObject
 
 +(void)updateAccessKeys;
-+(id)getDataWithTag:(NSInteger)tag;
-+(NSString *)getAPIKey_EN;
-+(NSDictionary *)getOpenAPIKey_CN;
-+(NSDictionary *)getVideoAPIKey_CN;
-+(NSArray *)getResultsInEntity:(NSString*)EntityName;
-+(NSString *) convertTimeIntervalStrToString:(NSString *)TimeIntervalStr;
-+(NSArray <NSString*>*)getPropertyArrFrom:(Class)perClass;
++(nullable id)getDataWithTag:(NSInteger)tag;
++(nullable NSString *)getAPIKey_EN;
++(nullable NSDictionary *)getOpenAPIKey_CN;
++(nullable NSDictionary *)getVideoAPIKey_CN;
++(nullable NSArray *)getResultsInEntity:(nonnull NSString*)EntityName;
++(nullable NSString *) convertTimeIntervalStrToString:(nonnull NSString *)TimeIntervalStr;
++(nullable NSArray <NSString*>*)getPropertyArrFrom:(nonnull Class)perClass;
 
-+(BOOL)saveContext:(NSManagedObjectContext * )subContext withErr:(NSError * _Nullable) err  postNotificationName:(nullable NSString *)name object:(nullable id)object userInfo:(nullable NSDictionary *) userInfo;
++(BOOL)saveContext:(nonnull NSManagedObjectContext * )subContext withErr:(NSError * _Nullable) err  postNotificationName:(nullable NSString *)name object:(nullable id)object userInfo:(nullable NSDictionary *) userInfo;
 
 @end
 

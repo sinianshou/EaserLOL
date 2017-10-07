@@ -52,7 +52,7 @@
     
     
     GameDataViewController * selectedVC = ((UITabBarController *)self.fromController).selectedViewController;
-    ChampionsCollectionCell * cell = [selectedVC.collectionView cellForItemAtIndexPath:[selectedVC.collectionView indexPathsForSelectedItems].firstObject];
+    ChampionsCollectionCell * cell = (ChampionsCollectionCell *)[selectedVC.collectionView cellForItemAtIndexPath:[selectedVC.collectionView indexPathsForSelectedItems].firstObject];
     self.snapShotV = [cell.championIcon snapshotViewAfterScreenUpdates:NO];
     self.snapShotV.frame = [transitionContext.containerView convertRect:cell.championIcon.frame fromView:cell];
     self.snapShotV.hidden = NO;
@@ -69,8 +69,7 @@
                      animations:^{
                          self.toController.view.alpha = 1;
                          self.snapShotV.frame = ((ChampDetailViewController *)self.toController).championIcon.frame;
-//                         self.snapShotV.frame = [transitionContext.containerView convertRect:((ChampDetailViewController *)self.toController).championIcon.frame fromView:((ChampDetailViewController *)self.toController).view];
-                         
+
                      } completion:^(BOOL finished) {
                          self.snapShotV.hidden = YES;
                          ((ChampDetailViewController *)self.toController).championIcon.hidden = NO;
@@ -90,7 +89,7 @@
     self.fromController.view.frame = CGRectMake(0, 0, size.width, size.height);
     
     GameDataViewController * selectedVC = ((UITabBarController *)self.toController).selectedViewController;
-    ChampionsCollectionCell * cell = [selectedVC.collectionView cellForItemAtIndexPath:[selectedVC.collectionView indexPathsForSelectedItems].firstObject];
+    ChampionsCollectionCell * cell = (ChampionsCollectionCell *)[selectedVC.collectionView cellForItemAtIndexPath:[selectedVC.collectionView indexPathsForSelectedItems].firstObject];
     
     self.snapShotV.hidden = NO;
     ((ChampDetailViewController *)self.fromController).championIcon.hidden = YES;

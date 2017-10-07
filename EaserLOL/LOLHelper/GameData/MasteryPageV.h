@@ -12,13 +12,13 @@
 
 @interface MasteryPageV : UIControl
 
-@property (strong, nonatomic) NSString * totalPoint;
-@property (strong, nonatomic) NSString * availablePoint;
-@property (strong, nonatomic) UIButton * addButton;
-@property (strong, nonatomic) UIButton * reduceButton;
+@property (strong, nonatomic) NSString * _Nullable totalPoint;
+@property (strong, nonatomic) NSString *  _Nullable availablePoint;
+@property (strong, nonatomic) UIButton *  _Nullable addButton;
+@property (strong, nonatomic) UIButton *  _Nullable reduceButton;
 
--(instancetype)initWithFrame:(CGRect)frame masteriesArr:(nonnull NSArray <MasteryData_EN *> *)masteriesArr;
--(void)updateAvailablePoint:(NSString *)pointStr;
+-(instancetype _Nullable )initWithFrame:(CGRect)frame masteriesArr:(nonnull NSArray <MasteryData_EN *> *)masteriesArr;
+-(void)updateAvailablePoint:(NSString * _Nullable)pointStr;
 -(void)resetPoints;
 @end
 

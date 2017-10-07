@@ -184,14 +184,11 @@
     CGSize viewSize = transitionContext.containerView.bounds.size;
     CATransform3D __block transform00 = CATransform3DIdentity;
     transform00 = CATransform3DRotate(transform00, M_PI_2, 0, 1, 0);
-    //    transform00 = CATransform3DTranslate(transform00, 0, 0, viewSize.width/2);
     
     CATransform3D transform01 = CATransform3DIdentity;
     transform01 = CATransform3DRotate(transform01, M_PI_4, 0, 1, 0);
-    //    transform01 = CATransform3DTranslate(transform01, 0, 0, viewSize.width/2);
     
     CATransform3D __block transform02 = CATransform3DIdentity;
-    //    transform02 = CATransform3DTranslate(transform02, 0, 0, viewSize.width/2);
     
     CATransform3D transform03 = CATransform3DIdentity;
     transform03 = CATransform3DRotate(transform03, -M_PI_4, 0, 1, 0);
@@ -204,7 +201,6 @@
     
     CGFloat __block durTime = 0.8;
     CATransform3D __block transform10 = CATransform3DIdentity;
-    //    transform10.m34 = -1.0 / 500.0;
     
     transitionContext.containerView.layer.sublayerTransform = CATransform3DIdentity;
     self.fromVC.view.center =  CGPointMake(viewSize.width/2, viewSize.height/2);
@@ -222,7 +218,6 @@
     if (self.snapShotV == nil) {
         self.snapShotV = [[UIImageView alloc] init];
         self.snapShotV.bounds = CGRectMake(0, 0, viewSize.width, viewSize.width);
-//        self.snapShotV.backgroundColor = [UIColor greenColor];
         self.snapShotV.center = CGPointMake(viewSize.width/2, viewSize.height/2);
         
         UIImage * im = [UIImage imageNamed:@"HeaderNews"];
@@ -237,20 +232,6 @@
     snapShotVlayer.frame = self.snapShotV.bounds;
     [self.snapShotV.layer addSublayer:snapShotVlayer];
     
-    //    CATransform3D transformCur00 = transform00;
-    //    transformCur00 = CATransform3DRotate(transform00, -M_PI_2, 0, 1, 0);
-    //
-    //    CATransform3D transformCur02 = transform02;
-    //    transformCur02 = CATransform3DRotate(transform02, -M_PI_2, 0, 1, 0);
-    //
-    //    CATransform3D transformCur05 = transform05;
-    //    transformCur05 = CATransform3DRotate(transform05, M_PI_2, 0, 1, 0);
-    //
-    //    CATransform3D transformCur10 = transform10;
-    //    transformCur10 = CATransform3DRotate(transformCur10, -M_PI_4, 1, 0, 0);
-    //    transformCur10 =  CATransform3DScale(transformCur10, 0.5, 0.5, 0.5);
-    //    transitionContext.containerView.layer.sublayerTransform = transformCur10;
-    
     int __block countDny = 0;
     CGFloat __block countSta = durTime/0.03;
     snapShotVlayer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5].CGColor;
@@ -262,13 +243,11 @@
         fromVClayer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8*(countDny/countSta)].CGColor;
         toVClayer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8*(1-countDny/countSta)].CGColor;
         if (countDny < countSta/2) {
-            //            transform10.m34 = -1.0/500.0*(countDny/countSta);
             transform10 = CATransform3DRotate(transform10, -M_PI_4/countSta, 1, 0, 0);
             transform10 = CATransform3DScale(transform10, (countSta-2)/countSta, (countSta-2)/countSta, (countSta-2)/countSta);
             NSLog(@"count01 < durTime/timer.timeInterval/2");
         }else
         {
-            //            transform10.m34 = -1.0/500.0*(1-countDny/countSta);
             transform10 = CATransform3DRotate(transform10, M_PI_4/(durTime/timer.timeInterval), 1, 0, 0);
             transform10 = CATransform3DScale(transform10, countSta/(countSta-2), countSta/(countSta-2), countSta/(countSta-2));
             NSLog(@"count01 >= durTime/timer.timeInterval/2");

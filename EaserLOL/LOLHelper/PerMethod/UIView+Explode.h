@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (Explode)
+@interface UIView (Explode) <CAAnimationDelegate>
 
 - (void)lp_explodeDuring:(NSTimeInterval)time;
 

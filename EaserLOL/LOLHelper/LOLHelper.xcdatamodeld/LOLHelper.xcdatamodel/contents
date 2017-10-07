@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.26" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="ChampionsBrief_EN" representedClassName="ChampionsBrief_EN" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
@@ -110,7 +110,7 @@
         <attribute name="game_type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="win" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="MatchList_EN" representedClassName="MatchList_EN" isAbstract="YES" syncable="YES">
+    <entity name="MatchList_EN" representedClassName="MatchList_EN" syncable="YES">
         <attribute name="accountId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="assistMost" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="assists" optional="YES" attributeType="String" syncable="YES"/>

@@ -52,7 +52,6 @@
     self.tagsArrM = [NSMutableArray array];
     self.typesArrM = [NSMutableArray array];
     self.tiersArrM = [NSMutableArray array];
-//    NSMutableDictionary * statsDicM = [NSMutableDictionary dictionary];
     [self.runesDataArr enumerateObjectsUsingBlock:^(RuneData_EN * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [[obj.tags componentsSeparatedByString:@"<br>"] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (![self.tagsArrM containsObject:obj]) {
@@ -65,18 +64,7 @@
         if (![self.tiersArrM containsObject:[NSString stringWithFormat:@"%@", obj.tier]]) {
             [self.tiersArrM addObject:obj.tier];
         }
-//        NSArray * statsArrM =[obj.stats componentsSeparatedByString:@"<br>"];
-//        [statsArrM enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//
-//            if (idx%2 == 1 && ![statsDicM.allKeys containsObject:obj]) {
-//
-//
-//
-//                [statsDicM setObject:obj forKey:[statsArrM objectAtIndex:idx-1]];
-//
-//
-//            }
-//        }];
+
     }];
     
     
@@ -178,7 +166,7 @@
     
     [self.BottomV perAddSubviews:filterB, nil];
     [self.view addSubview:self.BottomV];
-//    return view;
+
 }
 -(void)creatEffectScrollV
 {
@@ -192,7 +180,6 @@
     titlela01.textColor = [UIColor whiteColor];
     titlela01.text = @"Effect";
     UILabel * contentla01 = [[UILabel alloc] initWithName:@"contentla01"];
-//    contentla01.bounds = CGRectMake(0, 0, self.effectScrollV.bounds.size.width-10, 20);
     contentla01.font = [UIFont systemFontOfSize:13];
     contentla01.numberOfLines = 0;
     contentla01.lineBreakMode = NSLineBreakByWordWrapping;
@@ -203,7 +190,6 @@
     titlela02.textColor = [UIColor whiteColor];
     titlela02.text = @"Runes";
     UILabel * contentla02 = [[UILabel alloc] initWithName:@"contentla02"];
-//    contentla02.bounds = CGRectMake(0, 0, self.effectScrollV.bounds.size.width-10, 20);
     contentla02.font = [UIFont systemFontOfSize:13];
     contentla02.numberOfLines = 0;
     contentla02.lineBreakMode = NSLineBreakByWordWrapping;
@@ -328,7 +314,6 @@
 -(void)createfilterView
 {
     
-    //    +(NSArray*)getRuneData_ENWithId:(nullable NSString *)identifyty tags:(nullable NSString *)tag tier:(nullable NSString *)tier type:(nullable NSString *)type;
     self.filterV = [[UIView alloc] init];
     self.filterV.bounds = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width);
     self.filterV.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.9];

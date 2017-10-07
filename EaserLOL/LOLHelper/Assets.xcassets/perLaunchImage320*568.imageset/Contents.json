@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "perLaunchImage320*568.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "hero_detail_bg@2x.png",
+      "filename" : "perLaunchImage320*568@2x.png",
       "scale" : "2x"
     },
     {

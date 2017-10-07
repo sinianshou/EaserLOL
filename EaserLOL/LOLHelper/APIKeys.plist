@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>APIKeys_CN</key>
+	<dict>
+		<key>OpenAPIKey_CN</key>
+		<dict>
+			<key>DAIWAN-API-TOKEN</key>
+			<string>EC38F-B3CCE-55FBE-F3CE5</string>
+		</dict>
+		<key>VideoAPIKey_CN</key>
+		<dict>
+			<key>DAIWAN-API-TOKEN</key>
+			<string>35E6A-DEE1E-31694-3553A</string>
+		</dict>
+	</dict>
+	<key>APIKey_EN</key>
+	<string>RGAPI-4df811d6-3219-48b2-814a-84269932b76a</string>
+</dict>
+</plist>

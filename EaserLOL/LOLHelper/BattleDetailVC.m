@@ -428,9 +428,9 @@
 -(void)configureDataV
 {
     UIColor * blueColor = [UIColor colorWithRed:0/255.00 green:169/255.00 blue:184/255.00 alpha:1];
-    UIColor * lightblueColor = [UIColor colorWithRed:139/255.00 green:226/255.00 blue:226/255.00 alpha:0.8];
+//    UIColor * lightblueColor = [UIColor colorWithRed:139/255.00 green:226/255.00 blue:226/255.00 alpha:0.8];
     UIColor * redColor = [UIColor colorWithRed:255/255.00 green:105/255.00 blue:109/255.00 alpha:1];
-    UIColor * lightredColor = [UIColor colorWithRed:240/255.00 green:150/255.00 blue:150/255.00 alpha:0.8];
+//    UIColor * lightredColor = [UIColor colorWithRed:240/255.00 green:150/255.00 blue:150/255.00 alpha:0.8];
     UIColor * lightGray = [UIColor colorWithRed:210/225.00 green:210/225.00 blue:210/225.00 alpha:1];
     self.DataV.backgroundColor = [UIColor whiteColor];
     
@@ -510,7 +510,7 @@
     NSLog(@"self.goldEventsModelDicM is %@", NSStringFromClass(self.goldEventsModelDicM.class));
     
     if (![self.goldEventsModelDicM isKindOfClass:[NSMutableDictionary class]]) {
-        self.goldEventsModelDicM = [GoldEventsModel createModelsDicWithData:self.goldEventsModelDicM];
+        self.goldEventsModelDicM = [GoldEventsModel createModelsDicWithData:(NSData *)self.goldEventsModelDicM];
     }
     /* OS_dispatch_data
      NSMutableDictionary *dicM =[NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -543,9 +543,9 @@
     }else
     {
         UIColor * blueColor = [UIColor colorWithRed:0/255.00 green:169/255.00 blue:184/255.00 alpha:1];
-        UIColor * lightblueColor = [UIColor colorWithRed:139/255.00 green:226/255.00 blue:226/255.00 alpha:0.8];
+//        UIColor * lightblueColor = [UIColor colorWithRed:139/255.00 green:226/255.00 blue:226/255.00 alpha:0.8];
         UIColor * redColor = [UIColor colorWithRed:255/255.00 green:105/255.00 blue:109/255.00 alpha:1];
-        UIColor * lightredColor = [UIColor colorWithRed:240/255.00 green:150/255.00 blue:150/255.00 alpha:0.8];
+//        UIColor * lightredColor = [UIColor colorWithRed:240/255.00 green:150/255.00 blue:150/255.00 alpha:0.8];
         
         
         [self.MatchResouce.matchToTeams enumerateObjectsUsingBlock:^(Team_EN * _Nonnull obj, BOOL * _Nonnull stop) {
@@ -850,7 +850,7 @@
     CGPathCloseSubpath(path);
     
     CGFloat colorLocations[2] = {0.0,1.0};
-    CGFloat * endColorCs = CGColorGetComponents(startColor.CGColor);
+    CGFloat * endColorCs = (CGFloat *) CGColorGetComponents(startColor.CGColor);
     NSArray * colors = @[(__bridge id) startColor.CGColor, (__bridge id) [UIColor colorWithRed:endColorCs[0] green:endColorCs[1] blue:endColorCs[2] alpha:0].CGColor];
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) colors, colorLocations);
     CGRect pathRect = CGPathGetBoundingBox(path);

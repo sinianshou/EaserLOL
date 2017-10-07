@@ -16,7 +16,7 @@
 
 @end
 
-@implementation UIView (Explode)
+@implementation UIView (Explode) 
 
 float randomFloat()
 {

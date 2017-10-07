@@ -52,7 +52,7 @@
     
     CGRect __block rect = CGRectMake(0, 0, CGRectGetMaxX(self.bounds), 0);
     CGFloat __block t1 = durTime;
-    NSTimer * timer =[NSTimer scheduledTimerWithTimeInterval:0.03 repeats:YES block:^(NSTimer * _Nonnull timer) {
+    [NSTimer scheduledTimerWithTimeInterval:0.03 repeats:YES block:^(NSTimer * _Nonnull timer) {
         t1 -= (CGFloat)timer.timeInterval;
         if (t1 >= 0) {
             en.position = CGPointMake(en.position.x, self.bounds.size.height*(t1/durTime));
