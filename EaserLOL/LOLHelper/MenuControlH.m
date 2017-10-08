@@ -167,7 +167,7 @@
         NSLog(@"button named %@ frame is :%f %f %f %f",[b titleForState:UIControlStateNormal],b.frame.origin.x,b.frame.origin.y,b.frame.size.width,b.frame.size.height);
     }
     NSLog(@"MenuControlH frame is: :%f %f %f %f",self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height);
-    NSLog(@"MenuControlH has %lu views",[self subviews].count);
+    NSLog(@"MenuControlH has %d views",(int)[self subviews].count);
 }
 
 
