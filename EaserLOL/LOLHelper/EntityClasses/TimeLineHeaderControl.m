@@ -35,14 +35,7 @@
     self.arrow.center = CGPointMake(CGRectGetMaxX(self.bounds) - (10 + CGRectGetMidX(self.arrow.bounds)), CGRectGetMaxY(self.bounds) - (10 + CGRectGetMidY(self.arrow.bounds)));
     [self addSubview:self.arrow];
     [self didNotSelected];
-    /*
-     if (self.selected) {
-     self.isExported.image = [UIImage imageNamed:@"club_fans_circle_control_arrow_down"];
-     }else
-     {
-     self.isExported.image = [UIImage imageNamed:@"club_fans_circle_control_arrow_up"];
-     }
-     */
+
     return self;
 }
 

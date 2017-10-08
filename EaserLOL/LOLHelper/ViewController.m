@@ -49,9 +49,7 @@
 }
 
 - (void)viewDidLoad {
-    [self.view setBackgroundColor:[UIColor blueColor]];
     [super viewDidLoad];
-    
     self.LHTableViewDataSource = [[TableViewDataSource alloc] initWithTableView:self.LHTable];
     self.LHTableViewDataSource.myLHUpDropDelegate = self;
     UIView * header01 = [TableHeaderViewModel getTableHeaderView];
@@ -86,7 +84,6 @@
 
 -(void) showNewestVideosCN
 {
-//    [LHTableViewDataSource dateSourceWithChineseNewestVideos:dataTemp];
     [self.LHTableViewDataSource dataSourceWithChineseNewestVideosFetchedResultsController];
     [self resizingSubView];
     
@@ -132,11 +129,14 @@
     UIView * view01 = [self.LHTable viewWithTag:31];
     UIImageView * imgView = [view01 viewWithTag:12];
     CGFloat sectionHeaderHeight = imgView.bounds.size.height*1/3;
+    AppDelegate * appDe = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//    appDe.rootTabBarController.tabBar.bounds.size.height;
+//    self.tabBarItem.accessibilityFrame.size.height;
     
     self.LHNavigation.bounds = CGRectMake(0,0,screenSize.width, sectionHeaderHeight);
     self.LHNavigation.translatesAutoresizingMaskIntoConstraints = NO;
     //添加垂直方向的约束
-    NSString *vflV01 = @"V:|[LHTable]|";
+    NSString *vflV01 = [NSString stringWithFormat:@"V:|[LHTable]-%f-|", appDe.rootTabBarController.tabBar.bounds.size.height];
     NSDictionary * views = [NSDictionary dictionaryWithObjectsAndKeys:self.LHNavigation,@"LHNavigation",self.LHTable,@"LHTable", nil];
     NSArray * constraintsV01 = [NSLayoutConstraint constraintsWithVisualFormat:vflV01 options:0 metrics:nil views:views];
     [self.view addConstraints:constraintsV01] ;

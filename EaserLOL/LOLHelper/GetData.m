@@ -39,14 +39,7 @@
                                                  }
                                              }];
     [dataTask resume];
-    
-//    NSData * blundData = [NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@%@",[[NSBundle mainBundle]resourcePath],@"/APIKeys.plist"]];
-//    NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
-//    [blundData writeToFile:APIKeysFilePath atomically:YES];
-//    NSString *jsonString = [[NSString alloc] initWithData:blundData encoding:NSUTF8StringEncoding];
-//    NSString * APIKeyspath = [NSString stringWithFormat:@"APIKeys.plist updated，path is %@", APIKeysFilePath];
-//    NSLog(@"APIKeys Data is %@,path is %@", jsonString, APIKeyspath);
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:APIKeyspath userInfo:NULL];
+
 }
 +(nullable id)getDataWithTag:(NSInteger)tag
 {
@@ -82,7 +75,6 @@
     NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
     NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:APIKeysFilePath];
     NSDictionary * APIKeys_CN = [easerAPIKey objectForKey:@"APIKeys_CN"];
-//    NSDictionary * CNAPIKeys = [APIKeys_CN objectForKey:@"OpenAPIKey_CN"];
     NSDictionary * CNVideoAPIKey = [APIKeys_CN objectForKey:@"VideoAPIKey_CN"];
     NSString *stringUrl = [NSString stringWithFormat:@"http://infoapi.games-cube.com/GetAuthors"];
     NSString * strUrl = [stringUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
@@ -96,16 +88,12 @@
                                                                  NSURLResponse *response,
                                                                  NSError *error) {
                                                  // handle response
-                                                 //                                                 freeChampionshipsList = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
+               
                                                  if (error) {
                                                      [NSException raise:@"网络通信错误" format:@"错误是%@",[error localizedDescription]];
                                                  }
-                                                 
                                                  [self updateDBBackgroundWithData:data intoEntity:@"ChineseAuthors"];
-                                                 
-                                                 
-                                                 //                                                 [self performSelectorOnMainThread:@selector(showWeatherOfLocation) withObject:NULL waitUntilDone:YES];
-                                                 
+
                                              }];
     [dataTask resume];
 
@@ -116,7 +104,6 @@
     NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
     NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:APIKeysFilePath];
     NSDictionary * APIKeys_CN = [easerAPIKey objectForKey:@"APIKeys_CN"];
-//    NSDictionary * CNAPIKeys = [APIKeys_CN objectForKey:@"OpenAPIKey_CN"];
     NSDictionary * CNVideoAPIKey = [APIKeys_CN objectForKey:@"VideoAPIKey_CN"];
     int page = 1;
     NSString *stringUrl = [NSString stringWithFormat:@"http://infoapi.games-cube.com/GetNewstVideos?p={%d}",page];
@@ -125,27 +112,20 @@
     
     NSURLSessionConfiguration * sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     [sessionConfig setHTTPAdditionalHeaders:CNVideoAPIKey];
-    
-//    NSURLSession *session = [NSURLSession sharedSession];
     NSURLSession * session = [NSURLSession sessionWithConfiguration:sessionConfig];
     NSURLSessionDataTask * dataTask = [session dataTaskWithURL:url
                                              completionHandler:^(NSData *data,
                                                                  NSURLResponse *response,
                                                                  NSError *error) {
                                                  // handle response
-                                                 //                                                 freeChampionshipsList = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
                                                  if (error) {
                                                      [NSException raise:@"网络通信错误" format:@"错误是%@",[error localizedDescription]];
                                                  }
                                                  
                                                  [self updateDBBackgroundWithData:data intoEntity:@"ChineseNewestVideos"];
                                                  
-                                                 
-                                                 //                                                 [self performSelectorOnMainThread:@selector(showWeatherOfLocation) withObject:NULL waitUntilDone:YES];
-                                                 
                                              }];
     [dataTask resume];
-
 }
 
 +(void)updateDBBackgroundWithData:(NSData*)data intoEntity:(NSString *) entityName
@@ -164,36 +144,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:[NSString stringWithFormat:@"Finish uploading %@", entityName] userInfo:NULL];
 
 }
-
-//+(void)insertEntity:(NSString *) entityName withDic:(NSDictionary *) dic
-//{
-//    NSManagedObjectContext * context = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer.viewContext;
-//
-//    //设置各value
-//    NSString * fullSelectorString = [NSString stringWithFormat:@"insert%@WithDic:",entityName];
-//    SEL priSelector = NSSelectorFromString(fullSelectorString);
-//    if ([self respondsToSelector:priSelector]) {
-//        [self performSelector:priSelector withObject:dic];
-//
-////        IMP imp = [self methodForSelector:priSelector];
-////        void (* func)(id, SEL, NSDictionary *) = (void *) imp;
-////        func(self, priSelector, dic);
-//
-//    }else
-//    {
-//        NSLog(@"method %@ does not exist",fullSelectorString);
-//    }
-//
-//    NSError * err;
-//    if ([context save:&err]) {
-//        NSLog(@"写入成功：%@", entityName);
-//        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//        NSLog(@"路径是：%@",docPath);
-//    }else
-//    {
-//        [NSException raise:@"写入错误" format:@"错误是%@",[err localizedDescription]];
-//    }
-//}
 
 +(void)insertChineseAuthors:(NSString *) entityName WithDic:(NSDictionary *) author
 {
@@ -227,7 +177,6 @@
         authorsEntity.desc = [author valueForKey:@"desc"];
         authorsEntity.usernum = [author valueForKey:@"usernum"];
         authorsEntity.videonum = [author valueForKey:@"videonum"];
-        //        authorsEntity.count = [author valueForKey:@"count"];
         
         NSError * err;
         if ([context save:&err]) {
@@ -338,10 +287,7 @@
     NSString *APIKeysFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/APIKeys.plist"];
     NSDictionary * easerAPIKey = [NSDictionary dictionaryWithContentsOfFile:APIKeysFilePath];
     NSString * APIKey_EN = [easerAPIKey objectForKey:@"APIKey_EN"];
-    
-//    if (APIKey_EN == nil) {
-//        APIKey_EN = [NSString stringWithFormat:@"RGAPI-abf64225-cc2b-482b-98e1-dda56a6171f3"];
-//    }
+
     return APIKey_EN;
 }
 
@@ -378,7 +324,6 @@
         
     }];
     [alert addAction:alertAction];
-//    [self presentViewController:alert animated:YES completion:nil];
 }
 
 +(NSString *) convertTimeIntervalStrToString:(NSString *)TimeIntervalStr

@@ -20,7 +20,7 @@
 {
     
     [self.contentVCDelegatePro changeWhenScrollByRate:scrollView.contentOffset.x/(scrollView.contentSize.width*2/3)];
-//    [self.contentVCDelegatePro changeWhenScrollByRate:scrollView.contentOffset.x/(scrollView.contentSize.width*2/3)>1?1:scrollView.contentOffset.x/(scrollView.contentSize.width*2/3)];
+
 }
 // 当开始滚动视图时，执行该方法。一次有效滑动（开始滑动，滑动一小段距离，只要手指不松开，只算一次滑动），只执行一次。
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{

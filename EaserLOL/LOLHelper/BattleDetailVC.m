@@ -87,9 +87,6 @@
     self.ContentV.pagingEnabled = YES;
     self.ContentV.delegate = self;
     self.ContentV.showsHorizontalScrollIndicator = NO;
-    //    self.battelDetailContentVCDelegate = [[BattelDetailContentVCDelegate alloc] init];
-    //    self.battelDetailContentVCDelegate.contentVCDelegatePro = self;
-    //    self.ContentV.delegate = self.battelDetailContentVCDelegate;
     
     [self.view addSubview:self.HeaderV];
     [self.view addSubview:self.ContentV];
@@ -135,7 +132,7 @@
     UIButton * backButton =[self creatButtonWithTitle:@"    Back"  Frame:CGRectMake(0, 0, 50, 32) SEL:@selector(backViewAction)];
     [backButton setTitleColor:[UIColor colorWithRed:205/255.00 green:185/255.00 blue:130/255.00 alpha:1] forState:UIControlStateNormal];
     [backButton setBackgroundImage:[UIImage imageNamed:@"nav_btn_back_normal"] forState:UIControlStateNormal];
-//    [self.HeaderV addSubview:backButton];
+
     self.timeLa = [[UILabel alloc] initWithFrame:CGRectMake(backButton.frame.origin.x + backButton.frame.size.width, backButton.frame.origin.y, self.ScreenSize.width - backButton.frame.size.width, backButton.frame.size.height)];
     self.timeLa.adjustsFontSizeToFitWidth = YES;
     NSString * timeSre = [NSString stringWithFormat:@"    %@   |   %dmins   |   %@    ",[GetData convertTimeIntervalStrToString:self.MatchResouce.gameCreation],self.MatchResouce.gameDuration.intValue/60,self.MatchResouce.gameMode];
@@ -144,7 +141,7 @@
                                  NSForegroundColorAttributeName: [UIColor grayColor],
                                  NSFontAttributeName: [UIFont systemFontOfSize: 15] };
     self.timeLa.attributedText = [[NSAttributedString alloc] initWithString: timeSre attributes: attrDict01];
-//    [self.HeaderV addSubview:self.timeLa];
+
     UIView * subHeaderV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.ScreenSize.width, self.timeLa.frame.origin.y + self.timeLa.frame.size.height)];
     subHeaderV.backgroundColor = [UIColor colorWithRed:210/225.00 green:210/225.00 blue:210/225.00 alpha:1];
     [subHeaderV addSubview:backButton];
@@ -170,7 +167,6 @@
     self.HeaderV.backgroundColor = [UIColor whiteColor];
     self.HeaderV.layer.borderWidth = 1;
     self.HeaderV.layer.borderColor = [UIColor colorWithRed:210/225.00 green:210/225.00 blue:210/225.00 alpha:1].CGColor;
-//    self.HeaderV.backgroundColor = [UIColor colorWithRed:210/225.00 green:210/225.00 blue:210/225.00 alpha:1];
 }
 -(void)configureContentV
 {
@@ -178,7 +174,6 @@
 }
 -(void)configureDetailV
 {
-//    self.DetailV.backgroundColor = [UIColor redColor];
     
     UIView * Br = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.ScreenSize.width, 45)];
     Br.backgroundColor = [UIColor whiteColor];
@@ -281,7 +276,7 @@
             if (obj.item0 != nil) {
                 NSArray <Item_EN *>* itemsArr0 = [GetData getItem_ENWithId:obj.item0 tag:NULL map:NULL];
                 if (itemsArr0.count > 0) {
-                    //NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:iconNameKey, @"NameKey", iconPath, @"Path", iconURL, @"URL", nil];
+
                     Item_EN * item =[itemsArr0 firstObject];
                     NSDictionary * dic = [GetData getItemPicDicImageName_EN:item.square];
                     [par01.item0 setImage:NULL NameKey:[dic objectForKey:@"NameKey"] inCache:NULL named:[dic objectForKey:@"NameKey"] WithContentsOfFile:[dic objectForKey:@"Path"] cacheFromURL:[dic objectForKey:@"URL"]];
@@ -291,7 +286,6 @@
             if (obj.item1 != nil) {
                 NSArray <Item_EN *>* itemsArr1 = [GetData getItem_ENWithId:obj.item1 tag:NULL map:NULL];
                 if (itemsArr1.count > 0) {
-                    //NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:iconNameKey, @"NameKey", iconPath, @"Path", iconURL, @"URL", nil];
                     Item_EN * item =[itemsArr1 firstObject];
                     NSDictionary * dic = [GetData getItemPicDicImageName_EN:item.square];
                     [par01.item1 setImage:NULL NameKey:[dic objectForKey:@"NameKey"] inCache:NULL named:[dic objectForKey:@"NameKey"] WithContentsOfFile:[dic objectForKey:@"Path"] cacheFromURL:[dic objectForKey:@"URL"]];
@@ -300,7 +294,6 @@
             if (obj.item2 != nil) {
                 NSArray <Item_EN *>* itemsArr2 = [GetData getItem_ENWithId:obj.item2 tag:NULL map:NULL];
                 if (itemsArr2.count > 0) {
-                    //NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:iconNameKey, @"NameKey", iconPath, @"Path", iconURL, @"URL", nil];
                     Item_EN * item =[itemsArr2 firstObject];
                     NSDictionary * dic = [GetData getItemPicDicImageName_EN:item.square];
                     [par01.item2 setImage:NULL NameKey:[dic objectForKey:@"NameKey"] inCache:NULL named:[dic objectForKey:@"NameKey"] WithContentsOfFile:[dic objectForKey:@"Path"] cacheFromURL:[dic objectForKey:@"URL"]];
@@ -309,7 +302,6 @@
             if (obj.item3 != nil) {
                 NSArray <Item_EN *>* itemsArr3 = [GetData getItem_ENWithId:obj.item3 tag:NULL map:NULL];
                 if (itemsArr3.count > 0) {
-                    //NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:iconNameKey, @"NameKey", iconPath, @"Path", iconURL, @"URL", nil];
                     Item_EN * item =[itemsArr3 firstObject];
                     NSDictionary * dic = [GetData getItemPicDicImageName_EN:item.square];
                     [par01.item3 setImage:NULL NameKey:[dic objectForKey:@"NameKey"] inCache:NULL named:[dic objectForKey:@"NameKey"] WithContentsOfFile:[dic objectForKey:@"Path"] cacheFromURL:[dic objectForKey:@"URL"]];
@@ -318,7 +310,6 @@
             if (obj.item4 != nil) {
                 NSArray <Item_EN *>* itemsArr4 = [GetData getItem_ENWithId:obj.item4 tag:NULL map:NULL];
                 if (itemsArr4.count > 0) {
-                    //NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:iconNameKey, @"NameKey", iconPath, @"Path", iconURL, @"URL", nil];
                     Item_EN * item =[itemsArr4 firstObject];
                     NSDictionary * dic = [GetData getItemPicDicImageName_EN:item.square];
                     [par01.item4 setImage:NULL NameKey:[dic objectForKey:@"NameKey"] inCache:NULL named:[dic objectForKey:@"NameKey"] WithContentsOfFile:[dic objectForKey:@"Path"] cacheFromURL:[dic objectForKey:@"URL"]];
@@ -327,7 +318,6 @@
             if (obj.item5 != nil) {
                 NSArray <Item_EN *>* itemsArr5 = [GetData getItem_ENWithId:obj.item5 tag:NULL map:NULL];
                 if (itemsArr5.count > 0) {
-                    //NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:iconNameKey, @"NameKey", iconPath, @"Path", iconURL, @"URL", nil];
                     Item_EN * item =[itemsArr5 firstObject];
                     NSDictionary * dic = [GetData getItemPicDicImageName_EN:item.square];
                     [par01.item5 setImage:NULL NameKey:[dic objectForKey:@"NameKey"] inCache:NULL named:[dic objectForKey:@"NameKey"] WithContentsOfFile:[dic objectForKey:@"Path"] cacheFromURL:[dic objectForKey:@"URL"]];
@@ -336,7 +326,6 @@
             if (obj.item6 != nil) {
                 NSArray <Item_EN *>* itemsArr6 = [GetData getItem_ENWithId:obj.item6 tag:NULL map:NULL];
                 if (itemsArr6.count > 0) {
-                    //NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:iconNameKey, @"NameKey", iconPath, @"Path", iconURL, @"URL", nil];
                     Item_EN * item =[itemsArr6 firstObject];
                     NSDictionary * dic = [GetData getItemPicDicImageName_EN:item.square];
                     [par01.item6 setImage:NULL NameKey:[dic objectForKey:@"NameKey"] inCache:NULL named:[dic objectForKey:@"NameKey"] WithContentsOfFile:[dic objectForKey:@"Path"] cacheFromURL:[dic objectForKey:@"URL"]];
@@ -428,9 +417,7 @@
 -(void)configureDataV
 {
     UIColor * blueColor = [UIColor colorWithRed:0/255.00 green:169/255.00 blue:184/255.00 alpha:1];
-//    UIColor * lightblueColor = [UIColor colorWithRed:139/255.00 green:226/255.00 blue:226/255.00 alpha:0.8];
     UIColor * redColor = [UIColor colorWithRed:255/255.00 green:105/255.00 blue:109/255.00 alpha:1];
-//    UIColor * lightredColor = [UIColor colorWithRed:240/255.00 green:150/255.00 blue:150/255.00 alpha:0.8];
     UIColor * lightGray = [UIColor colorWithRed:210/225.00 green:210/225.00 blue:210/225.00 alpha:1];
     self.DataV.backgroundColor = [UIColor whiteColor];
     
@@ -512,11 +499,7 @@
     if (![self.goldEventsModelDicM isKindOfClass:[NSMutableDictionary class]]) {
         self.goldEventsModelDicM = [GoldEventsModel createModelsDicWithData:(NSData *)self.goldEventsModelDicM];
     }
-    /* OS_dispatch_data
-     NSMutableDictionary *dicM =[NSKeyedUnarchiver unarchiveObjectWithData:data];
-    [self.timeLineHeaderControlArr firstObject].teamId = obj.teamId;
-    [self.timeLineHeaderControlArr firstObject].participantId = [NSString stringWithFormat:@"%d", ((NSString *)obj.teamId).intValue/100+10];
-    */
+
     GoldEventsModel * goldEventsModel01 = [self.goldEventsModelDicM objectForKey:[self.timeLineHeaderControlArr firstObject].participantId];
     GoldEventsModel * goldEventsModel02 = [self.goldEventsModelDicM objectForKey:[self.timeLineHeaderControlArr lastObject].participantId];
     
@@ -543,10 +526,7 @@
     }else
     {
         UIColor * blueColor = [UIColor colorWithRed:0/255.00 green:169/255.00 blue:184/255.00 alpha:1];
-//        UIColor * lightblueColor = [UIColor colorWithRed:139/255.00 green:226/255.00 blue:226/255.00 alpha:0.8];
         UIColor * redColor = [UIColor colorWithRed:255/255.00 green:105/255.00 blue:109/255.00 alpha:1];
-//        UIColor * lightredColor = [UIColor colorWithRed:240/255.00 green:150/255.00 blue:150/255.00 alpha:0.8];
-        
         
         [self.MatchResouce.matchToTeams enumerateObjectsUsingBlock:^(Team_EN * _Nonnull obj, BOOL * _Nonnull stop) {
             if ([obj.teamId isEqualToString:control.teamId]) {
@@ -793,7 +773,6 @@
     titleDict[NSForegroundColorAttributeName] = [UIColor colorWithRed:205/255.00 green:185/255.00 blue:130/255.00 alpha:1];
     NSString * title = [NSString stringWithFormat:@"Gold Chart"];
     [title drawAtPoint:CGPointMake(drawSize.width/2 - title.length*titleFontSize/4, (point0.y - lineHei)/2 - titleFontSize) withAttributes:titleDict];
-//    [title drawAtPoint:CGPointMake(drawSize.width/2 - title.length*titleFontSize/2, (point0.y - lineHei)/2 - title.length*titleFontSize/2) withAttributes:titleDict];
     
     UIImage * blueImg = [UIImage imageNamed:@"battle_overview_golden_point_win"];
     UIImage * redImg = [UIImage imageNamed:@"battle_overview_golden_point_lose"];
@@ -819,7 +798,6 @@
         }
     }
     
-//    CGContextRestoreGState(con);
     CGColorSpaceRelease(colorSpace);
     UIImage* im = UIGraphicsGetImageFromCurrentImageContext();
     
@@ -861,7 +839,6 @@
     CGContextClip(con);
     CGContextDrawLinearGradient(con, gradient, startPoint, endPoint, 0);
     CGGradientRelease(gradient);
-//    CGContextSaveGState(con);
 }
 -(void)configureBriefV
 {

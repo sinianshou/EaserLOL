@@ -36,7 +36,6 @@ NSString * finishNum = @"0";
     NSURLSessionConfiguration * sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     [sessionConfig setHTTPAdditionalHeaders:CNOpenAPIKey];
     
-    //    NSURLSession *session = [NSURLSession sharedSession];
     NSURLSession * session = [NSURLSession sessionWithConfiguration:sessionConfig];
     NSURLSessionDataTask * dataTask = [session dataTaskWithURL:url
                                              completionHandler:^(NSData *data,
@@ -103,7 +102,6 @@ NSString * finishNum = @"0";
     [matchesM removeObjectsInArray:removeMatchsM];
     
     if (matchesM.count > 0) {
-        //    NSMutableArray * gameIdArr = [NSMutableArray array];
         NSString * __block key = nil;
         NSString * __block value = nil;
         NSMutableArray * objectIDs = [NSMutableArray array];
@@ -161,9 +159,6 @@ NSString * finishNum = @"0";
     finishNum = [NSString stringWithFormat:@"%d", finishNum.intValue - 1];
     if (finishNum.intValue == 0) {
         [self updateCurrentAccountStats];
-//        NSThread * updateCASThread = [[NSThread alloc] initWithTarget:self selector:@selector(updateCurrentAccountStats) object:NULL];
-//        [updateCASThread start];
-        
     }
     NSLog(@"finishNum is %@", finishNum);
     
@@ -271,7 +266,6 @@ NSString * finishNum = @"0";
         NSArray * herosInfoArr = [herosInfoArrModel sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor1]];
         [herosInfoArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSMutableDictionary * heroInfo = (NSMutableDictionary *) obj;
-            //@"goodHero01ID", @"goodHero01totalNum", @"goodHero05totalNum", @"goodHero01winRate",
             [currentPlayer_ENEntity setValue:[heroInfo objectForKey:@"championId"] forKey:[NSString stringWithFormat:@"goodHero0%dID", (int)(idx + 1)]];
             [currentPlayer_ENEntity setValue:[heroInfo objectForKey:@"totalNum"] forKey:[NSString stringWithFormat:@"goodHero0%dtotalNum", (int)(idx + 1)]];
             
@@ -284,7 +278,6 @@ NSString * finishNum = @"0";
         //写入能力值
         NSDictionary * abilities = [NSDictionary dictionaryWithObjectsAndKeys:@"10", @"killsNum_ability", @"10", @"deathsNum_ability", @"10", @"assistsNum_ability", @"20000", @"goldEarnedNum_ability", @"50000", @"totalDamageTakenNum_ability", @"15000", @"physicalDamageDealtToChampionsNum_ability", @"15000", @"magicDamageDealtToChampionsNum_ability", nil];
         [abilities enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//            NSString * numKey = [((NSString *)key) stringByReplacingOccurrencesOfString:@"_ablity" withString:@""];
             NSMutableString * numKey = [NSMutableString stringWithString:key];
             [numKey deleteCharactersInRange:NSMakeRange(numKey.length - 8, 8)];
             int abV = ((NSString *)[currentPlayer_ENEntity valueForKey:numKey]).intValue * 100/ (20*((NSString *)obj).intValue);
@@ -442,16 +435,10 @@ NSString * finishNum = @"0";
     [self updateParentContext];
     [parentContext performBlock:^{
         NSArray <NSString *> * matchListPropertyArr = [GetData getPropertyArrFrom:MatchList_EN.class];
-//        NSArray <NSString *> * perPropertyArr = [GetData getPropertyArrFrom:Participant_EN.class];
-//        NSArray <NSString *> * playerPropertyArr = [GetData getPropertyArrFrom:Player_EN.class];
         NSArray <NSString *> * matchPropertyArr = [GetData getPropertyArrFrom:Match_EN.class];
-//        NSArray <NSString *> * teamPropertyArr = [GetData getPropertyArrFrom:Team_EN.class];
-//        NSArray <NSString *> * runePropertyArr = [GetData getPropertyArrFrom:Rune_EN.class];
-//        NSArray <NSString *> * masteryPropertyArr = [GetData getPropertyArrFrom:Mastery_EN.class];
 
         NSString * currentAccountID = [NSString stringWithFormat:@"%@", [[GetData getSummonerInfo_EN] objectForKey:@"accountId"]];
         MatchList_EN * list_ENEntity =[parentContext objectWithID:MatchList_ENEntity.objectID];
-//        Player_EN * currentPlayer = nil;
 
         NSError * errMatche01;
         NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Match_EN"];
@@ -535,7 +522,6 @@ NSString * finishNum = @"0";
                 NSMutableDictionary * honorShujuM = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"0", @"kda", @"0", @"assists", @"0", @"kills", @"0", @"totalMinionsKilled", @"0", @"goldEarned", @"0", @"totalDamageTaken",  @"0", @"turretKills",@"0", @"totalDamageDealt", nil];
                 NSMutableDictionary * honorConectM = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"mvp",@"kda", @"assistMost",@"assists", @"killMost", @"kills", @"minionMost", @"totalMinionsKilled", @"moneyMost", @"goldEarned",  @"takenMost", @"totalDamageTaken", @"turretMost", @"turretKills", @"damageMost", @"totalDamageDealt", nil];
                 NSMutableDictionary * honorObjIdM = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"0", @"mvp", @"0", @"assistMost", @"0", @"killMost", @"0", @"minionMost", @"0", @"moneyMost", @"0", @"takenMost", @"0", @"turretMost" , @"0", @"damageMost",nil];
-                //                NSMutableDictionary * honorObjIdM = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"0", @"KDA", @"0", @"mvp", @"0", @"assists", @"0", @"assistMost", @"0", @"kills", @"0", @"killMost", @"0", @"totalMinionsKilled", @"0", @"minionMost", @"0", @"goldEarned", @"0", @"moneyMost", @"0", @"totalDamageTaken", @"0", @"takenMost",  @"0", @"turretKills", @"0", @"turretMost" , @"0", @"totalDamageDealt", @"0", @"damageMost",nil];
                 NSMutableDictionary * team = [NSMutableDictionary dictionaryWithDictionary:teamD];
                 [team setObject:gameId forKey:@"gameId"];
                 NSArray * bans = [team objectForKey:@"bans"];
@@ -598,7 +584,6 @@ NSString * finishNum = @"0";
                     NSMutableDictionary * stats = [NSMutableDictionary dictionaryWithDictionary:[participant objectForKey:@"stats"]];
                     NSMutableArray * runes = [participant objectForKey:@"runes"];
                     NSMutableArray * masteries = [participant objectForKey:@"masteries"];
-//                    NSMutableDictionary * timeline = [participant objectForKey:@"timeline"];
                     [participant removeObjectForKey:@"stats"];
                     [participant removeObjectForKey:@"runes"];
                     [participant removeObjectForKey:@"masteries"];
@@ -650,10 +635,6 @@ NSString * finishNum = @"0";
                         {
                             NSLog(@"recV is %f parV is %f key is %@ honor is %@", recV, parV, key, [honorConectM objectForKey:key]);
 
-//                            CGFloat recV =[((NSString *)obj) floatValue];
-//                            CGFloat parV =[[Participant_ENEntity valueForKey:key] floatValue];
-
-
                         }
                     }];
                     Participant_ENEntity.participantToTeam = Team_ENEntity;
@@ -702,8 +683,6 @@ NSString * finishNum = @"0";
 
                 }
 
-
-
                 [honorObjIdM enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 
                     if ([obj isKindOfClass:[NSManagedObjectID class]]) {
@@ -735,7 +714,6 @@ NSString * finishNum = @"0";
                                                     
 +(NSData *)getMatchTimeLineDataWithGameId:(NSString *)gameId
 {
-    // https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/2544379303?api_key=RGAPI-a281494f-4dc4-47dd-8ad3-41dfd956d099
     NSString * strURL = [NSString stringWithFormat:@"https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/%@?api_key=%@", gameId, [self getAPIKey_EN]];
     NSString * strURLEncod = [strURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL * url = [NSURL URLWithString:strURLEncod];
@@ -800,12 +778,10 @@ NSString * finishNum = @"0";
     NSFetchRequest * request = [[NSFetchRequest alloc] initWithEntityName:EntityName];;
     NSEntityDescription * testEntity = [NSEntityDescription entityForName:EntityName inManagedObjectContext:context];
     request.entity = testEntity;
-//    NSSortDescriptor * sort = [[NSSortDescriptor alloc] initWithKey:[entityNameAndSort valueForKey:@"sort"] ascending:NO];
     if (sort != nil) {
         [request setSortDescriptors:[NSArray arrayWithObject:sort]];
     }
-//    [request setSortDescriptors:[NSArray arrayWithObject:sort]];
-//    [request setFetchBatchSize:20];
+
     if (predicate != nil) {
         [request setPredicate:predicate];
     }

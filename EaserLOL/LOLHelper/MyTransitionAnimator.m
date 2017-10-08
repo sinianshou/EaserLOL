@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
     ZFModalTransitonDirectionRight,
 };
 
-@interface MyTransitionAnimator()
+@interface MyTransitionAnimator() <UIGestureRecognizerDelegate>
 
 @property BOOL isInteractive;
 @property ZFModalTransitonDirection direction;
@@ -64,9 +64,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
         CGRect startRect = CGRectZero;
 
         [[transitionContext containerView] addSubview:toViewController.view];
-
-//        toViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        
+  
         if (self.direction == ZFModalTransitonDirectionBottom) {
             startRect = CGRectMake(0,
                                    CGRectGetHeight(toViewController.view.frame),
@@ -83,9 +81,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
                                    CGRectGetWidth(toViewController.view.bounds),
                                    CGRectGetHeight(toViewController.view.bounds));
         }
-        
-//        CGPoint transformedPoint = CGPointApplyAffineTransform(startRect.origin, toViewController.view.transform);
-//        toViewController.view.frame = CGRectMake(transformedPoint.x, transformedPoint.y, startRect.size.width, startRect.size.height);
+
         toViewController.view.frame = startRect;
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
@@ -131,8 +127,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
               initialSpringVelocity:5
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
-//                             CGFloat scaleBack = (1 / self.behindViewScale);
-//                             toViewController.view.layer.transform = CATransform3DScale(toViewController.view.layer.transform, scaleBack, scaleBack, 1);
+
                              [self doScaleVC:toViewController WithA:1 D:1 alpha:1 moveVC:fromViewController toFrame:endRect];
                          } completion:^(BOOL finished) {
                              [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
@@ -313,11 +308,7 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
     }
     
     [[self.transitionContext containerView] bringSubviewToFront:fromVC.view];
-    
-    //        if (![self isIOS8]) {
-    //            toViewController.view.layer.transform = CATransform3DScale(toViewController.view.layer.transform, self.behindViewScale, self.behindViewScale, 1);
-    //        }
-    
+
     toVC.view.alpha = self.behindViewAlpha;
     
     CGRect endRect = CGRectZero;
@@ -338,9 +329,6 @@ typedef NS_ENUM(NSUInteger, ZFModalTransitonDirection) {
                              CGRectGetWidth(fromVC.view.frame),
                              CGRectGetHeight(fromVC.view.frame));
     }
-    
-    //        CGPoint transformedPoint = CGPointApplyAffineTransform(endRect.origin, fromViewController.view.transform);
-    //        endRect = CGRectMake(transformedPoint.x, transformedPoint.y, endRect.size.width, endRect.size.height);
     
     [UIView animateWithDuration:0.3
                           delay:0

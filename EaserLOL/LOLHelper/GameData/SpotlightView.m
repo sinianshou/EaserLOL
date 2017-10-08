@@ -42,7 +42,6 @@
     CGGradientRef gradient = CGGradientCreateWithColorComponents
     (rgb, colors, NULL, 2);
     
-    //    NSLog(@"%lu",sizeof(colors)/(sizeof(colors[0])*4));
     
     // 起点颜色起始圆心
     CGPoint start = CGPointMake(self.frame.size.width/2, self.frame.size.width/2);

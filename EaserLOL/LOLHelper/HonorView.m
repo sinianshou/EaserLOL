@@ -12,17 +12,13 @@
 
 @implementation HonorView
 
-
-
 -(instancetype)initWithName:(NSString *)name viewType:(ViewType) viewType
 {
     self = [super initWithName:name];
-    
     self.viewType = viewType;
-    
+   
     UIImageView * honorImgV = [[UIImageView alloc] init];
     honorImgV.perViewName = @"honorImgV";
-    //    honorImgV.bounds = CGRectMake(0, 0, 45, 45);
     honorImgV.translatesAutoresizingMaskIntoConstraints = NO;
     
     UILabel * honorNumLa = [[UILabel alloc] init];

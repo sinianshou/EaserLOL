@@ -12,17 +12,7 @@
 - (instancetype)init
 {
     self = [super init];
-//    if (self) {
-//        NSInteger majorVersion = [NSProcessInfo processInfo].operatingSystemVersion.majorVersion;
-//        if (majorVersion < 10) {
-//            // iOS10以下的系统, 用旧有的方法初始化Core Data Stack
-//            [self initializeCoreDataLessThaniOS10];
-//        }
-//        else {
-//            // iOS10的系统, 用新的方法(详见上面介绍的情况1)
-//            [self initializeCoreData];
-//        }
-//    }
+
     [self initializeCoreDataLessThaniOS10];
     return self;
 }

@@ -77,32 +77,7 @@
         default:
             break;
     }
-    
-//    switch (self.celltype) {
-//            
-//        case AbilityCellRow0Type:
-//            [self layoutAbilityTypeCellIndexPathRow0];
-//            break;
-//            
-//        case AbilityCellRow1Type:
-//            [self layoutAbilityTypeCellIndexPathRow1];
-//            break;
-//            
-//        case AbilityCellRow2Type:
-//            [self layoutAbilityTypeCellIndexPathRow2];
-//            break;
-//            
-//        case AbilityCellRow3Type:
-//            [self layoutAbilityTypeCellIndexPathRow3];
-//            break;
-//            
-//        case AbilityCellRow4Type:
-//            [self layoutAbilityTypeCellIndexPathRow4];
-//            break;
-//            
-//        default:
-//            break;
-//    }
+ 
     
 }
 
@@ -162,11 +137,7 @@
     NSArray * honorV01Dic = [dic objectForKey:@"honorV01"];
     NSArray * honorV02Dic = [dic objectForKey:@"honorV02"];
     NSArray * honorV03Dic = [dic objectForKey:@"honorV03"];
-//    NSString * type0 = leagueVDic[0];
-//    NSString * type1 = honorV01Dic[0];
-//    NSString * type2 = honorV02Dic[0];
-//    NSString * type3 = honorV03Dic[0];
-//    [leagueV setLeagueViewWithType:type0.intValue duanwei:leagueVDic[1]];
+
     [leagueV setLeagueStr:leagueVDic[0] duanwei:leagueVDic[1]];
     
     NSString * ra = [NSString stringWithFormat:@"Rate："];
@@ -183,26 +154,10 @@
     [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(ra.length+rateLaDic[0].length+3+re.length,rateLaDic[1].length+1)];
     [att addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(ra.length+rateLaDic[0].length+3+re.length+rateLaDic[1].length+1, ma.length)];
     [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(ra.length+rateLaDic[0].length+3+re.length+rateLaDic[1].length+1, ma.length)];
-    /*
-    NSMutableAttributedString * att = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Rate：%@ Recent：%@ matches", rateLaDic[0], rateLaDic[1]]];
-    NSInteger firstLocal = 4+((NSString *)rateLaDic[0]).length;
-    NSInteger secondLocal = firstLocal + 5;
-    [att addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,3)];
-    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0,3)];
-    [att addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(3,((NSString *)rateLaDic[0]).length)];
-    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(3,((NSString *)rateLaDic[0]).length)];
-    [att addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(firstLocal,5)];
-    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(firstLocal,5)];
-    [att addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(secondLocal,((NSString *)rateLaDic[1]).length)];
-    [att addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(secondLocal,((NSString *)rateLaDic[1]).length)];
-     */
+
     rateLa.attributedText = att;
     
-//    rateLa.text = [NSString stringWithFormat:@"胜率：%@ 总局数：%@", rateLaDic[0], rateLaDic[1]];
-    
-//    [honorV01 setHonorViewWithType:type1.intValue Num:honorV01Dic[1]];
-//    [honorV02 setHonorViewWithType:type2.intValue Num:honorV02Dic[1]];
-//    [honorV03 setHonorViewWithType:type3.intValue Num:honorV03Dic[1]];
+
     [honorV01 setHonorStr:honorV01Dic[0] Num:honorV01Dic[1]];
     [honorV02 setHonorStr:honorV02Dic[0] Num:honorV02Dic[1]];
     [honorV03 setHonorStr:honorV03Dic[0] Num:honorV03Dic[1]];
@@ -338,8 +293,7 @@
     NSString * vflH02 = [NSString stringWithFormat:@"H:|-5-[%@(50)]-5-[%@]",heroImgV.perViewName,matchTypeLa.perViewName];
     NSString * vflH03 = [NSString stringWithFormat:@"H:|-%d-[%@(80)]",(screenWid - 80)/2,killLa.perViewName];
     NSString * vflH04 = [NSString stringWithFormat:@"H:|-%d-[%@(13)]-2-[%@(13)]-2-[%@(13)]",(screenWid-43)/2,stateImgV01.perViewName,stateImgV02.perViewName,stateImgV03.perViewName];
-//    NSString * vflH03 = [NSString stringWithFormat:@"H:|-%d-[%@(45)]",killLaLeftDis,killLa.perViewName];
-//    NSString * vflH04 = [NSString stringWithFormat:@"H:|-%d-[%@(13)]-2-[%@(13)]-2-[%@(13)]",killLaLeftDis,stateImgV01.perViewName,stateImgV02.perViewName,stateImgV03.perViewName];
+
     NSString * vflH05 = [NSString stringWithFormat:@"H:[%@]-5-|",timeLa.perViewName];
     [self perAddConstraints:vflV01, vflV02, vflV03, vflV04, vflV05, vflV06, vflH01, vflH02, vflH03, vflH04, vflH05, nil];
     NSLog(@"x is %f,y is %f",heroImgV.frame.origin.x,heroImgV.frame.origin.y);
@@ -360,12 +314,7 @@
     if ([[dic objectForKey:@"heroImgV"] isKindOfClass:[UIImage class]]) {
         heroImgV.image = [dic objectForKey:@"heroImgV"];
     }
-//    else if ([[dic objectForKey:@"heroImgV"] isKindOfClass:[NSDictionary class]])
-//    {
-//        heroImgV.image = [UIImage imageNamed:@"default_head"];
-////        [heroImgV setImageWithContentsOfFile:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconPath"] cacheFromURL:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconURL"]];
-//        [heroImgV setImage:NULL NameKey:@"heroImgV" inCache:NULL named:NULL WithContentsOfFile:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconPath"] cacheFromURL:[[dic objectForKey:@"heroImgV"] objectForKey:@"championIconURL"]];
-//    }
+
     
     resultLa.text = [dic objectForKey:@"resultLa"];
     resultLa.textColor = [UIColor redColor];
@@ -385,9 +334,7 @@
     {stateImgV02.image = [dic objectForKey:@"stateImgV02"];}
     if([dic objectForKey:@"stateImgV01"])
     {stateImgV03.image = [dic objectForKey:@"stateImgV03"];}
-//    stateImgV01.image = [dic objectForKey:@"stateImgV01"];
-//    stateImgV02.image = [dic objectForKey:@"stateImgV02"];
-//    stateImgV03.image = [dic objectForKey:@"stateImgV03"];
+
     
 }
 

@@ -83,7 +83,6 @@
 - (IBAction)backButtonPressed:(UIButton *)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-//    [self.perScrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
 -(void)resetWithDic:(NSDictionary *)dic

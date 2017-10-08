@@ -195,15 +195,6 @@
     }
 }
 
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    return self.headerView;
-//}
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return self.headerView.bounds.size.height;
-//}
-
 #pragma mark - fetchedResultsDelegate methods
 
 -(void)didselectRowData:(id)data
@@ -364,8 +355,6 @@
     NSURLSessionDataTask * dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * data, NSURLResponse *response, NSError *error){
                                                        
                                                        // in case we want to know the response status code
-                                                       //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
-                                                       
                                                        if (error != nil)
                                                        {
                                                            if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
@@ -422,29 +411,8 @@
 {
 }
 
-//- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-//{
-//    [self.tableView beginUpdates];
-//}
-//
-//-(void)controller:(NSFetchedResultsController*)controller didChangeObject:(nonnull id)anObject atIndexPath:(nullable NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(nullable NSIndexPath *)newIndexPath
-//{
-//    if (type == NSFetchedResultsChangeInsert) {
-//        [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    } else if (type == NSFetchedResultsChangeMove) {
-//        [self.tableView moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
-//    } else if (type == NSFetchedResultsChangeDelete) {
-//        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    } else {
-////        NSAssert(NO,@"");
-//    }
-//    //实时更新，但当数据量大时会造成拥挤
-////    [self.tableView reloadData];
-//}
-
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-//    [self.tableView endUpdates];
     [self.myTableView reloadData];
 }
 

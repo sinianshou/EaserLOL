@@ -88,32 +88,21 @@
     NSMutableDictionary * dicM = [GoldEventsModel createModelsDicWithData:(NSData *)value];
     
     NSData * dataFromDicM =  [NSKeyedArchiver archivedDataWithRootObject:dicM];
-//    NSData * dataFromDicM = [[NSData alloc] initWithBytes:(__bridge const void * _Nullable)(dicM) length:sizeof(dicM)];
     return dataFromDicM;
 }
 -(id)reverseTransformedValue:(id)value
 {
     NSData *data = (NSData *)value;
-//    NSMutableDictionary *dicM = [NSMutableDictionary dictionary];
-//    [data getBytes:(__bridge void * _Nonnull)(dicM) length:sizeof(dicM)];
     NSMutableDictionary *dicM =[NSKeyedUnarchiver unarchiveObjectWithData:data];
     return dicM;
 }
 
 //每个属性变量分别转码
 -(void)encodeWithCoder:(NSCoder *)aCoder{
-    
-    /*
-     @property (strong, nonatomic) NSMutableDictionary * goldDic;
-     @property (strong, nonatomic) NSMutableArray * killerArrM;
-     @property (strong, nonatomic) NSMutableArray * victimArrM;
-     @property (strong, nonatomic) NSString * participantId;
-     */
     [aCoder encodeObject:self.goldDic forKey:@"goldDic"];
     [aCoder encodeObject:self.killerArrM forKey:@"killerArrM"];
     [aCoder encodeObject:self.victimArrM forKey:@"victimArrM"];
     [aCoder encodeObject:self.participantId forKey:@"participantId"];
-    
 }
 
 //分别把每个属性变量根据关键字进行逆转码，最后返回一个Student类的对象

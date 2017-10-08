@@ -18,10 +18,7 @@
     if(self) {
         self.backgroundColor= [UIColor clearColor];
         self.windowLevel=UIWindowLevelAlert+1;
-        
-//        self.layer.cornerRadius= frame.size.width/2;
-//        self.clipsToBounds = YES;
-        
+
         self.isExpanded = NO;
         self.circleButtons = [[NSMutableArray alloc] init];
         self.centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -29,8 +26,7 @@
         
         //这句话很重要
         [self setDefaultRoundMenuWithFrame];
-        
-        
+
         [self.centerButton addTarget:self action:@selector(doExpandCircleMenu) forControlEvents:UIControlEventTouchUpInside];
         
         UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]  initWithTarget:self action:@selector(changePostion:)];
@@ -40,8 +36,7 @@
         [self bringSubviewToFront:self.centerButton];
         
         [self makeKeyAndVisible];
-        
-        
+
     }
     
     return self;
@@ -55,8 +50,7 @@
     self.centerButton.backgroundColor = [UIColor orangeColor];
     CGFloat CenterButtonDefaultRadius = self.frame.size.height/2;
     [self setCenterButtonWithRadius:CenterButtonDefaultRadius];
-    
-    
+
     NSArray * iconArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"icon_can"],
                            [UIImage imageNamed:@"icon_pos"],
                            [UIImage imageNamed:@"icon_img"],
@@ -207,12 +201,9 @@
         maskLayer = [CAShapeLayer layer];
         [self.layer insertSublayer:maskLayer below:self.circleButtons[0].layer];
     }
-//    CAShapeLayer *maskLayer = [CAShapeLayer layer];
     maskLayer.fillColor = self.ciecleColor.CGColor;
     maskLayer.path = maskFinalBP.CGPath; //将它的 path 指定为最终的 path 来避免在动画完成后会回弹
-//    toVC.view.layer.mask = maskLayer;
-    
-    
+
     //创建一个关于 path 的 CABasicAnimation 动画来从 circleMaskPathInitial.CGPath 到 circleMaskPathFinal.CGPath 。同时指定它的 delegate 来在完成动画时做一些清除工作
     CABasicAnimation *maskLayerAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
     maskLayerAnimation.fromValue = (__bridge id)(maskStartBP.CGPath);

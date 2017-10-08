@@ -16,8 +16,6 @@
 
 @interface  TableCellModel : UITableViewCell
 
-//@property CGFloat cellHeight;
-
 +(UITableViewCell *) getCellOfFreeChampionsList;
 +(UITableViewCell *) getCellOfChineseNewestVideosWithIdentifier:(NSString *) identifier;
 +(UITableViewCell *) getCellOfChineseAuthorsWithIdentifier:(NSString *) identifier;

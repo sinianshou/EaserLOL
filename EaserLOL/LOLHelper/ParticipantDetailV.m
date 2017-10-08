@@ -71,7 +71,6 @@
     
     self.summonerName = [[UILabel alloc] initWithFrame:CGRectMake(self.ChampIcon.frame.origin.x + self.ChampIcon.frame.size.width + 10, self.ChampIcon.frame.origin.y, CGRectGetMidX(goldImg.frame) - CGRectGetMaxX(self.ChampIcon.frame) , self.ChampIcon.frame.size.height/2)];
     self.summonerName.lineBreakMode = NSLineBreakByTruncatingTail;
-//    self.summonerName.font = [UIFont systemFontOfSize:self.summonerName.bounds.size.height*0.6];
     [self.View01 addSubview:self.summonerName];
     
     self.isExported = [[UIImageView alloc] initWithFrame:CGRectMake(screenSize.width - 9-10, self.item6.frame.origin.y + self.item6.frame.size.height -9, 9, 9)];

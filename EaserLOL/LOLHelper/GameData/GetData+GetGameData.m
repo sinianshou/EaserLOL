@@ -7,7 +7,6 @@
 //
 
 #import "GetData+GetGameData.h"
-//#import "ChampionsBrief_EN+CoreDataClass.h"
 #import "MatchListEntites_ENHeader.h"
 #import "OptimizeLog.h"
 
@@ -51,15 +50,7 @@ static NSManagedObjectContext * mainParentContext;
                 dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
                 dic = [self checkKeyAndIdInDic:dic];
             }
-            
-//            if (data == nil) {
-//                data = [self getChampionsFromURL];
-//                dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
-//                dic = [self checkKeyAndIdInDic:dic];
-//            }else
-//            {
-//                dic = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:nil];
-//            }
+ 
             [self insertChampionsBrife_ENWithData:data];
         }
     }];
@@ -111,8 +102,7 @@ static NSManagedObjectContext * mainParentContext;
         dic = [dic objectForKey:@"data"];
         dic = [dic allValues][0];
         dic = [self checkKeyAndIdInDic:dic];
-        
-        
+
     }else
     {
         NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -247,12 +237,6 @@ static NSManagedObjectContext * mainParentContext;
         mainParentContext = subContext;
     }
     return mainParentContext;
-    
-    //    NSManagedObjectContext * subContext = [((AppDelegate*)[[UIApplication sharedApplication] delegate]).persistentContainer newBackgroundContext];
-    //    NSManagedObjectContext * subContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    //    [self updateGGDParentContext];
-    //    [subContext setParentContext:mainParentContext];
-    //    return subContext;
 }
 +(void)updateGGDParentContext
 {
@@ -262,23 +246,6 @@ static NSManagedObjectContext * mainParentContext;
         [subContext setParentContext:appDe.persistentContainer.viewContext];
         mainParentContext = subContext;
     }
-    
-//    if (mainParentContext == nil) {
-//        NSManagedObjectContext * contextMatchList_EN = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-//        NSPersistentContainer * psc =[[NSPersistentContainer alloc] initWithName:@"LOLHelper"];
-//        [psc loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * storeDescription, NSError * error) {
-//            if (error != nil) {
-//                NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-//                abort();
-//            }
-//        }];
-//        
-//        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"LOLHelper" withExtension:@"momd"];
-//        NSLog(@"%@", modelURL);
-//        
-//        [contextMatchList_EN setPersistentStoreCoordinator:psc.persistentStoreCoordinator];
-//        mainParentContext = contextMatchList_EN;
-//    }
 }
 
 
@@ -337,9 +304,7 @@ static NSManagedObjectContext * mainParentContext;
                 NSLog(@"message is %@, ststus_code is %@", [ststus objectForKey:@"message"], [ststus objectForKey:@"status_code"]);
                 dic = [self getItemsJOSN_EN];
             }
-            
-            
-            
+
             NSDictionary * resultsDic = [dic objectForKey:@"data"];
             [self insertItem_ENWithDic:resultsDic];
             
@@ -355,8 +320,7 @@ static NSManagedObjectContext * mainParentContext;
     NSURL * url = [NSURL URLWithString:strURLEncod];
     
     NSData * data = [NSData dataWithContentsOfURL:url];
-    
-    
+
     NSError * err;
     NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&err];
     
@@ -456,8 +420,7 @@ static NSManagedObjectContext * mainParentContext;
                     [item setValue:[NSString stringWithFormat:@"%@", obj] forKey:key];
                     NSLog(@"key is %@, value is %@", key, obj);
                 }
-//                else if([[NSArray arrayWithObjects:@"into",@"effect", @"from", nil] containsObject:key])
-//                {}
+
             }];
         }];
         NSError * itemErr;
@@ -468,7 +431,6 @@ static NSManagedObjectContext * mainParentContext;
 +(NSArray *)getItem_ENWithId:(nullable NSString *)identifyty tag:(nullable NSString *) tag map:(nullable NSString *)map
 {
     NSFetchRequest * request = [Item_EN fetchRequest];
-//    NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:@"Item_EN"];
     NSMutableArray * preArrM = [NSMutableArray array];
     if (identifyty) {
         [preArrM addObject:[NSPredicate predicateWithFormat:@"id CONTAINS %@", identifyty]];
@@ -594,8 +556,7 @@ static NSManagedObjectContext * mainParentContext;
         }
         
         [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            
-//            MasteryData_EN * mastery = [[MasteryData_EN alloc] initWithEntity:[NSEntityDescription entityForName:@"MasteryData_EN" inManagedObjectContext:subContext] insertIntoManagedObjectContext:subContext];;
+
             MasteryData_EN * mastery = [[MasteryData_EN alloc] initWithContext:subContext];
             [(NSDictionary *)obj enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
                 if ([key isEqualToString:@"description"])

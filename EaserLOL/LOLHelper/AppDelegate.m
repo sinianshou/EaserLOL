@@ -257,7 +257,6 @@
     }
     
     NSLog(@"profileIconPath is %@", profileIconPath);
-//    [self.circleMenu.centerButton setImageWithContentsOfFile:profileIconPath cacheFromURL:profileIconURL forState:UIControlStateNormal];
     [self.circleMenu.centerButton setImage:NULL NameKey:profileIconNameKey inCache:NULL named:NULL WithContentsOfFile:profileIconPath cacheFromURL:profileIconURL forState:UIControlStateNormal];
 }
 

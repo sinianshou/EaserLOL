@@ -10,7 +10,6 @@
 #import "PerCategory.h"
 #import "OptimizeLog.h"
 #import "GetData.h"
-
 #import "ChampionsBrief_EN+CoreDataClass.h"
 
 @interface GoodHero:UIControl
@@ -27,11 +26,9 @@
     self = [super init];
     
     NSString * abilityTypeCellSelecter = [NSString stringWithFormat:@"createAbilityTypeCellIndexPathRow%d", (int)indexPath.row];
-//    NSString * abilityTypeCellSelecter = [NSString stringWithFormat:@"createAbilityTypeCellIndexPathRow%d", (int)indexPath.row];
     SEL methodSEL = NSSelectorFromString(abilityTypeCellSelecter);
     if ([self respondsToSelector:methodSEL]) {
-        
-//        [self performSelector:methodSEL];
+
         
         IMP imp = [self methodForSelector:methodSEL];
         void (* func)(id, SEL) = (void *)imp;
@@ -77,10 +74,7 @@
     UIImage * nenglituIm = [UIImage imageNamed:@"nenglitu_rd75"];
     UIGraphicsBeginImageContextWithOptions(ablilityPicV.bounds.size, NO, 0.0);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    
-//    CGContextSetFillColorWithColor(ctx, UIColorHex(0x1b29b4,0.5).CGColor);
-//
-//    CGContextSetStrokeColorWithColor(ctx, UIColorHex(0x2b38bc,1).CGColor);
+
     [nenglituIm drawAtPoint:CGPointZero];
     CGMutablePathRef path1=CGPathCreateMutable();
     
@@ -91,9 +85,6 @@
     double angle = 0;
     CGPoint point01 = CGPointZero;
     UIColor * fillColor = [UIColor colorWithRed:0 green:0 blue:(255/255.0) alpha:0.5];
-//    NSArray * abD = [NSArray arrayWithObjects:@"击杀", @"金钱", @"防御", @"魔法",  @"物理", @"助攻", @"生存", nil];
-//    NSDictionary * dict=@{NSFontAttributeName:[UIFont systemFontOfSize:10]};
-//    NSDictionary * dict=@{NSFontAttributeName:[UIFont systemFontOfSize:10],NSForegroundColorAttributeName:[UIColor brownColor]};
     for (int i = 0; i < abRs.count ; i++) {
         if (i == 0) {
             abR = abRs[i];
@@ -101,8 +92,7 @@
             point01 = CGPointMake((centerWid + rd * (abR.floatValue / 100 * cos(angle))), (centerWid + rd * (abR.floatValue / 100 * sin(angle))));
             CGContextSetStrokeColorWithColor(ctx, fillColor.CGColor);
             CGPathMoveToPoint(path1, nil, point01.x, point01.y);//移动到指定位置（设置路径起点）
-//            point01 = CGPointMake((rd + 0.9*rd * cos(angle)-10), (rd + 0.9*rd * sin(angle))-5);
-//            [abD[i] drawAtPoint:point01 withAttributes:dict];
+
         }else
         {
             abR = abRs[i];
@@ -110,8 +100,7 @@
             point01 = CGPointMake((centerWid + rd * (abR.floatValue / 100 * cos(angle))), (centerWid + rd * (abR.floatValue / 100 * sin(angle))));
             CGContextSetStrokeColorWithColor(ctx, fillColor.CGColor);
             CGPathAddLineToPoint(path1, nil,  point01.x, point01.y);//绘制直线
-//            point01 = CGPointMake((rd + 0.9*rd * cos(angle)-10), (rd + 0.9*rd * sin(angle))-5);
-//            [abD[i] drawAtPoint:point01 withAttributes:dict];
+
         }
     }
     CGContextSetFillColorWithColor(ctx, fillColor.CGColor);
@@ -120,9 +109,7 @@
     
     //2.b.3把圆的路径添加到图形上下文中
     CGContextAddPath(ctx, path1);
-    
-    //CGContextStrokePath(ctx);
-    
+
     CGContextDrawPath(ctx, kCGPathFillStroke);
     
     UIImage* im = UIGraphicsGetImageFromCurrentImageContext();
@@ -201,7 +188,6 @@
     UILabel * gameAlbumDes = [[UILabel alloc] initWithName:@"gameAlbumDes"];
     gameAlbumDes.font = [UIFont systemFontOfSize:8];
     gameAlbumDes.layer.contents = [UIImage imageNamed:@"personal_honor_event_desc_bg_view"];
-//    gameAlbumDes.layer.contents = (__bridge id _Nullable)([UIImage imageNamed:@"personal_honor_event_desc_bg_view"].CGImage);
     gameAlbumDes.contentMode = UIViewContentModeScaleAspectFit;
     //60x41
     UIButton * gameAlbumButton01 = [[UIButton alloc] initWithName:@"gameAlbumButton01"];
@@ -275,7 +261,6 @@
         [gameAlbumButton01 setTitle:str forState:UIControlStateNormal];
         [gameAlbumButton01 setBackgroundImage:[UIImage imageNamed:@"personal_ability_honor_1"] forState:UIControlStateNormal];
         gameAlbumButton01.titleLabel.font = [UIFont systemFontOfSize:10];
-//        [gameAlbumButton01 setImage:[UIImage imageNamed:@"personal_ability_honor_1"] forState:UIControlStateNormal];
     }
     if ([dic objectForKey:@"gameAlbumButton02"]) {
         str = [NSString stringWithFormat:@"%@\nQuadraKill",[dic objectForKey:@"gameAlbumButton02"]];
@@ -333,10 +318,7 @@
 }
 -(void)configueAbilityTypeCellIndexPathRow3WithDic:(NSDictionary *) dic
 {
-//    UIImageView * heroTimeIconV = [self.perSubviews objectForKey:@"heroTimeIconV"];
-//    UILabel * myHeroTimeLa = [self.perSubviews objectForKey:@"myHeroTimeLa"];
-//    UILabel * all = [self.perSubviews objectForKey:@"all"];
-//    UIImageView * myHeroTimeArrow = [self.perSubviews objectForKey:@"myHeroTimeArrow"];
+
 }
 -(void)createAbilityTypeCellIndexPathRow4
 {
@@ -379,41 +361,11 @@
 {
     NSString * configueMethodStr = [NSString stringWithFormat:@"configueAbilityTypeCellIndexPathRow%dWithDic:",(int)indexPath.row];
     SEL sec = NSSelectorFromString(configueMethodStr);
-//    [self performSelector:sec withObject:dic];
+
     IMP imp = [self methodForSelector:sec];
     void (* func)(id, SEL, NSDictionary *) = (void *)imp;
     func(self, sec, dic);
 }
-
-//-(void)layoutSubviews
-//{
-//    [super layoutSubviews];
-//    switch (self.celltype) {
-//            
-//        case AbilityCellRow0Type:
-//            [self layoutAbilityTypeCellIndexPathRow0];
-//            break;
-//            
-//        case AbilityCellRow1Type:
-//            [self layoutAbilityTypeCellIndexPathRow1];
-//            break;
-//            
-//        case AbilityCellRow2Type:
-//            [self layoutAbilityTypeCellIndexPathRow2];
-//            break;
-//            
-//        case AbilityCellRow3Type:
-//            [self layoutAbilityTypeCellIndexPathRow3];
-//            break;
-//            
-//        case AbilityCellRow4Type:
-//            [self layoutAbilityTypeCellIndexPathRow4];
-//            break;
-//            
-//        default:
-//            break;
-//    }
-//}
 
 @end
 
@@ -454,25 +406,7 @@
     heroImgV.layer.cornerRadius = 25;
     heroImgV.clipsToBounds = YES;
     heroImgV.image = [UIImage imageNamed:@"default_head"];
-//    NSURL * championAPIURL = [GetData getChampionURLWithID_EN:heroID];
-//    NSURLSession * session = [NSURLSession sharedSession];
-//    NSURLSessionDataTask * dataTask = [session dataTaskWithURL:championAPIURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-//        if (error) {
-//            NSLog(@"%@",[error userInfo]);
-//        }else
-//        {
-//            NSString * cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-//            NSDictionary * championIdc = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:NULL];
-//            NSURL * championIconURL = [GetData getChampionIconURLWithName_EN:[championIdc objectForKey:@"name"]];
-//            NSString * iconName = [NSString stringWithFormat:@"championIcon_EN_%@.png", [championIdc objectForKey:@"name"]];
-//            NSString * championIconPath = [cachesDir stringByAppendingPathComponent:iconName];
-//            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                [heroImgV setImage:NULL WithContentsOfFile:championIconPath cacheFromURL:championIconURL];
-//            }];
-//        }
-//    }];
-//    [dataTask resume];
-    
+
     NSString * cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
     NSArray * arr = [GetData getChampionsBrife_ENWithId:heroID];
     ChampionsBrief_EN * championsBrief_EN = [arr firstObject];

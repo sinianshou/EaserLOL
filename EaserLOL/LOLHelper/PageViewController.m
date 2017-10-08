@@ -21,9 +21,6 @@
     [super viewDidLoad];
     
     [self.PageView loadHTMLString:self.content baseURL:[NSURL URLWithString:@"baidu"]];
-//    self.navigationController.navigationBar.barTintColor = [UIColor blueColor];
-//    self.navigationController.title = @"1qaz2wsxE";
-//    self.navigationController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed:)];
     
     [self resizingControlls];
     // Do any additional setup after loading the view.

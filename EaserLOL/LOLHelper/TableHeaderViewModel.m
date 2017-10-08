@@ -56,7 +56,6 @@
     [self addSubview:self.imgView];
     
     NSDictionary * views2 = [[NSDictionary alloc]initWithObjectsAndKeys:self.imgView,@"imgView",self.MenuControlHView,@"MenuControlHView", nil];
-//    NSDictionary * views2 = NSDictionaryOfVariableBindings(MenuControlHView,imgView);
     NSString * vflV11 = @"V:|[imgView][MenuControlHView]|";
     NSArray * constraintsV11 = [NSLayoutConstraint constraintsWithVisualFormat:vflV11 options:0 metrics:NULL views:views2];
     [self addConstraints:constraintsV11];

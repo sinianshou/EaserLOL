@@ -8,7 +8,6 @@
 #ifndef BattelDetailContentVCDelegate_h
 #define BattelDetailContentVCDelegate_h
 
-//#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 @protocol ContentVCDelegatePro

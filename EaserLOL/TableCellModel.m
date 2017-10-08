@@ -12,8 +12,6 @@
 
 @implementation TableCellModel
 
-//@synthesize cellHeight;
-
 +(UITableViewCell *) getCellOfFreeChampionsList
 {
     TableCellModel * tableCell = [[super alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NULL];

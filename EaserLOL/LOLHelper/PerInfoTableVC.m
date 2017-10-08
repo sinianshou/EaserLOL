@@ -70,7 +70,6 @@
     
     self.imgCache = [NSMutableDictionary dictionary];
     AppDelegate * app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    self.tableView.contentInset = UIEdgeInsetsZero;
     self.defaultEdgeInsets = UIEdgeInsetsMake(0, 0, app.rootTabBarController.tabBar.bounds.size.height, 0);
     self.tableView.contentInset = self.defaultEdgeInsets;
     self.Origin = [[NSUserDefaults standardUserDefaults] stringForKey:@"origin_preference"].integerValue;
@@ -139,8 +138,6 @@
 -(PerInfoCell *)configueStatsTypeCell:(PerInfoCell *)cell atIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView
 {
     MatchList_EN * matchListResult = nil;
-//    Participant_EN * participantResult = nil;
-//    NSMutableDictionary * resultDic = nil;
     NSMutableDictionary * dic = nil;
     NSArray * arr04 = [NSArray arrayWithObjects:@"0",@"None", nil];
     NSArray * arr05 = [NSArray arrayWithObjects:@"50%",@"500", nil];
@@ -149,7 +146,6 @@
     NSArray * __block arr03 = [NSArray arrayWithObjects:@"2",@"100", nil];
     NSArray * currentAcountArr = [GetData getSummonerEntityArr_EN];
     Player_EN * currentAcount = nil;
-//    NSMutableDictionary * defaultDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"default_head"],@"heroImgV", @"胜利",@"resultLa", @"经典匹配",@"matchTypeLa", @"9 / 9 / 9",@"killLa", @"06-22 16:45", @"timeLa", [UIImage imageNamed:@"icon_kill"], @"stateImgV01", [UIImage imageNamed:@"icon_leave"], @"stateImgV02", [UIImage imageNamed:@"icon_money"], @"stateImgV03", nil];
     NSMutableDictionary * defaultDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[UIImage imageNamed:@"default_head"],@"heroImgV", @"胜利",@"resultLa", @"经典匹配",@"matchTypeLa", @"9 / 9 / 9",@"killLa", @"06-22 16:45", @"timeLa", nil];
     NSArray *  stats_ENHonorkeys = [NSArray arrayWithObjects: @"mvpNum", @"chaoshenNum", @"pentaKNum", @"quadraKNum", @"tripleKNum", @"killsNum", @"assistsNum", @"wardsNum", nil];
     NSArray *  list_ENHonorkeys = [NSArray arrayWithObjects:@"chaoshen", @"quadraKills", @"killMost", @"tripleKills", @"damageMost", @"assistMost", @"minionMost", @"moneyMost",  @"takenMost", @"turretMost", nil];
@@ -204,7 +200,6 @@
                 NSLog(@"self.Origin 为 EN，设置dic");
                 if (self.fetchResults.count > 0) {
                     matchListResult = [self.fetchResults objectAtIndex:indexPath.row - 2];
-//                    }
                     [self updateMatchListChampionIconWithID:matchListResult.champion atIndexPath:indexPath inTableView:tableView];
                     if (matchListResult) {
                         if (matchListResult.gameMode != nil) {
@@ -259,7 +254,6 @@
     if (cell.celltype == MatchListCellType) {
         self.cellIdentifier = cell.reuseIdentifier;
     }
-//    NSString * s = cell.reuseIdentifier;
     [cell configueStatsCellWithDic:dic atIndexPath:indexPath];
     
     self.tableView.estimatedRowHeight = cell.lastHeight;
@@ -463,10 +457,6 @@
     iconV.layer.masksToBounds = YES;
     [iconV setBackgroundImage:[UIImage imageNamed:@"default_head"] forState:UIControlStateNormal];
     [iconV setImage:[UIImage imageNamed:@"personal_head_background"] forState:UIControlStateNormal];
-//    NSString * cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-//    NSString * profileIconPath = [cachesDir stringByAppendingPathComponent:[NSString stringWithFormat:@"profileIcon_EN_%@.png", [[GetData getSummonerInfo_EN] objectForKey:@"profileIconId"]]];
-//    NSURL * profileIconURL = [GetData getProfileIconURL_EN];
-//    [iconV setBackGroundImageWithContentsOfFile:profileIconPath cacheFromURL:profileIconURL forState:UIControlStateNormal];
     NSDictionary * accountPicDic = [GetData getSummonerPicDic_EN];
     [iconV setBackGroundImage:NULL NameKey:[accountPicDic objectForKey:@"NameKey"] inCache:NULL named:[accountPicDic objectForKey:@"NameKey"] WithContentsOfFile:[accountPicDic objectForKey:@"Path"] cacheFromURL:[accountPicDic objectForKey:@"URL"] forState:UIControlStateNormal];
     
