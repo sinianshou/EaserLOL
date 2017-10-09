@@ -52,6 +52,7 @@
     [super viewDidLoad];
     self.LHTableViewDataSource = [[TableViewDataSource alloc] initWithTableView:self.LHTable];
     self.LHTableViewDataSource.myLHUpDropDelegate = self;
+        
     UIView * header01 = [TableHeaderViewModel getTableHeaderView];
     header01.tag = 31;
     header01.translatesAutoresizingMaskIntoConstraints = YES;
@@ -128,13 +129,15 @@
     
     UIView * view01 = [self.LHTable viewWithTag:31];
     UIImageView * imgView = [view01 viewWithTag:12];
-    CGFloat sectionHeaderHeight = imgView.bounds.size.height*1/3;
+    CGFloat sectionHeaderHeight = imgView.bounds.size.height/3+1;
     AppDelegate * appDe = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//    appDe.rootTabBarController.tabBar.bounds.size.height;
-//    self.tabBarItem.accessibilityFrame.size.height;
     
-    self.LHNavigation.bounds = CGRectMake(0,0,screenSize.width, sectionHeaderHeight);
+    self.LHNavigation.bounds = CGRectMake(0,0,screenSize.width, 44);
+    [self.LHNavigation sizeThatFits:CGSizeMake(screenSize.width, 44)];
     self.LHNavigation.translatesAutoresizingMaskIntoConstraints = NO;
+    self.LHNavigation.transform = CGAffineTransformMakeTranslation(0, sectionHeaderHeight/2-CGRectGetMidY(self.LHNavigation.bounds));
+    self.LHNavigation.transform = CGAffineTransformScale(self.LHNavigation.transform, 1, sectionHeaderHeight/CGRectGetMaxY(self.LHNavigation.bounds));
+    
     //添加垂直方向的约束
     NSString *vflV01 = [NSString stringWithFormat:@"V:|[LHTable]-%f-|", appDe.rootTabBarController.tabBar.bounds.size.height];
     NSDictionary * views = [NSDictionary dictionaryWithObjectsAndKeys:self.LHNavigation,@"LHNavigation",self.LHTable,@"LHTable", nil];
@@ -142,7 +145,7 @@
     [self.view addConstraints:constraintsV01] ;
     
     
-    NSString *vflV02 = [NSString stringWithFormat:@"V:|[LHNavigation(%f)]",sectionHeaderHeight];
+    NSString *vflV02 = [NSString stringWithFormat:@"V:|[LHNavigation(%f)]",CGRectGetMaxY(self.LHNavigation.bounds)];
     NSArray * constraintsV02 = [NSLayoutConstraint constraintsWithVisualFormat:vflV02 options:0 metrics:nil views:views];
     [self.view addConstraints:constraintsV02] ;
     
@@ -162,6 +165,7 @@
 
 -(void)changeNavigationStatu:(NSString *)headerStatue
 {
+    
     if ([headerStatue  isEqual: @"UpToTop"]) {
         self.LHNavigation.hidden = NO;
         [self.view bringSubviewToFront:self.LHNavigation];

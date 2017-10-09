@@ -396,7 +396,7 @@
             [self.myLHUpDropDelegate changeNavigationStatu:@"UpToTop"];
         }
         
-        NSLog(@"headerStatue update");
+        NSLog(@"headerStatue update, sectionHeaderHeight is %f, view01.frame is %@, imgView.frame is %@", sectionHeaderHeight, NSStringFromCGRect(view01.frame), NSStringFromCGRect(imgView.frame));
     }else
     {
         view01.frame = CGRectMake(view01.frame.origin.x, 0, view01.frame.size.width, view01.frame.size.height);
@@ -405,7 +405,6 @@
         }
     }
     [self.myTableView layoutIfNeeded];
-    NSLog(@"offset is %f, %f",scrollView.contentOffset.y,scrollView.contentInset.top);
 }
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {

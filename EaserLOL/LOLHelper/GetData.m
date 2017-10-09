@@ -138,7 +138,15 @@
             [self insertChineseNewestVideos:entityName WithDic:subResult];
         }else if ([entityName  isEqual: @"ChineseAuthors"])
         {
-            [self insertChineseAuthors:entityName WithDic:subResult];
+            if ([[NSThread currentThread] isMainThread]) {
+                [self insertChineseAuthors:entityName WithDic:subResult];
+            }else
+            {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self insertChineseAuthors:entityName WithDic:subResult];
+                }];
+            }
+            
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayNotification" object:[NSString stringWithFormat:@"Finish uploading %@", entityName] userInfo:NULL];

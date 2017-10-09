@@ -71,6 +71,7 @@
     self.imgCache = [NSMutableDictionary dictionary];
     AppDelegate * app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.defaultEdgeInsets = UIEdgeInsetsMake(0, 0, app.rootTabBarController.tabBar.bounds.size.height, 0);
+//    self.defaultEdgeInsets = UIEdgeInsetsZero;
     self.tableView.contentInset = self.defaultEdgeInsets;
     self.Origin = [[NSUserDefaults standardUserDefaults] stringForKey:@"origin_preference"].integerValue;
     
@@ -341,11 +342,11 @@
     UILabel * prefile = [perNaBar.perSubviews objectForKey:@"prefile"];
     UIButton * areaBut = [perNaBar.perSubviews objectForKey:@"areaBut"];
     
-    NSLog(@"contentOffset.y is %f",scrollView.contentOffset.y);
-    CGSize scZ = [UIScreen mainScreen].bounds.size;
-    CGFloat hei = scZ.width * 176 / 320 ;
+    UIImageView * perInfoHeaderImgV = [self.perSectionHeader.perSubviews objectForKey:@"perInfoHeaderImgV"];
+    CGFloat hei = perInfoHeaderImgV.bounds.size.height ;
+    
     if (scrollView.contentOffset.y <= 0) {
-        UIImageView * perInfoHeaderImgV = [self.perSectionHeader.perSubviews objectForKey:@"perInfoHeaderImgV"];
+//        UIImageView * perInfoHeaderImgV = [self.perSectionHeader.perSubviews objectForKey:@"perInfoHeaderImgV"];
         CGFloat wid = (hei - scrollView.contentOffset.y)/ perInfoHeaderImgV.bounds.size.height;
         perInfoHeaderImgV.transform = CGAffineTransformMake(wid, 0,-0, wid, 0, scrollView.contentOffset.y/2);
         
@@ -424,9 +425,11 @@
 
 -(void)setPerHeader
 {
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     UIColor  *perColor = [UIColor colorWithRed:205/255.00 green:185/255.00 blue:130/255.00 alpha:1];
     UIImageView * perInfoHeaderImgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"personal_info_share_back_ground"]];
     perInfoHeaderImgV.perViewName = @"perInfoHeaderImgV";
+    perInfoHeaderImgV.frame = CGRectMake(0, 0, screenWidth, screenWidth*176/320);
     perInfoHeaderImgV.translatesAutoresizingMaskIntoConstraints =NO;
     
     NSArray * arr = [NSArray arrayWithObjects:@"Match", @"Ability", nil];
@@ -484,20 +487,22 @@
     self.perRefreshView =refreshView;
     
     UIView * perInfoHeader = [[UIView alloc] initWithName:@"perInfoHeader"];
+    perInfoHeader.translatesAutoresizingMaskIntoConstraints = YES;
+    perInfoHeader.frame = CGRectMake(0, 0, screenWidth, perInfoHeaderImgV.bounds.size.height+24);
     [perInfoHeader perAddSubviews:perInfoHeaderImgV, perInfoMenuControl, playerHeaderV, refreshView, nil];
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    NSString * vflV01 = [NSString stringWithFormat:@"V:|[%@(176)][%@(24)]|", perInfoHeaderImgV.perViewName, perInfoMenuControl.perViewName];
-    NSString * vflV02 = [NSString stringWithFormat:@"V:|-24-[%@(45)]-10-[%@(77)]-20-[%@(24)]|", refreshView.perViewName, playerHeaderV.perViewName, perInfoMenuControl.perViewName];
+    //640*352
+    NSString * vflV01 = [NSString stringWithFormat:@"V:|[%@(%f)][%@(24)]|", perInfoHeaderImgV.perViewName, perInfoHeaderImgV.bounds.size.height, perInfoMenuControl.perViewName];
+    NSString * vflV02 = [NSString stringWithFormat:@"V:[%@(45)]-10-[%@(77)]-20-[%@(24)]|", refreshView.perViewName, playerHeaderV.perViewName, perInfoMenuControl.perViewName];
     NSString * vflH01 = [NSString stringWithFormat:@"H:|[%@]|", perInfoHeaderImgV.perViewName];
-    NSString * vflH02 = [NSString stringWithFormat:@"H:|[%@]|", perInfoMenuControl.perViewName];
-    NSString * vflH03 = [NSString stringWithFormat:@"H:|-%d-[%@]", (int)((screenWidth - 57)/2), playerHeaderV.perViewName];
+    NSString * vflH02 = [NSString stringWithFormat:@"H:|[%@(%f)]|", perInfoMenuControl.perViewName, perInfoMenuControl.bounds.size.width<screenWidth?screenWidth:perInfoMenuControl.bounds.size.width];
+    NSString * vflH03 = [NSString stringWithFormat:@"H:|-%d-[%@]", (int)((screenWidth - playerHeaderV.bounds.size.width)/2), playerHeaderV.perViewName];
     NSString * vflH04 = [NSString stringWithFormat:@"H:|[%@]|", refreshView.perViewName];
     [perInfoHeader perAddConstraints:vflV01, vflV02, vflH01, vflH02, vflH03, vflH04, nil];
     
     self.perSectionHeader = perInfoHeader;
     [self.tableView perAddSubviews:perInfoHeader, nil];
     UIView * HV = [[UIView alloc] initWithName:@"HV"];
-    HV.bounds = CGRectMake(0, 0, 320, 196);
+    HV.bounds = self.perSectionHeader.bounds;
     self.tableView.tableHeaderView = HV;
 }
 -(void)refreshIconView
