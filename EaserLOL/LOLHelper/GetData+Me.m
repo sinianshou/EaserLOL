@@ -109,6 +109,7 @@ NSString * finishNum = @"0";
         
         [self updateParentContext];
         [parentContext performBlockAndWait:^{
+            NSArray <NSString *> * MatchList_ENPropertyArr = [GetData getPropertyArrFrom:MatchList_EN.class];
             for (matchListM in matchesM) {
                 matchListM = [NSMutableDictionary dictionaryWithDictionary:matchListM];
                 
@@ -122,7 +123,9 @@ NSString * finishNum = @"0";
                         if ([key isEqualToString:@"summonerName"]) {
                             MatchList_ENEntity.summonerName = value;
                         }
-                        [MatchList_ENEntity setValue:value forKey:key];
+                        if ([MatchList_ENPropertyArr containsObject:key]) {
+                            [MatchList_ENEntity setValue:value forKey:key];
+                        }
                     }
                     NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:MatchList_ENEntity.objectID,@"objectID", [matchListM objectForKey:@"gameId"], @"gameId", nil];
                     [objectIDs addObject:dic];
@@ -189,6 +192,8 @@ NSString * finishNum = @"0";
     //收集当前用户honor信息
     [self updateParentContext];
     Player_EN * currentPlayer_ENEntity = nil;
+    NSArray <NSString *> * playerPropertyArr = [GetData getPropertyArrFrom:Player_EN.class];
+    
     NSError * errPlayer01;
     NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Player_EN"];
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"accountId == %@", [[GetData getSummonerInfo_EN] objectForKey:@"accountId"]];
@@ -206,7 +211,9 @@ NSString * finishNum = @"0";
         NSMutableDictionary * __block  herosInfoDic = [NSMutableDictionary dictionary];
         
         [currentPlayer_ENkeys.allValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [currentPlayer_ENEntity setValue:@"0" forKey:obj];
+            if ([playerPropertyArr containsObject:obj]) {
+                [currentPlayer_ENEntity setValue:@"0" forKey:obj];
+            }
         }];
         int __block largestMultiWinsLim = 1;
         NSSortDescriptor *ageDescriptor = [[NSSortDescriptor alloc] initWithKey:@"gameId" ascending:NO];
@@ -220,7 +227,9 @@ NSString * finishNum = @"0";
             for (key in currentPlayer_ENkeys.allKeys) {
                 CPKey =[currentPlayer_ENkeys objectForKey:key];
                 numValue =((NSString *)[currentPlayer_ENEntity valueForKey:CPKey]).intValue + ((NSString *)[par valueForKey:key]).intValue;
-                [currentPlayer_ENEntity setValue:[NSString stringWithFormat:@"%d",numValue] forKey:CPKey];
+                if ([playerPropertyArr containsObject:CPKey]) {
+                    [currentPlayer_ENEntity setValue:[NSString stringWithFormat:@"%d",numValue] forKey:CPKey];
+                }
             }
             if (idx == 0) {
                 currentPlayer_ENEntity.largestMultiWins = par.win;
@@ -266,10 +275,18 @@ NSString * finishNum = @"0";
         NSArray * herosInfoArr = [herosInfoArrModel sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor1]];
         [herosInfoArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSMutableDictionary * heroInfo = (NSMutableDictionary *) obj;
-            [currentPlayer_ENEntity setValue:[heroInfo objectForKey:@"championId"] forKey:[NSString stringWithFormat:@"goodHero0%dID", (int)(idx + 1)]];
-            [currentPlayer_ENEntity setValue:[heroInfo objectForKey:@"totalNum"] forKey:[NSString stringWithFormat:@"goodHero0%dtotalNum", (int)(idx + 1)]];
-            
-            [currentPlayer_ENEntity setValue:[NSString stringWithFormat:@"%d%%", (int)(100 * ((NSString *)[heroInfo objectForKey:@"winNum"]).intValue/((NSString *)[heroInfo objectForKey:@"totalNum"]).intValue)] forKey:[NSString stringWithFormat:@"goodHero0%dwinRate", (int)(idx + 1)]];
+            NSString * goodHeroID = [NSString stringWithFormat:@"goodHero0%dID", (int)(idx + 1)];
+            if ([playerPropertyArr containsObject:goodHeroID]){
+                [currentPlayer_ENEntity setValue:[heroInfo objectForKey:@"championId"] forKey:goodHeroID];
+            }
+            NSString * goodHeroTotalNum = [NSString stringWithFormat:@"goodHero0%dtotalNum", (int)(idx + 1)];
+            if ([playerPropertyArr containsObject:goodHeroTotalNum]){
+                [currentPlayer_ENEntity setValue:[heroInfo objectForKey:@"totalNum"] forKey:goodHeroTotalNum];
+            }
+            NSString * goodHeroWinRate = [NSString stringWithFormat:@"goodHero0%dwinRate", (int)(idx + 1)];
+            if ([playerPropertyArr containsObject:goodHeroWinRate]){
+                [currentPlayer_ENEntity setValue:[NSString stringWithFormat:@"%d%%", (int)(100 * ((NSString *)[heroInfo objectForKey:@"winNum"]).intValue/((NSString *)[heroInfo objectForKey:@"totalNum"]).intValue)] forKey:goodHeroWinRate];
+            }
             if (idx == 4) {
                 * stop = YES;
             }
@@ -278,12 +295,14 @@ NSString * finishNum = @"0";
         //写入能力值
         NSDictionary * abilities = [NSDictionary dictionaryWithObjectsAndKeys:@"10", @"killsNum_ability", @"10", @"deathsNum_ability", @"10", @"assistsNum_ability", @"20000", @"goldEarnedNum_ability", @"50000", @"totalDamageTakenNum_ability", @"15000", @"physicalDamageDealtToChampionsNum_ability", @"15000", @"magicDamageDealtToChampionsNum_ability", nil];
         [abilities enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            NSMutableString * numKey = [NSMutableString stringWithString:key];
-            [numKey deleteCharactersInRange:NSMakeRange(numKey.length - 8, 8)];
-            int abV = ((NSString *)[currentPlayer_ENEntity valueForKey:numKey]).intValue * 100/ (20*((NSString *)obj).intValue);
-            abV = (abV >= 95) ? 95:abV;
-            abV = (abV <= 5) ? 5:abV;
-            [currentPlayer_ENEntity setValue:[NSString stringWithFormat:@"%d", abV] forKey:key];
+            if ([playerPropertyArr containsObject:key]) {
+                NSMutableString * numKey = [NSMutableString stringWithString:key];
+                [numKey deleteCharactersInRange:NSMakeRange(numKey.length - 8, 8)];
+                int abV = ((NSString *)[currentPlayer_ENEntity valueForKey:numKey]).intValue * 100/ (20*((NSString *)obj).intValue);
+                abV = (abV >= 95) ? 95:abV;
+                abV = (abV <= 5) ? 5:abV;
+                [currentPlayer_ENEntity setValue:[NSString stringWithFormat:@"%d", abV] forKey:key];
+            }
         }];
         
         
@@ -436,7 +455,13 @@ NSString * finishNum = @"0";
     [parentContext performBlock:^{
         NSArray <NSString *> * matchListPropertyArr = [GetData getPropertyArrFrom:MatchList_EN.class];
         NSArray <NSString *> * matchPropertyArr = [GetData getPropertyArrFrom:Match_EN.class];
+        NSArray <NSString *> * teamPropertyArr = [GetData getPropertyArrFrom:Team_EN.class];
+        NSArray <NSString *> * playerPropertyArr = [GetData getPropertyArrFrom:Player_EN.class];
+        NSArray <NSString *> * participantPropertyArr = [GetData getPropertyArrFrom:Participant_EN.class];
+        NSArray <NSString *> * runePropertyArr = [GetData getPropertyArrFrom:Rune_EN.class];
+        NSArray <NSString *> * masteryPropertyArr = [GetData getPropertyArrFrom:Mastery_EN.class];
 
+        
         NSString * currentAccountID = [NSString stringWithFormat:@"%@", [[GetData getSummonerInfo_EN] objectForKey:@"accountId"]];
         MatchList_EN * list_ENEntity =[parentContext objectWithID:MatchList_ENEntity.objectID];
 
@@ -534,9 +559,11 @@ NSString * finishNum = @"0";
                 
                 Team_EN * Team_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Team_EN" inManagedObjectContext:parentContext];
                 for (nomkey in team.allKeys) {
-                    nomvalue = [NSString stringWithFormat:@"%@", [team objectForKey:nomkey]];
-                    [Team_ENEntity setValue:nomvalue forKey:nomkey];
-                    NSLog(@"set Team_ENEntity %@ from team", nomkey);
+                    if ([teamPropertyArr containsObject:nomkey]) {
+                        nomvalue = [NSString stringWithFormat:@"%@", [team objectForKey:nomkey]];
+                        [Team_ENEntity setValue:nomvalue forKey:nomkey];
+                        NSLog(@"set Team_ENEntity %@ from team", nomkey);
+                    }
                 }
                 Team_ENEntity.teamToMatch = Match_ENEntity;
 
@@ -573,10 +600,11 @@ NSString * finishNum = @"0";
                         Player_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Player_EN" inManagedObjectContext:parentContext];
                     }
                     for (nomkey in player.allKeys) {
-                        nomvalue = [NSString stringWithFormat:@"%@", [player objectForKey:nomkey]];
-                        [Player_ENEntity setValue:nomvalue forKey:nomkey];
-
-                        NSLog(@"set Player_ENEntity %@ from player", nomkey);
+                        if ([playerPropertyArr containsObject:nomkey]) {
+                            nomvalue = [NSString stringWithFormat:@"%@", [player objectForKey:nomkey]];
+                            [Player_ENEntity setValue:nomvalue forKey:nomkey];
+                            NSLog(@"set Player_ENEntity %@ from player", nomkey);
+                        }
                     }
 
                     NSMutableDictionary * participant = [NSMutableDictionary dictionaryWithDictionary:participantResource[i]];
@@ -590,10 +618,13 @@ NSString * finishNum = @"0";
                     [participant removeObjectForKey:@"timeline"];
                     
                     Participant_EN * Participant_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Participant_EN" inManagedObjectContext:parentContext];
+                    
                     for (nomkey in participant.allKeys) {
-                        nomvalue = [NSString stringWithFormat:@"%@", [participant objectForKey:nomkey]];
-                        [Participant_ENEntity setValue:nomvalue forKey:nomkey];
-                        NSLog(@"set Participant_ENEntity %@ from participant", nomkey);
+                        if ([participantPropertyArr containsObject:nomkey]) {
+                            nomvalue = [NSString stringWithFormat:@"%@", [participant objectForKey:nomkey]];
+                            [Participant_ENEntity setValue:nomvalue forKey:nomkey];
+                            NSLog(@"set Participant_ENEntity %@ from participant", nomkey);
+                        }
                     }
                     CGFloat dF = [[stats objectForKey:@"deaths"] floatValue]>0?[[stats objectForKey:@"deaths"] floatValue]:1.0f;
                     CGFloat kdaP = (([[stats objectForKey:@"kills"] floatValue] + [[stats objectForKey:@"assists"] floatValue])/(dF * 3.0f));
@@ -611,9 +642,12 @@ NSString * finishNum = @"0";
                         [stats setObject:@"1" forKey:@"chaoshen"];
                     }
                     for (nomkey in stats.allKeys) {
-                        nomvalue = [NSString stringWithFormat:@"%@", [stats objectForKey:nomkey]];
-                        [Participant_ENEntity setValue:nomvalue forKey:nomkey];
-                        NSLog(@"set Participant_ENEntity %@ from stats", nomkey);
+                        if ([participantPropertyArr containsObject:nomkey])
+                        {
+                            nomvalue = [NSString stringWithFormat:@"%@", [stats objectForKey:nomkey]];
+                            [Participant_ENEntity setValue:nomvalue forKey:nomkey];
+                            NSLog(@"set Participant_ENEntity %@ from stats", nomkey);
+                        }
 
                         if ([list_ENkeys containsObject:nomkey] && [currentAccountID isEqualToString:Player_ENEntity.accountId]&&[matchListPropertyArr containsObject:nomkey]) {
                             NSLog(@"set current account %@ honor01", Player_ENEntity.accountId);
@@ -663,9 +697,11 @@ NSString * finishNum = @"0";
                     for (NSDictionary * run in runes) {
                         Rune_EN * Rune_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Rune_EN" inManagedObjectContext:parentContext];
                         for (nomkey in run.allKeys) {
-                            nomvalue = [NSString stringWithFormat:@"%@", [run objectForKey:nomkey]];
-                            [Rune_ENEntity setValue:nomvalue forKey:nomkey];
-                            NSLog(@"set Rune_ENEntity %@ from run", nomkey);
+                            if ([runePropertyArr containsObject:nomkey]) {
+                                nomvalue = [NSString stringWithFormat:@"%@", [run objectForKey:nomkey]];
+                                [Rune_ENEntity setValue:nomvalue forKey:nomkey];
+                                NSLog(@"set Rune_ENEntity %@ from run", nomkey);
+                            }
                         }
                         Rune_ENEntity.runeToParticipant = Participant_ENEntity;
                     }
@@ -674,9 +710,11 @@ NSString * finishNum = @"0";
                     for (NSDictionary * mastery in masteries) {
                         Mastery_EN * Mastery_ENEntity = [NSEntityDescription insertNewObjectForEntityForName:@"Mastery_EN" inManagedObjectContext:parentContext];
                         for (nomkey in mastery.allKeys) {
-                            nomvalue = [NSString stringWithFormat:@"%@", [mastery objectForKey:nomkey]];
-                            [Mastery_ENEntity setValue:nomvalue forKey:nomkey];
-                            NSLog(@"set Mastery_ENEntity %@ from mastery", nomkey);
+                            if ([masteryPropertyArr containsObject:nomkey]) {
+                                nomvalue = [NSString stringWithFormat:@"%@", [mastery objectForKey:nomkey]];
+                                [Mastery_ENEntity setValue:nomvalue forKey:nomkey];
+                                NSLog(@"set Mastery_ENEntity %@ from mastery", nomkey);
+                            }
                         }
                         Mastery_ENEntity.masteryToParticipant = Participant_ENEntity;
                     }
@@ -688,12 +726,13 @@ NSString * finishNum = @"0";
                     if ([obj isKindOfClass:[NSManagedObjectID class]]) {
 
                         Participant_EN * participant_EN = [parentContext objectWithID:(NSManagedObjectID *)obj];
-                        [participant_EN setValue:@"1" forKey:key];
-                        NSLog(@"set honor participant_EN.accountId is %@", participant_EN.accountId);
+                        if ([participantPropertyArr containsObject:key]) {
+                            [participant_EN setValue:@"1" forKey:key];
+                            NSLog(@"set honor participant_EN.accountId is %@", participant_EN.accountId);
+                        }
                         if ([participant_EN.accountId isEqualToString:currentAccountID]&&[matchListPropertyArr containsObject:key]) {
                             [list_ENEntity setValue:@"1" forKey:key];
                         }
-
                     }
                 }];
             }

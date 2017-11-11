@@ -7,15 +7,15 @@
 		<key>OpenAPIKey_CN</key>
 		<dict>
 			<key>DAIWAN-API-TOKEN</key>
-			<string>A8998-4DCC4-97DA8-97174</string>
+			<string>C0B4F-BFA2A-FCB42-6916A</string>
 		</dict>
 		<key>VideoAPIKey_CN</key>
 		<dict>
 			<key>DAIWAN-API-TOKEN</key>
-			<string>5660C-94BE6-67BB7-6677D</string>
+			<string>179C4-047AC-CC895-3230A</string>
 		</dict>
 	</dict>
 	<key>APIKey_EN</key>
-	<string>RGAPI-c287db81-7921-41c6-a276-16ce3c4aef9c</string>
+	<string>RGAPI-e7053bd2-de65-4f80-b19c-9bd8bb005fc9</string>
 </dict>
 </plist>
